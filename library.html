@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <title>Номын сан</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">🏫 Сургуулийн Систем</div>
+        <nav>
+            <ul class="menu">
+                <li><a href="index.html">Багш нарын хуваарь</a></li>
+                <li><a href="rooms.html">Ангиудын сул цаг</a></li>
+                <li><a href="library.html" class="active">Номын сан</a></li> </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>📚 Номын сангийн суудал захиалга</h2>
+            <ul class="showcase">
+                <li><div class="seat"></div> <small>Сул</small></li>
+                <li><div class="seat selected"></div> <small>Сонгосон</small></li>
+                <li><div class="seat occupied"></div> <small>Эзэнтэй</small></li>
+            </ul>
+
+            <div class="container">
+                <div class="screen">Үүд / Ресепшн</div>
+                <div class="row">
+                    <div class="seat">A1</div>
+                    <div class="seat occupied">A2</div>
+                    <div class="seat">A3</div>
+                    <div class="seat">A4</div>
+                </div>
+                <div class="row">
+                    <div class="seat">B1</div>
+                    <div class="seat">B2</div>
+                    <div class="seat">B3</div>
+                    <div class="seat occupied">B4</div>
+                </div>
+            </div>
+
+            <p class="text">Та <span id="count">0</span> суудал сонгосон байна.</p>
+            <button id="bookBtn">Захиалах</button>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
