@@ -2,26 +2,47 @@
 <html lang="mn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сургуулийн Нэгдсэн Систем</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Сургуулийн Ухаалаг Систем</title>
+    <style>
+        /* CSS: Дизайн хэсэг */
+        body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; }
+        .header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        
+        .menu { margin-bottom: 20px; }
+        .menu button { 
+            padding: 10px 15px; cursor: pointer; border: 1px solid #ccc; 
+            background: #fff; border-radius: 4px; margin-right: 5px;
+        }
+        .menu button:hover { background: #e0e0e0; }
+
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        
+        /* Хэсгүүдийг нуух/ил гаргах тохиргоо */
+        .content-section { display: none; } /* Бүх хэсгийг эхлээд нууна */
+        .active { display: block; }        /* Зөвхөн идэвхтэйг нь харуулна */
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background-color: #3498db; color: white; padding: 12px; }
+        td { border: 1px solid #eee; padding: 10px; text-align: center; }
+    </style>
 </head>
 <body>
 
-    <header>
-        <h1>🏫 Сургуулийн Ухаалаг Систем</h1>
-        <nav>
-            <button onclick="showSection('teachers')">Багш нарын хуваарь</button>
-            <button onclick="showSection('rooms')">Ангиудын сул цаг</button>
-            <button onclick="showSection('library')">Номын сангийн суудал</button>
-        </nav>
-    </header>
+    <div class="header">
+        <img src="https://img.icons8.com/color/48/school.png" alt="logo">
+        <h1>Сургуулийн Ухаалаг Систем</h1>
+    </div>
 
-    <main>
-        <section id="teachers" class="active-section">
-            <h2>👩‍🏫 Багш нарын хуваарь</h2>
-            <input type="text" id="searchTeacher" placeholder="Багшийн нэрийг хайх..." onkeyup="filterTable('teacherTable')">
-            <table id="teacherTable">
+    <div class="menu">
+        <button onclick="switchTab('teachers')">Багш нарын хуваарь</button>
+        <button onclick="switchTab('rooms')">Ангиудын сул цаг</button>
+        <button onclick="switchTab('library')">Номын сангийн суудал</button>
+    </div>
+
+    <div class="container">
+        <div id="teachers" class="content-section active"> <h2>👩‍🏫 Багш нарын хуваарь</h2>
+            <input type="text" placeholder="Багшийн нэрийг хайх..." style="width: 200px; padding: 5px; margin-bottom: 10px;">
+            <table>
                 <thead>
                     <tr>
                         <th>Багшийн нэр</th>
@@ -32,88 +53,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Шагдарсүрэн</td>
-                        <td>Биеийн тамир</td>
-                        <td>Заал</td>
-                        <td>08:30 - 09:50 </td>
-                        <td>10В</td>
-                    </tr>
-                    <tr>
-                        <td>Билгүүн</td>
-                        <td>Нийгэм</td>
-                        <td>108 тоот</td>
-                        <td>09:55 - 11:15</td>
-                        <td>10В</td>
-                     </tr>
-                     <tr>
-                        <td>Цамбажав</td>
-                        <td>Мэдээлэл технологи</td>
-                        <td>209 тоот</td>
-                        <td>11:15 - 12:55</td>
-                        <td>10В</td>
-                     </tr>
-                     <tr>
-                        <td>Билгүүн</td>
-                        <td>Ангийн ажил</td>
-                        <td>108 тоот</td>
-                        <td>13:00 - 13:40</td>
-                        <td>10В</td>
-                    </tr>
-                    </tbody>
+                    <tr><td>Шагдарсүрэн</td><td>Биеийн тамир</td><td>Заал</td><td>08:30 - 09:50</td><td>10B</td></tr>
+                    <tr><td>Билгүүн</td><td>Нийгэм</td><td>108 тоот</td><td>09:55 - 11:15</td><td>10B</td></tr>
+                </tbody>
             </table>
-        </section>
+        </div>
 
-        <section id="rooms" style="display:none;">
+        <div id="rooms" class="content-section">
             <h2>🚪 Ангиудын сул цаг</h2>
-            <p>Яг одоо сул байгаа ангиудын жагсаалт:</p>
-            <div class="room-grid">
-                <div class="room free">101 - Сул</div>
-                <div class="room busy">102 - Хичээлтэй</div>
-                <div class="room free">205 - Сул</div>
-                <div class="room busy">304 - Хичээлтэй</div>
-                <div class="room free">Laboratory A - Сул</div>
-            </div>
-        </section>
+            <p>Одоогоор сул байгаа ангиудын жагсаалт энд харагдана.</p>
+        </div>
 
-        <section id="library" style="display:none;">
-            <h2>📚 Номын сангийн суудал захиалга</h2>
-            <p>Та сул (Ногоон) суудлыг сонгож захиална уу.</p>
-            
-            <ul class="showcase">
-                <li><div class="seat"></div> <small>Сул</small></li>
-                <li><div class="seat selected"></div> <small>Сонгосон</small></li>
-                <li><div class="seat occupied"></div> <small>Эзэнтэй</small></li>
-            </ul>
+        <div id="library" class="content-section">
+            <h2>📚 Номын сангийн суудал</h2>
+            <p>Номын сангийн суудал захиалгын хэсэг энд байна.</p>
+        </div>
+    </div>
 
-            <div class="container">
-                <div class="screen">Үүд / Ресепшн</div>
-                
-                <div class="row">
-                    <div class="seat" data-id="A1">A1</div>
-                    <div class="seat" data-id="A2">A2</div>
-                    <div class="seat occupied" data-id="A3">A3</div>
-                    <div class="seat" data-id="A4">A4</div>
-                </div>
-                <div class="row">
-                    <div class="seat" data-id="B1">B1</div>
-                    <div class="seat occupied" data-id="B2">B2</div>
-                    <div class="seat occupied" data-id="B3">B3</div>
-                    <div class="seat" data-id="B4">B4</div>
-                </div>
-                <div class="row">
-                    <div class="seat" data-id="C1">C1</div>
-                    <div class="seat" data-id="C2">C2</div>
-                    <div class="seat" data-id="C3">C3</div>
-                    <div class="seat" data-id="C4">C4</div>
-                </div>
-            </div>
+    <script>
+        function switchTab(id) {
+            // Бүх хэсгийг нуух
+            var sections = document.getElementsByClassName('content-section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].classList.remove('active');
+            }
+            // Сонгосон хэсгийг харуулах
+            document.getElementById(id).classList.add('active');
+        }
+    </script>
 
-            <p class="text">Та <span id="count">0</span> суудал сонгосон байна.</p>
-            <button id="bookBtn">Захиалах</button>
-        </section>
-    </main>
-
-    <script src="script.js"></script>
 </body>
 </html>
