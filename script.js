@@ -1,79 +1,66 @@
-// Цэс хооронд шилжих функц (Энийг script-ийн гадна байлгаж болно)
+// 1. Хуудас хооронд шилжих функц
 function showSection(sectionId) {
-    const sections = ['teachers', 'rooms', 'library'];
-    sections.forEach(id => {
-        const element = document.getElementById(id);
-        if (!element) return;
-        // style.display = '' гэдэг нь CSS дээрх анхны байдалд нь оруулна (Layout эвдэхгүй)
-        element.style.display = (id === sectionId) ? '' : 'none';
-    });
+    // Бүх хэсгийг нуух
+    document.getElementById('teachers').style.display = 'none';
+    document.getElementById('rooms').style.display = 'none';
+    document.getElementById('library').style.display = 'none';
+    
+    // Сонгосон хэсгийг ил гаргах
+    document.getElementById(sectionId).style.display = 'block';
 }
 
-// Веб хуудас бүрэн ачаалж дууссаны дараа ажиллах хэсэг
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- 1. БАГШИЙН ХУВААРЬ ХАЙХ ХЭСЭГ ---
-    const searchInput = document.getElementById("searchTeacher");
-    if (searchInput) {
-        searchInput.addEventListener("keyup", function() {
-            const filter = searchInput.value.trim().toUpperCase();
-            const table = document.getElementById("teacherTable");
-            if (!table) return;
-            const tr = table.getElementsByTagName("tr");
-            
-            for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName("td")[0];
-                if (!td) continue;
-                const txtValue = (td.textContent || td.innerText).toUpperCase();
-                tr[i].style.display = txtValue.indexOf(filter) > -1 ? "" : "none";
+// 2. Багш хайх функц
+function filterTable(tableId) {
+    let input = document.getElementById("searchTeacher");
+    let filter = input.value.toUpperCase();
+    let table = document.getElementById(tableId);
+    let tr = table.getElementsByTagName("tr");
+
+    for (let i = 0; i < tr.length; i++) {
+        let td = tr[i].getElementsByTagName("td")[0]; // Нэрээр нь хайх
+        if (td) {
+            let txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
             }
+        }       
+    }
+}
+
+// 3. Номын сангийн суудал сонгох логик
+const container = document.querySelector('.container');
+const seats = document.querySelectorAll('.row .seat:not(.occupied)');
+const count = document.getElementById('count');
+const bookBtn = document.getElementById('bookBtn');
+
+// Суудал дээр дарахад идэвхжүүлэх
+container.addEventListener('click', (e) => {
+    if (e.target.classList.contains('seat') && !e.target.classList.contains('occupied')) {
+        e.target.classList.toggle('selected');
+        updateSelectedCount();
+    }
+});
+
+function updateSelectedCount() {
+    const selectedSeats = document.querySelectorAll('.row .seat.selected');
+    const selectedSeatsCount = selectedSeats.length;
+    count.innerText = selectedSeatsCount;
+}
+
+// Захиалах товч
+bookBtn.addEventListener('click', () => {
+    const selectedSeats = document.querySelectorAll('.row .seat.selected');
+    if (selectedSeats.length > 0) {
+        alert("Та амжилттай захиаллаа!");
+        // Бодит систем дээр энд өгөгдлийн бааз руу мэдээлэл явуулна
+        selectedSeats.forEach(seat => {
+            seat.classList.remove('selected');
+            seat.classList.add('occupied'); // Захиалсан болгож улаан болгоно
         });
+        updateSelectedCount();
+    } else {
+        alert("Та суудал сонгоогүй байна.");
     }
-
-    // --- 2. НОМЫН САНГИЙН СУУДАЛ ЗАХИАЛАХ ХЭСЭГ ---
-    const container = document.querySelector('.library-container');
-    const bookBtn = document.getElementById('bookBtn');
-    const countEl = document.getElementById('count');
-
-    function updateCount() {
-        if (!countEl || !container) return;
-        const selectedSeats = container.querySelectorAll('.seat.selected');
-        countEl.innerText = selectedSeats.length;
-    }
-
-    if (container) {
-        container.addEventListener('click', (e) => {
-            // closest('.seat') нь суудлын аль ч хэсэгт дарсан 'seat' элементийг олж өгнө
-            const seat = e.target.closest('.seat');
-            if (!seat || !container.contains(seat)) return;
-            if (seat.classList.contains('occupied')) return;
-            
-            seat.classList.toggle('selected');
-            updateCount();
-        });
-    }
-
-    if (bookBtn) {
-        bookBtn.addEventListener('click', () => {
-            if (!container) return;
-            const selectedSeats = Array.from(container.querySelectorAll('.seat.selected'));
-            if (selectedSeats.length === 0) {
-                alert("Та суудал сонгоогүй байна! Сул суудлуудаас сонгоно уу.");
-                return;
-            }
-            
-            // data-seat-name эсвэл доторх текстийг авна
-            const seatNames = selectedSeats.map(s => (s.dataset.seatName || s.innerText || '').trim());
-            alert(`Амжилттай! Та [${seatNames.join(", ")}] суудлуудыг захиаллаа.`);
-            
-            selectedSeats.forEach(seat => {
-                seat.classList.remove('selected');
-                seat.classList.add('occupied');
-            });
-            updateCount();
-        });
-    }
-
-    // Анхны тооллогыг эхлүүлэх
-    updateCount();
 });
