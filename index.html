@@ -17,7 +17,7 @@
         .active { display: block; }
 
         /* Хайлтын хэсэг */
-        .filter-group { margin-bottom: 15px; display: flex; gap: 10px; }
+        .filter-group { margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap; }
         input, select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
@@ -45,6 +45,7 @@
             
             <div class="filter-group">
                 <input type="text" id="searchTeacher" onkeyup="filterSchedule()" placeholder="Багшийн нэрээр хайх...">
+                
                 <select id="dayFilter" onchange="filterSchedule()">
                     <option value="">Бүх өдөр</option>
                     <option value="Даваа">Даваа</option>
@@ -53,6 +54,12 @@
                     <option value="Пүрэв">Пүрэв</option>
                     <option value="Баасан">Баасан</option>
                 </select>
+
+                <select id="classFilter" onchange="filterSchedule()">
+                    <option value="">Бүх анги</option>
+                    <option value="10А">10А</option>
+                    <option value="10В">10В</option>
+                    </select>
             </div>
 
             <table id="teacherTable">
@@ -105,26 +112,36 @@
             document.getElementById(id).classList.add('active');
         }
 
-        // Хайх болон Өдрөөр шүүх функц
+        // Хайх болон Шүүх функц (Сайжруулсан)
         function filterSchedule() {
+            // 1. Утгуудыг авах
             var nameInput = document.getElementById("searchTeacher").value.toUpperCase();
             var dayInput = document.getElementById("dayFilter").value.toUpperCase();
+            var classInput = document.getElementById("classFilter").value.toUpperCase(); // Анги авах
+
             var table = document.getElementById("teacherTable");
             var tr = table.getElementsByTagName("tr");
 
+            // 2. Мөр бүрийг шалгах
             for (var i = 1; i < tr.length; i++) {
                 var tdName = tr[i].getElementsByTagName("td")[0]; // Багшийн нэр
                 var tdDay = tr[i].getElementsByTagName("td")[2];  // Өдөр
+                var tdClass = tr[i].getElementsByTagName("td")[4]; // Анги (4-р багана)
                 
-                if (tdName && tdDay) {
+                if (tdName && tdDay && tdClass) {
                     var nameText = tdName.textContent || tdName.innerText;
                     var dayText = tdDay.textContent || tdDay.innerText;
+                    var classText = tdClass.textContent || tdClass.innerText;
                     
-                    // Нэр болон өдөр хоёулаа таарч байвал харуулна
+                    // Шүүлтүүрийн нөхцөлүүд
                     var nameMatch = nameText.toUpperCase().indexOf(nameInput) > -1;
                     var dayMatch = dayInput === "" || dayText.toUpperCase() === dayInput;
                     
-                    if (nameMatch && dayMatch) {
+                    // Анги хайхдаа 'indexOf' ашигласнаар "10В (Заал)" гэсэн бичигтэй байсан ч "10В"-г олж чадна
+                    var classMatch = classInput === "" || classText.toUpperCase().indexOf(classInput) > -1;
+                    
+                    // Гурвуулаа таарч байвал харуулна
+                    if (nameMatch && dayMatch && classMatch) {
                         tr[i].style.display = "";
                     } else {
                         tr[i].style.display = "none";
