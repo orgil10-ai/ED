@@ -4,26 +4,26 @@
     <meta charset="UTF-8">
     <title>Сургуулийн Ухаалаг Систем</title>
     <style>
-        /* CSS: Дизайн хэсэг */
         body { font-family: sans-serif; background-color: #f4f4f4; padding: 20px; }
         .header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-        
         .menu { margin-bottom: 20px; }
         .menu button { 
             padding: 10px 15px; cursor: pointer; border: 1px solid #ccc; 
             background: #fff; border-radius: 4px; margin-right: 5px;
         }
         .menu button:hover { background: #e0e0e0; }
-
         .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        
-        /* Хэсгүүдийг нуух/ил гаргах тохиргоо */
-        .content-section { display: none; } /* Бүх хэсгийг эхлээд нууна */
-        .active { display: block; }        /* Зөвхөн идэвхтэйг нь харуулна */
+        .content-section { display: none; }
+        .active { display: block; }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        /* Хайлтын хэсэг */
+        .filter-group { margin-bottom: 15px; display: flex; gap: 10px; }
+        input, select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th { background-color: #3498db; color: white; padding: 12px; }
         td { border: 1px solid #eee; padding: 10px; text-align: center; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
     </style>
 </head>
 <body>
@@ -40,22 +40,39 @@
     </div>
 
     <div class="container">
-        <div id="teachers" class="content-section active"> <h2>👩‍🏫 Багш нарын хуваарь</h2>
-            <input type="text" placeholder="Багшийн нэрийг хайх..." style="width: 200px; padding: 5px; margin-bottom: 10px;">
-            <table>
+        <div id="teachers" class="content-section active">
+            <h2>👩‍🏫 5 Өдрийн Хичээлийн Хуваарь</h2>
+            
+            <div class="filter-group">
+                <input type="text" id="searchTeacher" onkeyup="filterSchedule()" placeholder="Багшийн нэрээр хайх...">
+                <select id="dayFilter" onchange="filterSchedule()">
+                    <option value="">Бүх өдөр</option>
+                    <option value="Даваа">Даваа</option>
+                    <option value="Мягмар">Мягмар</option>
+                    <option value="Лхагва">Лхагва</option>
+                    <option value="Пүрэв">Пүрэв</option>
+                    <option value="Баасан">Баасан</option>
+                </select>
+            </div>
+
+            <table id="teacherTable">
                 <thead>
                     <tr>
                         <th>Багшийн нэр</th>
                         <th>Хичээл</th>
-                        <th>Нэг дэх өдөр</th>
+                        <th>Өдөр</th>
                         <th>Цаг</th>
-                        <th>анги</th>
+                        <th>Анги</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Шагдарсүрэн</td><td>Биеийн тамир</td><td>Заал</td><td>08:30 - 09:50</td><td>10B</td></tr>
-                    <tr><td>Билгүүн</td><td>Нийгэм</td><td>108 тоот</td><td>09:55 - 11:15</td><td>10B</td></tr>
-                    <tr><td>Цамбажав</td><td>Мэдээлэл</td><td>209 тоот</td><td>11:30 - 12:55</td><td>10B</td></tr>
+                    <tr><td>Шагдарсүрэн</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>Заал</td></tr>
+                    <tr><td>Билгүүн</td><td>Нийгэм</td><td>Даваа</td><td>09:55 - 11:15</td><td>108 тоот</td></tr>
+                    <tr><td>Цамбажав</td><td>Мэдээлэл</td><td>Мягмар</td><td>11:30 - 12:55</td><td>209 тоот</td></tr>
+                    <tr><td>Шагдарсүрэн</td><td>Биеийн тамир</td><td>Мягмар</td><td>13:00 - 14:20</td><td>Заал</td></tr>
+                    <tr><td>Билгүүн</td><td>Түүх</td><td>Лхагва</td><td>08:30 - 09:50</td><td>108 тоот</td></tr>
+                    <tr><td>Цамбажав</td><td>Програмчлал</td><td>Пүрэв</td><td>10:00 - 11:20</td><td>209 тоот</td></tr>
+                    <tr><td>Сарантуяа</td><td>Математик</td><td>Баасан</td><td>08:30 - 09:50</td><td>305 тоот</td></tr>
                 </tbody>
             </table>
         </div>
@@ -72,14 +89,41 @@
     </div>
 
     <script>
+        // Таб солих функц
         function switchTab(id) {
-            // Бүх хэсгийг нуух
             var sections = document.getElementsByClassName('content-section');
             for (var i = 0; i < sections.length; i++) {
                 sections[i].classList.remove('active');
             }
-            // Сонгосон хэсгийг харуулах
             document.getElementById(id).classList.add('active');
+        }
+
+        // Хайх болон Өдрөөр шүүх функц
+        function filterSchedule() {
+            var nameInput = document.getElementById("searchTeacher").value.toUpperCase();
+            var dayInput = document.getElementById("dayFilter").value.toUpperCase();
+            var table = document.getElementById("teacherTable");
+            var tr = table.getElementsByTagName("tr");
+
+            for (var i = 1; i < tr.length; i++) {
+                var tdName = tr[i].getElementsByTagName("td")[0]; // Багшийн нэр
+                var tdDay = tr[i].getElementsByTagName("td")[2];  // Өдөр
+                
+                if (tdName && tdDay) {
+                    var nameText = tdName.textContent || tdName.innerText;
+                    var dayText = tdDay.textContent || tdDay.innerText;
+                    
+                    // Нэр болон өдөр хоёулаа таарч байвал харуулна
+                    var nameMatch = nameText.toUpperCase().indexOf(nameInput) > -1;
+                    var dayMatch = dayInput === "" || dayText.toUpperCase() === dayInput;
+                    
+                    if (nameMatch && dayMatch) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
         }
     </script>
 
