@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сургуулийн Нэгдсэн Систем</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>🏫 Сургуулийн Ухаалаг Систем</h1>
+        <nav>
+            <button onclick="showSection('teachers')">Багш нарын хуваарь</button>
+            <button onclick="showSection('rooms')">Ангиудын сул цаг</button>
+            <button onclick="showSection('library')">Номын сангийн суудал</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="teachers" class="active-section">
+            <h2>👩‍🏫 Багш нарын хуваарь</h2>
+            <input type="text" id="searchTeacher" placeholder="Багшийн нэрийг хайх..." onkeyup="filterTable('teacherTable')">
+            <table id="teacherTable">
+                <thead>
+                    <tr>
+                        <th>Багшийн нэр</th>
+                        <th>Хичээл</th>
+                        <th>Өнөөдөр (Байрлаж буй кабинет)</th>
+                        <th>Цаг</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Батболд</td>
+                        <td>Математик</td>
+                        <td>306 тоот</td>
+                        <td>08:00 - 14:00</td>
+                    </tr>
+                    <tr>
+                        <td>Сарангэрэл</td>
+                        <td>Англи хэл</td>
+                        <td>204 тоот</td>
+                        <td>10:00 - 16:00</td>
+                    </tr>
+                    </tbody>
+            </table>
+        </section>
+
+        <section id="rooms" style="display:none;">
+            <h2>🚪 Ангиудын сул цаг</h2>
+            <p>Яг одоо сул байгаа ангиудын жагсаалт:</p>
+            <div class="room-grid">
+                <div class="room free">101 - Сул</div>
+                <div class="room busy">102 - Хичээлтэй</div>
+                <div class="room free">205 - Сул</div>
+                <div class="room busy">304 - Хичээлтэй</div>
+                <div class="room free">Laboratory A - Сул</div>
+            </div>
+        </section>
+
+        <section id="library" style="display:none;">
+            <h2>📚 Номын сангийн суудал захиалга</h2>
+            <p>Та сул (Ногоон) суудлыг сонгож захиална уу.</p>
+            
+            <ul class="showcase">
+                <li><div class="seat"></div> <small>Сул</small></li>
+                <li><div class="seat selected"></div> <small>Сонгосон</small></li>
+                <li><div class="seat occupied"></div> <small>Эзэнтэй</small></li>
+            </ul>
+
+            <div class="container">
+                <div class="screen">Үүд / Ресепшн</div>
+                
+                <div class="row">
+                    <div class="seat" data-id="A1">A1</div>
+                    <div class="seat" data-id="A2">A2</div>
+                    <div class="seat occupied" data-id="A3">A3</div>
+                    <div class="seat" data-id="A4">A4</div>
+                </div>
+                <div class="row">
+                    <div class="seat" data-id="B1">B1</div>
+                    <div class="seat occupied" data-id="B2">B2</div>
+                    <div class="seat occupied" data-id="B3">B3</div>
+                    <div class="seat" data-id="B4">B4</div>
+                </div>
+                <div class="row">
+                    <div class="seat" data-id="C1">C1</div>
+                    <div class="seat" data-id="C2">C2</div>
+                    <div class="seat" data-id="C3">C3</div>
+                    <div class="seat" data-id="C4">C4</div>
+                </div>
+            </div>
+
+            <p class="text">Та <span id="count">0</span> суудал сонгосон байна.</p>
+            <button id="bookBtn">Захиалах</button>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
