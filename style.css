@@ -1,0 +1,64 @@
+/* Ерөнхий тохиргоо */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+/* Толгой хэсэг */
+.main-header {
+    background-color: #2c3e50;
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+    margin: 0; padding: 0;
+}
+
+.menu li { margin-left: 20px; }
+
+.menu a {
+    text-decoration: none;
+    color: #bdc3c7;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.menu a:hover, .menu a.active {
+    color: #f1c40f; /* Идэвхтэй үед шар өнгөтэй болно */
+    border-bottom: 2px solid #f1c40f;
+}
+
+/* Агуулга */
+main { padding: 20px; text-align: center; }
+section { background: white; padding: 20px; border-radius: 8px; margin: auto; max-width: 800px; }
+
+/* Хүснэгт болон Ангиуд (Өмнөхтэй ижил) */
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { border: 1px solid #ddd; padding: 10px; }
+th { background-color: #3498db; color: white; }
+
+.room-grid { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+.room { padding: 20px; color: white; border-radius: 5px; width: 100px; }
+.free { background: #27ae60; }
+.busy { background: #c0392b; }
+
+/* Номын сангийн суудал */
+.showcase { list-style: none; display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+.seat { 
+    width: 40px; height: 35px; background: #95a5a6; 
+    border-radius: 5px 5px 0 0; display: flex; 
+    align-items: center; justify-content: center; 
+    cursor: pointer; color: white; font-size: 12px;
+}
+.seat.selected { background: #3498db; }
+.seat.occupied { background: #c0392b; cursor: not-allowed; }
+.row { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
+.screen { background: #fff; height: 30px; margin: 15px 0; box-shadow: 0 3px 5px rgba(0,0,0,0.1); }
+#bookBtn { margin-top: 20px; padding: 10px 20px; background: #27ae60; color: white; border: none; cursor: pointer; border-radius: 5px; }
