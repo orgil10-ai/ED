@@ -1,51 +1,41 @@
-<!DOCTYPE html>
-<html lang="mn">
-<head>
-    <meta charset="UTF-8">
-    <title>Номын сан</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header class="main-header">
-        <div class="logo">🏫 Сургуулийн Систем</div>
-        <nav>
-            <ul class="menu">
-                <li><a href="index.html">Багш нарын хуваарь</a></li>
-                <li><a href="rooms.html">Ангиудын сул цаг</a></li>
-                <li><a href="library.html" class="active">Номын сан</a></li> </ul>
-        </nav>
-    </header>
+<div id="library" class="content-section">
+    <h2>📚 Номын сангийн суудал захиалга</h2>
+    
+    <ul class="seat-legend">
+        <li><div class="seat available"></div> <small>Сул</small></li>
+        <li><div class="seat selected"></div> <small>Сонгосон</small></li>
+        <li><div class="seat occupied"></div> <small>Эзэнтэй</small></li>
+    </ul>
 
-    <main>
-        <section>
-            <h2>📚 Номын сангийн суудал захиалга</h2>
-            <ul class="showcase">
-                <li><div class="seat"></div> <small>Сул</small></li>
-                <li><div class="seat selected"></div> <small>Сонгосон</small></li>
-                <li><div class="seat occupied"></div> <small>Эзэнтэй</small></li>
-            </ul>
+    <div class="library-container">
+        <div class="entrance">Үүд / Ресепшн</div>
+        
+        <div class="seat-row">
+            <div class="seat available" onclick="toggleSeat(this)">A1</div>
+            <div class="seat available" onclick="toggleSeat(this)">A2</div>
+            <div class="seat-space"></div> <div class="seat occupied">A3</div>
+            <div class="seat available" onclick="toggleSeat(this)">A4</div>
+        </div>
+        
+        <div class="seat-row">
+            <div class="seat available" onclick="toggleSeat(this)">B1</div>
+            <div class="seat occupied">B2</div>
+            <div class="seat-space"></div>
+            <div class="seat available" onclick="toggleSeat(this)">B3</div>
+            <div class="seat available" onclick="toggleSeat(this)">B4</div>
+        </div>
 
-            <div class="container">
-                <div class="screen">Үүд / Ресепшн</div>
-                <div class="row">
-                    <div class="seat">A1</div>
-                    <div class="seat occupied">A2</div>
-                    <div class="seat">A3</div>
-                    <div class="seat">A4</div>
-                </div>
-                <div class="row">
-                    <div class="seat">B1</div>
-                    <div class="seat">B2</div>
-                    <div class="seat">B3</div>
-                    <div class="seat occupied">B4</div>
-                </div>
-            </div>
+        <div class="seat-row">
+            <div class="seat available" onclick="toggleSeat(this)">C1</div>
+            <div class="seat available" onclick="toggleSeat(this)">C2</div>
+            <div class="seat-space"></div>
+            <div class="seat occupied">C3</div>
+            <div class="seat available" onclick="toggleSeat(this)">C4</div>
+        </div>
+    </div>
 
-            <p class="text">Та <span id="count">0</span> суудал сонгосон байна.</p>
-            <button id="bookBtn">Захиалах</button>
-        </section>
-    </main>
-
-    <script src="script.js"></script>
-</body>
-</html>
+    <div class="booking-info">
+        <p>Таны сонгосон суудал: <span id="selected-seat-name">Одоогоор сонгоогүй</span></p>
+        <button id="confirm-btn" onclick="confirmBooking()">Суудал захиалах</button>
+    </div>
+</div>
