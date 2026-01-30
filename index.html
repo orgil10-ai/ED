@@ -177,7 +177,7 @@
             border-radius: 10px;
             border: 1px solid #d4e6f1;
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
             margin-bottom: 20px;
             display: flex;
             flex-direction: column;
@@ -188,12 +188,19 @@
             justify-content: space-between;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
-        .control-row label { font-weight: bold; color: #2c3e50; }
+        .control-row label { font-weight: bold; color: #2c3e50; min-width: 150px; }
         .control-row select, .control-row input { 
             padding: 8px; 
             border-radius: 5px; 
             border: 1px solid #ccc; 
+            flex-grow: 1;
+        }
+        /* Цаг минут оруулах хэсэг */
+        .time-inputs {
+            display: flex;
+            gap: 10px;
             flex-grow: 1;
         }
 
@@ -334,10 +341,9 @@
         }
         .seat:hover { transform: scale(1.1); }
         
-        /* ШИНЭЧЛЭГДСЭН: Эзэнтэй суудлыг цуцлахын тулд дарж болдог болгосон */
         .seat.occupied { 
             background-color: #e74c3c !important; 
-            cursor: pointer; /* Дарж болно */
+            cursor: pointer;
             opacity: 0.9;
         }
         
@@ -372,6 +378,8 @@
             .center-grid { grid-template-columns: repeat(2, 1fr); }
             .double-table { width: 45%; justify-content: space-around; } 
             .vertical-pc-group { flex-direction: row; }
+            .control-row { flex-direction: column; align-items: flex-start; }
+            .time-inputs { width: 100%; }
         }
     </style>
 </head>
@@ -476,16 +484,22 @@
                         </select>
                     </div>
                     <div class="control-row">
-                        <label>Захиалах хугацаа (цаг):</label>
-                        <input type="number" id="bookingDuration" min="1" max="24" value="1" placeholder="Цагаа бичнэ үү">
+                        <label>Захиалах хугацаа:</label>
+                        <div class="time-inputs">
+                            <input type="number" id="bookingHours" min="0" max="24" value="1" placeholder="Цаг">
+                            <input type="number" id="bookingMinutes" min="0" max="59" value="0" placeholder="Минут">
+                        </div>
                     </div>
-                    <p style="font-size: 13px; color: #666; margin:0;">💡 Зөвлөмж: Улаан (Эзэнтэй) суудал дээр дарж захиалгаа цуцлах боломжтой.</p>
+                    <p style="font-size: 13px; color: #666; margin:0;">
+                        💡 Эзэнтэй (Улаан) суудал дээр <b>хулганаа аваачиж</b> үлдсэн цагийг харна уу.<br>
+                        💡 Цуцлах бол эзэнтэй суудал дээр <b>дарна уу</b>.
+                    </p>
                 </div>
 
                 <div class="legend">
                     <div class="legend-item"><div class="sample-box bg-computer"></div> Компьютер</div>
-                    <div class="legend-item"><div class="sample-box bg-table"></div> Хичээлийн ширээ (2 хүн)</div>
-                    <div class="legend-item"><div class="sample-box bg-occupied"></div> Эзэнтэй (Цуцлах бол дарна уу)</div>
+                    <div class="legend-item"><div class="sample-box bg-table"></div> Хичээлийн ширээ</div>
+                    <div class="legend-item"><div class="sample-box bg-occupied"></div> Эзэнтэй</div>
                 </div>
 
                 <div class="zone-title">💻 Цахим уншлагын хэсэг (12 PC)</div>
@@ -518,30 +532,10 @@
                         <div class="door">🚪 ХААЛГА</div>
 
                         <div class="zone-title" style="margin-top: 10px;">4 Ширээ</div>
-                        
-                        <div class="double-table">
-                            <div class="seat table" data-name="Table-L1A">L1A</div>
-                            <div class="table-divider"></div>
-                            <div class="seat table" data-name="Table-L1B">L1B</div>
-                        </div>
-
-                        <div class="double-table">
-                            <div class="seat table" data-name="Table-L2A">L2A</div>
-                            <div class="table-divider"></div>
-                            <div class="seat table" data-name="Table-L2B">L2B</div>
-                        </div>
-
-                        <div class="double-table">
-                            <div class="seat table" data-name="Table-L3A">L3A</div>
-                            <div class="table-divider"></div>
-                            <div class="seat table" data-name="Table-L3B">L3B</div>
-                        </div>
-
-                        <div class="double-table">
-                            <div class="seat table" data-name="Table-L4A">L4A</div>
-                            <div class="table-divider"></div>
-                            <div class="seat table" data-name="Table-L4B">L4B</div>
-                        </div>
+                        <div class="double-table"><div class="seat table" data-name="Table-L1A">L1A</div><div class="table-divider"></div><div class="seat table" data-name="Table-L1B">L1B</div></div>
+                        <div class="double-table"><div class="seat table" data-name="Table-L2A">L2A</div><div class="table-divider"></div><div class="seat table" data-name="Table-L2B">L2B</div></div>
+                        <div class="double-table"><div class="seat table" data-name="Table-L3A">L3A</div><div class="table-divider"></div><div class="seat table" data-name="Table-L3B">L3B</div></div>
+                        <div class="double-table"><div class="seat table" data-name="Table-L4A">L4A</div><div class="table-divider"></div><div class="seat table" data-name="Table-L4B">L4B</div></div>
                     </div>
 
                     <div class="center-area-container">
@@ -561,36 +555,11 @@
                         </div>
 
                         <div class="zone-title" style="margin-top: 10px;">5 Ширээ</div>
-
-                        <div class="double-table">
-                            <div class="seat table" data-name="Table-R1A">R1A</div>
-                            <div class="table-divider"></div>
-                            <div class="seat table" data-name="Table-R1B">R1B</div>
-                        </div>
-
-                        <div class="double-table">
-                            <div class="seat table" data-name="Table-R2A">R2A</div>
-                            <div class="table-divider"></div>
-                            <div class="seat table" data-name="Table-R2B">R2B</div>
-                        </div>
-
-                        <div class="double-table">
-                            <div class="seat table" data-name="Table-R3A">R3A</div>
-                            <div class="table-divider"></div>
-                            <div class="seat table" data-name="Table-R3B">R3B</div>
-                        </div>
-
-                        <div class="double-table">
-                            <div class="seat table" data-name="Table-R4A">R4A</div>
-                            <div class="table-divider"></div>
-                            <div class="seat table" data-name="Table-R4B">R4B</div>
-                        </div>
-
-                        <div class="double-table">
-                            <div class="seat table" data-name="Table-R5A">R5A</div>
-                            <div class="table-divider"></div>
-                            <div class="seat table" data-name="Table-R5B">R5B</div>
-                        </div>
+                        <div class="double-table"><div class="seat table" data-name="Table-R1A">R1A</div><div class="table-divider"></div><div class="seat table" data-name="Table-R1B">R1B</div></div>
+                        <div class="double-table"><div class="seat table" data-name="Table-R2A">R2A</div><div class="table-divider"></div><div class="seat table" data-name="Table-R2B">R2B</div></div>
+                        <div class="double-table"><div class="seat table" data-name="Table-R3A">R3A</div><div class="table-divider"></div><div class="seat table" data-name="Table-R3B">R3B</div></div>
+                        <div class="double-table"><div class="seat table" data-name="Table-R4A">R4A</div><div class="table-divider"></div><div class="seat table" data-name="Table-R4B">R4B</div></div>
+                        <div class="double-table"><div class="seat table" data-name="Table-R5A">R5A</div><div class="table-divider"></div><div class="seat table" data-name="Table-R5B">R5B</div></div>
                     </div>
                 </div>
                 
@@ -600,14 +569,11 @@
     </div>
 
     <script>
-        // Цэс солих функц
+        // --- 1. ТАБ СОЛИХ ---
         function switchTab(id, btnElement) {
             var sections = document.getElementsByClassName('content-section');
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].classList.remove('active');
-            }
+            for (var i = 0; i < sections.length; i++) { sections[i].classList.remove('active'); }
             document.getElementById(id).classList.add('active');
-
             if (btnElement) {
                 var buttons = document.querySelectorAll('.menu button');
                 buttons.forEach(btn => btn.classList.remove('active-btn'));
@@ -615,42 +581,33 @@
             }
         }
 
-        // Хайлт шүүлт хийх
+        // --- 2. БАГШИЙН ХУВААРЬ ХАЙХ ---
         function filterSchedule() {
             var nameInput = document.getElementById("searchTeacher").value.toUpperCase();
             var dayInput = document.getElementById("dayFilter").value.toUpperCase();
             var classInput = document.getElementById("classFilter").value.toUpperCase();
-
             var table = document.getElementById("teacherTable");
             var tr = table.getElementsByTagName("tr");
-
             for (var i = 1; i < tr.length; i++) {
                 var tdName = tr[i].getElementsByTagName("td")[0];
                 var tdDay = tr[i].getElementsByTagName("td")[2];
                 var tdClass = tr[i].getElementsByTagName("td")[4];
-                
                 if (tdName && tdDay && tdClass) {
                     var nameText = tdName.textContent || tdName.innerText;
                     var dayText = tdDay.textContent || tdDay.innerText;
                     var classText = tdClass.textContent || tdClass.innerText;
-                    
                     var nameMatch = nameText.toUpperCase().indexOf(nameInput) > -1;
                     var dayMatch = dayInput === "" || dayText.toUpperCase() === dayInput;
                     var classMatch = classInput === "" || classText.toUpperCase().indexOf(classInput) > -1;
-                    
-                    if (nameMatch && dayMatch && classMatch) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
+                    tr[i].style.display = (nameMatch && dayMatch && classMatch) ? "" : "none";
                 }
             }
         }
 
-        // Номын сангийн логик (Цагийн хязгаартай + Цуцлах боломжтой)
+        // --- 3. НОМЫН САНГИЙН ЛОГИК ---
         document.addEventListener('DOMContentLoaded', () => {
             
-            // 40 ШИРЭЭГ АВТОМАТААР ҮҮСГЭХ
+            // 40 ширээг үүсгэх
             const centerGrid = document.getElementById('center-tables');
             for (let i = 1; i <= 40; i++) {
                 const tableHTML = `
@@ -663,32 +620,42 @@
                 centerGrid.innerHTML += tableHTML;
             }
 
-            // Суудал сонгох болон Цуцлах
+            // Суудал сонгох / Цуцлах
             const librarySection = document.getElementById('library');
             librarySection.addEventListener('click', (e) => {
                 const seat = e.target.closest('.seat');
                 if (!seat) return;
 
-                // 1. Хэрэв эзэнтэй (Occupied) суудал бол ЦУЦЛАХ санал болгох
+                // ЦУЦЛАХ: Эзэнтэй суудал дээр дарах үед
                 if (seat.classList.contains('occupied')) {
                     const seatName = seat.getAttribute('data-name') || seat.innerText;
-                    const confirmCancel = confirm(`${seatName} суудлын захиалгыг цуцлах уу?`);
+                    const endTime = parseInt(seat.getAttribute('data-end-time'));
                     
+                    let timeLeftMsg = "";
+                    if (endTime) {
+                        const remaining = Math.max(0, Math.ceil((endTime - Date.now()) / 60000));
+                        timeLeftMsg = `(Дуусахад ${remaining} минут үлдсэн)`;
+                    }
+
+                    const confirmCancel = confirm(`${seatName} суудлыг цуцлах уу? \n${timeLeftMsg}`);
                     if (confirmCancel) {
                         seat.classList.remove('occupied');
-                        alert("Захиалга амжилттай цуцлагдлаа.");
+                        seat.removeAttribute('data-end-time');
+                        seat.title = ""; 
+                        alert("Захиалга цуцлагдлаа.");
                     }
                     return;
                 }
 
-                // 2. Хэрэв сул суудал бол СОНГОХ
+                // СОНГОХ: Сул суудал дээр дарах үед
                 seat.classList.toggle('selected');
             });
 
-            // Захиалах товч
+            // ЗАХИАЛАХ ТОВЧ
             document.getElementById('bookBtn').addEventListener('click', () => {
                 const userType = document.getElementById('userType').value;
-                const duration = parseFloat(document.getElementById('bookingDuration').value);
+                const hours = parseInt(document.getElementById('bookingHours').value) || 0;
+                const minutes = parseInt(document.getElementById('bookingMinutes').value) || 0;
                 const selectedSeats = document.querySelectorAll('.seat.selected');
 
                 if (selectedSeats.length === 0) {
@@ -696,30 +663,67 @@
                     return;
                 }
 
-                if (!duration || duration <= 0) {
-                    alert("Та зөв цаг оруулна уу!");
+                if (hours === 0 && minutes === 0) {
+                    alert("Та хугацаагаа оруулна уу!");
                     return;
                 }
 
-                if (userType === 'regular' && duration > 2) {
-                    alert("⚠️ Энгийн сурагч дээд тал нь 2 цаг захиалах боломжтой!\nТа цагаа багасгана уу.");
+                // Нийт минут тооцох
+                const totalMinutes = (hours * 60) + minutes;
+
+                // Хязгаар шалгах (Энгийн сурагч MAX 120 минут)
+                if (userType === 'regular' && totalMinutes > 120) {
+                    alert("⚠️ Энгийн сурагч дээд тал нь 2 цаг (120 минут) захиалах боломжтой!");
                     return;
                 }
+
+                // Дуусах цагийг тооцож хадгалах
+                const now = Date.now();
+                const endTime = now + (totalMinutes * 60 * 1000);
 
                 let seatNames = [];
                 selectedSeats.forEach(seat => {
                     seatNames.push(seat.getAttribute('data-name') || seat.innerText);
                     seat.classList.remove('selected');
                     seat.classList.add('occupied');
+                    seat.setAttribute('data-end-time', endTime);
+                    // Эхний tooltip
+                    seat.title = `Үлдсэн: ${hours}ц ${minutes}м`; 
                 });
 
                 let msg = `✅ Амжилттай захиаллаа!\n\n`;
                 msg += `👤 Төрөл: ${userType === 'regular' ? 'Энгийн сурагч' : 'Олимпиадын бэлтгэл'}\n`;
-                msg += `⏰ Хугацаа: ${duration} цаг\n`;
+                msg += `⏰ Хугацаа: ${hours} цаг ${minutes} минут\n`;
                 msg += `🪑 Суудлууд: ${seatNames.join(", ")}`;
                 
                 alert(msg);
             });
+
+            // ЦАГ ТООЛОХ TIMER (Секунд тутам шинэчилнэ)
+            setInterval(() => {
+                const occupiedSeats = document.querySelectorAll('.seat.occupied');
+                const now = Date.now();
+
+                occupiedSeats.forEach(seat => {
+                    const endTime = parseInt(seat.getAttribute('data-end-time'));
+                    if (!endTime) return;
+
+                    const timeLeft = endTime - now;
+
+                    if (timeLeft <= 0) {
+                        // Цаг дууссан бол суллах
+                        seat.classList.remove('occupied');
+                        seat.removeAttribute('data-end-time');
+                        seat.title = "";
+                    } else {
+                        // Tooltip шинэчлэх (Hover хийхэд харагдана)
+                        const h = Math.floor(timeLeft / (1000 * 60 * 60));
+                        const m = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                        const s = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                        seat.title = `Үлдсэн: ${h}ц ${m}м ${s}с`;
+                    }
+                });
+            }, 1000);
         });
     </script>
 
