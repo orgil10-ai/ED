@@ -170,7 +170,7 @@
             gap: 30px;
         }
 
-        /* Захиалгын хяналтын хэсэг (ШИНЭ) */
+        /* Захиалгын хяналт */
         .booking-controls {
             background: #eaf2f8;
             padding: 20px;
@@ -223,7 +223,7 @@
             padding-bottom: 5px;
         }
 
-        /* --- ДЭЭД ТАЛЫН КОМПЬЮТЕР ХЭСЭГ (12 ШИРХЭГ) --- */
+        /* --- ДЭЭД ТАЛЫН КОМПЬЮТЕР ХЭСЭГ --- */
         .computer-zone {
             display: flex;
             flex-wrap: nowrap;
@@ -263,7 +263,6 @@
             align-items: center;
         }
 
-        /* ЖИГҮҮРИЙН КОМПЬЮТЕРУУДЫГ БОСОО БОЛГОХ */
         .vertical-pc-group {
             display: flex;
             flex-direction: column;
@@ -271,7 +270,7 @@
             margin-bottom: 10px;
         }
 
-        /* --- ХААЛГА --- */
+        /* Хаалга */
         .door {
             width: 100%;
             height: 40px;
@@ -287,7 +286,7 @@
             font-size: 12px;
         }
 
-        /* --- ГОЛ ХЭСЭГ (40 ШИРЭЭ) --- */
+        /* Гол хэсэг */
         .center-area-container {
             flex-grow: 1;
             background: #f4f4f4;
@@ -334,7 +333,14 @@
             position: relative;
         }
         .seat:hover { transform: scale(1.1); }
-        .seat.occupied { background-color: #e74c3c !important; cursor: not-allowed; }
+        
+        /* ШИНЭЧЛЭГДСЭН: Эзэнтэй суудлыг цуцлахын тулд дарж болдог болгосон */
+        .seat.occupied { 
+            background-color: #e74c3c !important; 
+            cursor: pointer; /* Дарж болно */
+            opacity: 0.9;
+        }
+        
         .seat.selected { background-color: #f1c40f !important; color: black; border: 2px solid #f39c12; }
 
         .seat.computer {
@@ -473,12 +479,13 @@
                         <label>Захиалах хугацаа (цаг):</label>
                         <input type="number" id="bookingDuration" min="1" max="24" value="1" placeholder="Цагаа бичнэ үү">
                     </div>
+                    <p style="font-size: 13px; color: #666; margin:0;">💡 Зөвлөмж: Улаан (Эзэнтэй) суудал дээр дарж захиалгаа цуцлах боломжтой.</p>
                 </div>
 
                 <div class="legend">
                     <div class="legend-item"><div class="sample-box bg-computer"></div> Компьютер</div>
                     <div class="legend-item"><div class="sample-box bg-table"></div> Хичээлийн ширээ (2 хүн)</div>
-                    <div class="legend-item"><div class="sample-box bg-occupied"></div> Эзэнтэй</div>
+                    <div class="legend-item"><div class="sample-box bg-occupied"></div> Эзэнтэй (Цуцлах бол дарна уу)</div>
                 </div>
 
                 <div class="zone-title">💻 Цахим уншлагын хэсэг (12 PC)</div>
@@ -640,7 +647,7 @@
             }
         }
 
-        // Номын сангийн логик (Цагийн хязгаартай)
+        // Номын сангийн логик (Цагийн хязгаартай + Цуцлах боломжтой)
         document.addEventListener('DOMContentLoaded', () => {
             
             // 40 ШИРЭЭГ АВТОМАТААР ҮҮСГЭХ
@@ -656,41 +663,49 @@
                 centerGrid.innerHTML += tableHTML;
             }
 
-            // Суудал сонгох
+            // Суудал сонгох болон Цуцлах
             const librarySection = document.getElementById('library');
             librarySection.addEventListener('click', (e) => {
                 const seat = e.target.closest('.seat');
-                if (seat && !seat.classList.contains('occupied')) {
-                    seat.classList.toggle('selected');
+                if (!seat) return;
+
+                // 1. Хэрэв эзэнтэй (Occupied) суудал бол ЦУЦЛАХ санал болгох
+                if (seat.classList.contains('occupied')) {
+                    const seatName = seat.getAttribute('data-name') || seat.innerText;
+                    const confirmCancel = confirm(`${seatName} суудлын захиалгыг цуцлах уу?`);
+                    
+                    if (confirmCancel) {
+                        seat.classList.remove('occupied');
+                        alert("Захиалга амжилттай цуцлагдлаа.");
+                    }
+                    return;
                 }
+
+                // 2. Хэрэв сул суудал бол СОНГОХ
+                seat.classList.toggle('selected');
             });
 
-            // Захиалах товч дарах үед
+            // Захиалах товч
             document.getElementById('bookBtn').addEventListener('click', () => {
-                // 1. Утгуудыг авах
                 const userType = document.getElementById('userType').value;
                 const duration = parseFloat(document.getElementById('bookingDuration').value);
                 const selectedSeats = document.querySelectorAll('.seat.selected');
 
-                // 2. Суудал сонгосон эсэхийг шалгах
                 if (selectedSeats.length === 0) {
                     alert("Та суудал сонгоогүй байна!");
                     return;
                 }
 
-                // 3. Хугацаа оруулсан эсэхийг шалгах
                 if (!duration || duration <= 0) {
                     alert("Та зөв цаг оруулна уу!");
                     return;
                 }
 
-                // 4. Цагийн хязгаар шалгах (Энгийн сурагч MAX 2 цаг)
                 if (userType === 'regular' && duration > 2) {
                     alert("⚠️ Энгийн сурагч дээд тал нь 2 цаг захиалах боломжтой!\nТа цагаа багасгана уу.");
                     return;
                 }
 
-                // 5. Амжилттай захиалах
                 let seatNames = [];
                 selectedSeats.forEach(seat => {
                     seatNames.push(seat.getAttribute('data-name') || seat.innerText);
