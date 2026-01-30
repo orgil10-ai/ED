@@ -170,6 +170,33 @@
             gap: 30px;
         }
 
+        /* Захиалгын хяналтын хэсэг (ШИНЭ) */
+        .booking-controls {
+            background: #eaf2f8;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #d4e6f1;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .control-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        .control-row label { font-weight: bold; color: #2c3e50; }
+        .control-row select, .control-row input { 
+            padding: 8px; 
+            border-radius: 5px; 
+            border: 1px solid #ccc; 
+            flex-grow: 1;
+        }
+
         /* Тайлбар */
         .legend {
             display: flex;
@@ -201,14 +228,14 @@
             display: flex;
             flex-wrap: nowrap;
             overflow-x: auto;
-            justify-content: center; /* Төвд нь байрлуулах */
+            justify-content: center; 
             gap: 10px;
             background: #f0f8ff;
             padding: 20px;
             border-radius: 10px;
             border: 1px solid #d6eaf8;
             width: 100%;
-            max-width: 800px; /* Бага зэрэг жижиг болгосон */
+            max-width: 800px; 
             box-sizing: border-box;
         }
         .computer-zone::-webkit-scrollbar { height: 8px; }
@@ -239,7 +266,7 @@
         /* ЖИГҮҮРИЙН КОМПЬЮТЕРУУДЫГ БОСОО БОЛГОХ */
         .vertical-pc-group {
             display: flex;
-            flex-direction: column; /* Босоо цувуулах */
+            flex-direction: column;
             gap: 8px;
             margin-bottom: 10px;
         }
@@ -275,7 +302,6 @@
             padding: 10px;
         }
 
-        /* Хос суудалтай ширээ */
         .double-table {
             display: flex;
             justify-content: space-between;
@@ -311,7 +337,6 @@
         .seat.occupied { background-color: #e74c3c !important; cursor: not-allowed; }
         .seat.selected { background-color: #f1c40f !important; color: black; border: 2px solid #f39c12; }
 
-        /* Компьютер суудал */
         .seat.computer {
             width: 50px;
             height: 50px;
@@ -321,7 +346,6 @@
         }
         .seat.computer::before { content: '💻'; font-size: 16px; }
 
-        /* Хичээлийн ширээ */
         .seat.table {
             width: 40px; 
             height: 40px;
@@ -341,8 +365,6 @@
             .side-wing { flex-direction: row; flex-wrap: wrap; justify-content: center; width: 100%; }
             .center-grid { grid-template-columns: repeat(2, 1fr); }
             .double-table { width: 45%; justify-content: space-around; } 
-            
-            /* Утсан дээр жигүүрийн PC-нүүдийг хэвтээ болгох (илүү эвтэйхэн) */
             .vertical-pc-group { flex-direction: row; }
         }
     </style>
@@ -438,6 +460,21 @@
             <h2 style="color: #004aad; text-align: center;">📚 Номын сангийн суудал захиалга</h2>
             
             <div class="library-layout">
+
+                <div class="booking-controls">
+                    <div class="control-row">
+                        <label>Сурагчийн төрөл:</label>
+                        <select id="userType">
+                            <option value="regular">Энгийн сурагч (Max 2 цаг)</option>
+                            <option value="olympiad">Олимпиадын бэлтгэл (Хязгааргүй)</option>
+                        </select>
+                    </div>
+                    <div class="control-row">
+                        <label>Захиалах хугацаа (цаг):</label>
+                        <input type="number" id="bookingDuration" min="1" max="24" value="1" placeholder="Цагаа бичнэ үү">
+                    </div>
+                </div>
+
                 <div class="legend">
                     <div class="legend-item"><div class="sample-box bg-computer"></div> Компьютер</div>
                     <div class="legend-item"><div class="sample-box bg-table"></div> Хичээлийн ширээ (2 хүн)</div>
@@ -603,10 +640,10 @@
             }
         }
 
-        // Номын сангийн логик
+        // Номын сангийн логик (Цагийн хязгаартай)
         document.addEventListener('DOMContentLoaded', () => {
             
-            // 40 ШИРЭЭГ АВТОМАТААР ҮҮСГЭХ (ГОЛ ТАНХИМ)
+            // 40 ШИРЭЭГ АВТОМАТААР ҮҮСГЭХ
             const centerGrid = document.getElementById('center-tables');
             for (let i = 1; i <= 40; i++) {
                 const tableHTML = `
@@ -628,20 +665,45 @@
                 }
             });
 
-            // Захиалах товч
+            // Захиалах товч дарах үед
             document.getElementById('bookBtn').addEventListener('click', () => {
+                // 1. Утгуудыг авах
+                const userType = document.getElementById('userType').value;
+                const duration = parseFloat(document.getElementById('bookingDuration').value);
                 const selectedSeats = document.querySelectorAll('.seat.selected');
-                if (selectedSeats.length > 0) {
-                    let seatNames = [];
-                    selectedSeats.forEach(seat => {
-                        seatNames.push(seat.getAttribute('data-name') || seat.innerText);
-                        seat.classList.remove('selected');
-                        seat.classList.add('occupied');
-                    });
-                    alert(`Амжилттай! Та дараах суудлуудыг захиаллаа: \n${seatNames.join(", ")}`);
-                } else {
+
+                // 2. Суудал сонгосон эсэхийг шалгах
+                if (selectedSeats.length === 0) {
                     alert("Та суудал сонгоогүй байна!");
+                    return;
                 }
+
+                // 3. Хугацаа оруулсан эсэхийг шалгах
+                if (!duration || duration <= 0) {
+                    alert("Та зөв цаг оруулна уу!");
+                    return;
+                }
+
+                // 4. Цагийн хязгаар шалгах (Энгийн сурагч MAX 2 цаг)
+                if (userType === 'regular' && duration > 2) {
+                    alert("⚠️ Энгийн сурагч дээд тал нь 2 цаг захиалах боломжтой!\nТа цагаа багасгана уу.");
+                    return;
+                }
+
+                // 5. Амжилттай захиалах
+                let seatNames = [];
+                selectedSeats.forEach(seat => {
+                    seatNames.push(seat.getAttribute('data-name') || seat.innerText);
+                    seat.classList.remove('selected');
+                    seat.classList.add('occupied');
+                });
+
+                let msg = `✅ Амжилттай захиаллаа!\n\n`;
+                msg += `👤 Төрөл: ${userType === 'regular' ? 'Энгийн сурагч' : 'Олимпиадын бэлтгэл'}\n`;
+                msg += `⏰ Хугацаа: ${duration} цаг\n`;
+                msg += `🪑 Суудлууд: ${seatNames.join(", ")}`;
+                
+                alert(msg);
             });
         });
     </script>
