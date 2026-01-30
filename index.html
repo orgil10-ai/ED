@@ -182,7 +182,6 @@
         .sample-box { width: 20px; height: 20px; border-radius: 4px; }
         .bg-computer { background: #3498db; }
         .bg-table { background: #9b59b6; }
-        .bg-seat { background: #2ecc71; }
         .bg-occupied { background: #e74c3c; }
 
         /* Хэсгүүдийн гарчиг */
@@ -215,11 +214,11 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px; /* Өргөн болгосон */
             gap: 20px;
         }
         
-        /* Зүүн ба Баруун жигүүр (Хөх тойрог) */
+        /* Зүүн ба Баруун жигүүр */
         .side-wing {
             display: flex;
             flex-direction: column;
@@ -228,14 +227,41 @@
             padding: 15px;
             border-radius: 10px;
             border: 1px solid #fae5d3;
+            min-width: 80px;
+            align-items: center;
         }
 
-        /* Гол хэсэг */
-        .center-area {
+        /* --- ГОЛ ХЭСЭГ (40 ШИРЭЭ) --- */
+        .center-area-container {
+            flex-grow: 1;
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .center-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr); /* 4 эгнээ */
-            gap: 10px;
+            gap: 15px;
             padding: 10px;
+        }
+
+        /* Хос суудалтай ширээний загвар */
+        .double-table {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #e1d2f0; /* Бүдэг ягаан дэвсгэр */
+            padding: 5px;
+            border-radius: 8px;
+            border: 1px solid #c39bd3;
+        }
+
+        .table-divider {
+            width: 2px;
+            height: 30px;
+            background: #af7ac5;
+            margin: 0 5px;
         }
 
         /* Суудлын загварууд */
@@ -264,23 +290,24 @@
         }
         .seat.computer::before { content: '💻'; font-size: 16px; }
 
-        /* Хичээлийн ширээ */
+        /* Хичээлийн ширээ (Захын болон Голын) */
         .seat.table {
-            width: 80px;
+            width: 45px; /* Бага зэрэг жижиг болгож багтаамжийг нэмэв */
+            height: 45px;
+            background-color: #9b59b6; /* Ягаан өнгө */
+            flex-direction: column;
+        }
+        .seat.table::before { content: '📖'; font-size: 14px; }
+        
+        /* Хажуу талын том ширээнүүд */
+        .seat.side-table {
+            width: 70px;
             height: 50px;
             background-color: #9b59b6;
             flex-direction: column;
         }
-        .seat.table::before { content: '📖'; font-size: 16px; }
+        .seat.side-table::before { content: '📖'; font-size: 16px; }
 
-        /* Энгийн суудал */
-        .seat.standard {
-            width: 40px;
-            height: 40px;
-            background-color: #2ecc71;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-        }
 
         /* Утасны тохиргоо */
         @media (max-width: 768px) {
@@ -289,8 +316,10 @@
             .school-logo img { width: 100px; height: 100px; }
             .school-name h1 { font-size: 22px; }
             .main-hall { flex-direction: column; align-items: center; }
-            .side-wing { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-            .center-area { grid-template-columns: repeat(4, 1fr); }
+            .side-wing { flex-direction: row; flex-wrap: wrap; justify-content: center; width: 100%; }
+            /* Утсан дээр голын ширээнүүд 2 эгнээ болно */
+            .center-grid { grid-template-columns: repeat(2, 1fr); }
+            .double-table { width: 100%; justify-content: space-around; }
         }
     </style>
 </head>
@@ -387,8 +416,7 @@
             <div class="library-layout">
                 <div class="legend">
                     <div class="legend-item"><div class="sample-box bg-computer"></div> Компьютер</div>
-                    <div class="legend-item"><div class="sample-box bg-table"></div> Ширээ</div>
-                    <div class="legend-item"><div class="sample-box bg-seat"></div> Уншлагын суудал</div>
+                    <div class="legend-item"><div class="sample-box bg-table"></div> Хичээлийн ширээ</div>
                     <div class="legend-item"><div class="sample-box bg-occupied"></div> Эзэнтэй</div>
                 </div>
 
@@ -417,37 +445,25 @@
                 <div class="main-hall">
                     <div class="side-wing">
                         <div class="zone-title">📖 Зүүн жигүүр</div>
-                        <div class="seat table" data-name="Table-L1">L1</div>
-                        <div class="seat table" data-name="Table-L2">L2</div>
-                        <div class="seat table" data-name="Table-L3">L3</div>
-                        <div class="seat table" data-name="Table-L4">L4</div>
+                        <div class="seat side-table" data-name="Table-L1">L1</div>
+                        <div class="seat side-table" data-name="Table-L2">L2</div>
+                        <div class="seat side-table" data-name="Table-L3">L3</div>
+                        <div class="seat side-table" data-name="Table-L4">L4</div>
                     </div>
 
-                    <div>
-                        <div class="zone-title">Нийтийн танхим</div>
-                        <div class="center-area">
-                            <div class="seat standard" data-name="C1">C1</div>
-                            <div class="seat standard" data-name="C2">C2</div>
-                            <div class="seat standard" data-name="C3">C3</div>
-                            <div class="seat standard" data-name="C4">C4</div>
-                            <div class="seat standard" data-name="C5">C5</div>
-                            <div class="seat standard" data-name="C6">C6</div>
-                            <div class="seat standard" data-name="C7">C7</div>
-                            <div class="seat standard" data-name="C8">C8</div>
-                            <div class="seat standard" data-name="C9">C9</div>
-                            <div class="seat standard" data-name="C10">C10</div>
-                            <div class="seat standard" data-name="C11">C11</div>
-                            <div class="seat standard" data-name="C12">C12</div>
-                        </div>
+                    <div class="center-area-container">
+                        <div class="zone-title">Гол танхим (40 ширээ / 80 суудал)</div>
+                        <div id="center-tables" class="center-grid">
+                            </div>
                     </div>
 
                     <div class="side-wing">
                         <div class="zone-title">📖 Баруун жигүүр</div>
-                        <div class="seat table" data-name="Table-R1">R1</div>
-                        <div class="seat table" data-name="Table-R2">R2</div>
-                        <div class="seat table" data-name="Table-R3">R3</div>
-                        <div class="seat table" data-name="Table-R4">R4</div>
-                        <div class="seat table" data-name="Table-R5">R5</div>
+                        <div class="seat side-table" data-name="Table-R1">R1</div>
+                        <div class="seat side-table" data-name="Table-R2">R2</div>
+                        <div class="seat side-table" data-name="Table-R3">R3</div>
+                        <div class="seat side-table" data-name="Table-R4">R4</div>
+                        <div class="seat side-table" data-name="Table-R5">R5</div>
                     </div>
                 </div>
                 
@@ -504,14 +520,27 @@
             }
         }
 
-        // Номын сангийн суудал сонгох логик
+        // Номын сангийн логик
         document.addEventListener('DOMContentLoaded', () => {
-            const librarySection = document.getElementById('library');
             
+            // 40 ШИРЭЭГ АВТОМАТААР ҮҮСГЭХ (ГОЛ ТАНХИМ)
+            const centerGrid = document.getElementById('center-tables');
+            for (let i = 1; i <= 40; i++) {
+                // Ширээ бүрт 2 суудал (A ба B)
+                const tableHTML = `
+                    <div class="double-table">
+                        <div class="seat table" data-name="Table-${i}A">${i}A</div>
+                        <div class="table-divider"></div>
+                        <div class="seat table" data-name="Table-${i}B">${i}B</div>
+                    </div>
+                `;
+                centerGrid.innerHTML += tableHTML;
+            }
+
+            // Суудал сонгох
+            const librarySection = document.getElementById('library');
             librarySection.addEventListener('click', (e) => {
-                // Суудлын аль нэг хэсэгт дарсан эсэхийг шалгах
                 const seat = e.target.closest('.seat');
-                
                 if (seat && !seat.classList.contains('occupied')) {
                     seat.classList.toggle('selected');
                 }
@@ -525,7 +554,7 @@
                     selectedSeats.forEach(seat => {
                         seatNames.push(seat.getAttribute('data-name') || seat.innerText);
                         seat.classList.remove('selected');
-                        seat.classList.add('occupied'); // Улаан болгох
+                        seat.classList.add('occupied');
                     });
                     alert(`Амжилттай! Та дараах суудлуудыг захиаллаа: \n${seatNames.join(", ")}`);
                 } else {
