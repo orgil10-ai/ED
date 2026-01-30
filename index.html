@@ -2,16 +2,11 @@
 <html lang="mn">
 <head>
     <meta charset="UTF-8">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="82PmDYOlD80pIrla3yzwWpSeiw_BFRzBaVtMSLmLlNc" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Эрдмийн Далай Цогцолбор Сургууль | Ухаалаг Систем</title>
-
-    <meta name="description" content="Хөвсгөл аймгийн Эрдмийн Далай цогцолбор сургуулийн багш нарын хичээлийн хуваарь, ангиудын сул цаг, номын сангийн суудал захиалгын нэгдсэн цахим систем.">
-
-    <meta name="keywords" content="Эрдмийн далай, сургууль, хичээлийн хуваарь, Мөрөн сум, Хөвсгөл аймаг, сургуулийн вебсайт, цахим систем, erdmiin dalai">
+    <meta name="description" content="Хөвсгөл аймгийн Эрдмийн Далай цогцолбор сургуулийн нэгдсэн цахим систем.">
 
     <style>
         /* CSS: Үндсэн загвар */
@@ -22,27 +17,24 @@
             background-color: #f0f2f5;
         }
 
-        /* 1. ТОЛГОЙ ХЭСЭГ (Сургуулийн зурагтай) */
+        /* 1. ТОЛГОЙ ХЭСЭГ */
         .header-banner {
-            /* Таны хадгалсан сургуулийн зураг энд орно */
             background-image: url('school_bg.jpg'); 
             background-size: cover;
             background-position: center;
             height: 350px;
             position: relative;
             display: flex;
-            align-items: flex-end; 
-            padding-bottom: 0;
+            align-items: flex-end;
+            padding-bottom: 20px;
         }
 
-        /* Зураг дээрх харанхуй бүрхүүл */
         .header-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
         }
 
-        /* Лого болон Нэр */
         .header-content {
             position: relative;
             z-index: 2;
@@ -51,7 +43,7 @@
             width: 100%;
             max-width: 1100px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
             gap: 20px;
         }
 
@@ -61,7 +53,8 @@
             border-radius: 50%;
             border: 4px solid white;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            background: white; 
+            background: white;
+            object-fit: contain; /* Логог гажуудуулахгүй */
         }
 
         .school-name {
@@ -70,23 +63,23 @@
         }
         .school-name h1 {
             margin: 0;
-            font-size: 32px;
+            font-size: 32px; /* Компьютер дээрх хэмжээ */
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            line-height: 1.2;
         }
         .school-name p {
             margin: 5px 0 0;
             font-size: 18px;
             font-weight: 400;
-            color: #ffd700; 
+            color: #ffd700;
         }
 
         /* 2. ЦЭСНИЙ ХЭСЭГ */
         .menu-bar {
-            background: #004aad; 
+            background: #004aad;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            position: sticky; 
+            position: sticky;
             top: 0;
             z-index: 100;
         }
@@ -97,26 +90,25 @@
             gap: 10px;
             max-width: 1000px;
             margin: auto;
-            padding: 0 20px;
+            padding: 0 10px;
+            flex-wrap: wrap; /* Утсан дээр багтахгүй бол доош унана */
         }
         .menu button { 
-            padding: 15px 25px; 
+            padding: 15px 20px; 
             cursor: pointer; 
             border: none;
             background: transparent; 
-            color: rgba(255,255,255,0.8); 
+            color: rgba(255,255,255,0.9); 
             font-weight: 600;
             font-size: 16px;
             transition: 0.3s;
             border-bottom: 4px solid transparent;
+            white-space: nowrap; /* Текстийг таслахгүй */
         }
         .menu button:hover { color: white; background: rgba(255,255,255,0.1); }
-        .menu button.active-btn { 
-            color: #fff; 
-            border-bottom: 4px solid #ffd700; 
-        }
+        .menu button.active-btn { color: #fff; border-bottom: 4px solid #ffd700; }
 
-        /* 3. ҮНДСЭН АГУУЛГА */
+        /* 3. АГУУЛГА */
         .container { 
             background: white; 
             padding: 40px; 
@@ -126,9 +118,8 @@
             margin: 30px auto; 
             min-height: 400px;
         }
-        .content-section { display: none; animation: fadeIn 0.3s ease-in; }
+        .content-section { display: none; }
         .active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Хайлт болон Шүүлтүүр */
         .filter-container {
@@ -140,21 +131,67 @@
         }
         .filter-group { display: flex; gap: 15px; flex-wrap: wrap; }
         .filter-item { flex: 1; min-width: 200px; }
-        .filter-item label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 14px; }
+        .filter-item label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
         input, select { 
             width: 100%; padding: 10px; 
             border: 1px solid #ced4da; border-radius: 6px; 
             font-size: 14px; box-sizing: border-box;
         }
-        input:focus, select:focus { outline: none; border-color: #004aad; box-shadow: 0 0 0 3px rgba(0,74,173,0.1); }
 
         /* Хүснэгт */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; border-radius: 8px; overflow: hidden; }
-        th { background-color: #004aad; color: white; padding: 15px; text-align: left; font-weight: 600; }
-        td { border-bottom: 1px solid #eee; padding: 12px 15px; color: #333; }
+        .table-responsive { overflow-x: auto; } /* Утсан дээр хүснэгт гүйдэг болох */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; min-width: 600px; }
+        th { background-color: #004aad; color: white; padding: 15px; text-align: left; }
+        td { border-bottom: 1px solid #eee; padding: 12px 15px; }
         tr:nth-child(even) { background-color: #f8f9fa; }
-        tr:hover { background-color: #e2e6ea; }
 
+        /* =========================================
+           GAR UTASNI TOHIRGOO (MOBILE RESPONSIVE)
+           ========================================= */
+        @media (max-width: 768px) {
+            .header-banner {
+                height: auto; /* Өндрийг автоматаар тааруулна */
+                padding: 40px 0 20px 0;
+                background-position: center top;
+            }
+            
+            .header-content {
+                flex-direction: column; /* Лого, Нэр хоёрыг давхарлана */
+                text-align: center; /* Голлуулна */
+                gap: 10px;
+            }
+
+            .school-logo img {
+                width: 100px; /* Логог жижгэрүүлнэ */
+                height: 100px;
+                margin-bottom: 5px;
+            }
+
+            .school-name h1 {
+                font-size: 20px; /* Үсгийг жижгэрүүлнэ */
+            }
+
+            .school-name p {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+
+            .menu button {
+                padding: 12px 10px;
+                font-size: 14px; /* Цэсний үсгийг жижгэрүүлнэ */
+                flex: 1; /* Товчнуудыг дэлгэцэнд тэнцүү хуваана */
+                text-align: center;
+            }
+
+            .container {
+                padding: 20px; /* Зайг багасгана */
+                margin: 15px;
+            }
+
+            .filter-item {
+                min-width: 100%; /* Хайлтын хэсгийг бүтэн болгоно */
+            }
+        }
     </style>
 </head>
 <body>
@@ -167,7 +204,7 @@
             </div>
             <div class="school-name">
                 <h1>"ЭРДМИЙН ДАЛАЙ" ЦОГЦОЛБОР СУРГУУЛЬ</h1>
-                <p>Хөвсгөл аймаг, Мөрөн сум Ерөнхий Боловсролын Сургууль</p>
+                <p>Хөвсгөл аймаг, Мөрөн сум</p>
             </div>
         </div>
     </div>
@@ -183,7 +220,7 @@
     <div class="container">
         
         <div id="teachers" class="content-section active">
-            <h2 style="color: #004aad; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
+            <h2 style="color: #004aad; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; font-size: 22px;">
                 👩‍🏫 Хичээлийн Нэгдсэн Хуваарь
             </h2>
             
@@ -216,26 +253,28 @@
                 </div>
             </div>
 
-            <table id="teacherTable">
-                <thead>
-                    <tr>
-                        <th>Багшийн нэр</th>
-                        <th>Хичээл</th>
-                        <th>Өдөр</th>
-                        <th>Цаг</th>
-                        <th>Анги / Кабинет</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Шагдарсүрэн</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10В (Заал)</td></tr>
-                    <tr><td>Билгүүн</td><td>Нийгэм</td><td>Даваа</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td></tr>
-                    <tr><td>Цамбажав</td><td>Мэдээлэл</td><td>Даваа</td><td>11:30 - 12:55</td><td>10В (209 тоот)</td></tr>
-                    <tr><td>Мөнх-Эрдэнэ</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10А (Заал)</td></tr>
-                    <tr><td>Билгүүн</td><td>Түүх</td><td>Мягмар</td><td>01:00 - 01:40</td><td>10В (108 тоот)</td></tr>
-                    <tr><td>Оюунгэрэл</td><td>Математик</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (209 тоот)</td></tr>
-                    <tr><td>Билгүүнбаяр</td><td>Физик</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td></tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table id="teacherTable">
+                    <thead>
+                        <tr>
+                            <th>Багшийн нэр</th>
+                            <th>Хичээл</th>
+                            <th>Өдөр</th>
+                            <th>Цаг</th>
+                            <th>Анги / Кабинет</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Шагдарсүрэн</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10В (Заал)</td></tr>
+                        <tr><td>Билгүүн</td><td>Нийгэм</td><td>Даваа</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Цамбажав</td><td>Мэдээлэл</td><td>Даваа</td><td>11:30 - 12:55</td><td>10В (209 тоот)</td></tr>
+                        <tr><td>Мөнх-Эрдэнэ</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10А (Заал)</td></tr>
+                        <tr><td>Билгүүн</td><td>Түүх</td><td>Мягмар</td><td>01:00 - 01:40</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Оюунгэрэл</td><td>Математик</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (209 тоот)</td></tr>
+                        <tr><td>Билгүүнбаяр</td><td>Физик</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div id="rooms" class="content-section">
