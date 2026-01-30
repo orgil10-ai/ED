@@ -15,6 +15,7 @@
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f0f2f5;
+            overflow-x: hidden; 
         }
 
         /* 1. ТОЛГОЙ ХЭСЭГ */
@@ -32,7 +33,7 @@
         .header-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.9));
         }
 
         .header-content {
@@ -48,13 +49,13 @@
         }
 
         .school-logo img {
-            width: 140px;
-            height: 140px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             border: 4px solid white;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             background: white;
-            object-fit: contain; /* Логог гажуудуулахгүй */
+            object-fit: contain;
         }
 
         .school-name {
@@ -63,14 +64,14 @@
         }
         .school-name h1 {
             margin: 0;
-            font-size: 32px; /* Компьютер дээрх хэмжээ */
+            font-size: 30px;
             font-weight: 700;
             text-transform: uppercase;
             line-height: 1.2;
         }
         .school-name p {
             margin: 5px 0 0;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 400;
             color: #ffd700;
         }
@@ -87,23 +88,25 @@
         .menu {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 5px;
             max-width: 1000px;
             margin: auto;
-            padding: 0 10px;
-            flex-wrap: wrap; /* Утсан дээр багтахгүй бол доош унана */
+            padding: 0 5px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
         }
         .menu button { 
-            padding: 15px 20px; 
+            padding: 15px 15px; 
             cursor: pointer; 
             border: none;
             background: transparent; 
             color: rgba(255,255,255,0.9); 
             font-weight: 600;
-            font-size: 16px;
+            font-size: 15px;
             transition: 0.3s;
             border-bottom: 4px solid transparent;
-            white-space: nowrap; /* Текстийг таслахгүй */
+            white-space: nowrap; 
+            flex-shrink: 0;
         }
         .menu button:hover { color: white; background: rgba(255,255,255,0.1); }
         .menu button.active-btn { color: #fff; border-bottom: 4px solid #ffd700; }
@@ -111,12 +114,14 @@
         /* 3. АГУУЛГА */
         .container { 
             background: white; 
-            padding: 40px; 
+            padding: 30px; 
             border-radius: 12px; 
             box-shadow: 0 5px 20px rgba(0,0,0,0.05); 
             max-width: 1100px;
-            margin: 30px auto; 
+            margin: 20px auto; 
             min-height: 400px;
+            width: 95%; 
+            box-sizing: border-box;
         }
         .content-section { display: none; }
         .active { display: block; }
@@ -124,73 +129,145 @@
         /* Хайлт болон Шүүлтүүр */
         .filter-container {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             border: 1px solid #e9ecef;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
-        .filter-group { display: flex; gap: 15px; flex-wrap: wrap; }
-        .filter-item { flex: 1; min-width: 200px; }
-        .filter-item label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .filter-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter-item { flex: 1; min-width: 250px; }
+        .filter-item label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 14px;}
         input, select { 
-            width: 100%; padding: 10px; 
+            width: 100%; padding: 12px; 
             border: 1px solid #ced4da; border-radius: 6px; 
-            font-size: 14px; box-sizing: border-box;
+            font-size: 16px; 
+            box-sizing: border-box;
         }
 
-        /* Хүснэгт */
-        .table-responsive { overflow-x: auto; } /* Утсан дээр хүснэгт гүйдэг болох */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; min-width: 600px; }
-        th { background-color: #004aad; color: white; padding: 15px; text-align: left; }
-        td { border-bottom: 1px solid #eee; padding: 12px 15px; }
+        /* --- ХҮСНЭГТНИЙ ЗАГВАР --- */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-top: 10px;
+            border: 1px solid #eee;
+        }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { background-color: #004aad; color: white; padding: 12px; text-align: left; white-space: nowrap; }
+        td { border-bottom: 1px solid #eee; padding: 12px; font-size: 14px; }
         tr:nth-child(even) { background-color: #f8f9fa; }
 
-        /* =========================================
-           GAR UTASNI TOHIRGOO (MOBILE RESPONSIVE)
-           ========================================= */
+        /* --- НОМЫН САНГИЙН ЗАГВАР (Шинэ) --- */
+        .library-scroll-wrapper {
+            overflow-x: auto; /* Гар утсан дээр гүйлгэх */
+            padding-bottom: 20px;
+        }
+        
+        .library-map {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 800px; /* Схем жижгэрч алга болохоос сэргийлнэ */
+            padding: 20px;
+            background: #fff;
+            position: relative;
+        }
+
+        /* Тайлбар */
+        .legend {
+            display: flex; gap: 20px; justify-content: center; margin-bottom: 20px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 5px; font-size: 14px; }
+        .dot { width: 15px; height: 15px; border-radius: 50%; }
+
+        /* Ширээний бүтэц */
+        .table-pair {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            background: #e0e0e0; /* Ширээний өнгө */
+            padding: 5px;
+            border-radius: 4px;
+            margin: 5px;
+        }
+        .desk {
+            width: 40px; height: 30px;
+            background: #8d6e63; /* Модон өнгө */
+            border-radius: 2px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 10px;
+        }
+        .seat {
+            width: 25px; height: 25px;
+            background: #27ae60; /* Сул суудал - Ногоон */
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 2px solid white;
+        }
+        .seat:hover { transform: scale(1.1); }
+        .seat.selected { background: #2980b9; } /* Сонгосон - Цэнхэр */
+        .seat.occupied { background: #c0392b; cursor: not-allowed; } /* Эзэнтэй - Улаан */
+
+        /* БҮСЧЛЭЛ */
+        .perimeter-row {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .middle-section {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .door-area {
+            width: 60px; height: 100px;
+            background: #bdc3c7;
+            border: 2px dashed #7f8c8d;
+            display: flex; align-items: center; justify-content: center;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-weight: bold;
+            color: #555;
+            margin-right: 20px;
+        }
+
+        .center-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 5 багана */
+            gap: 15px;
+            background: #f9f9f9;
+            padding: 20px;
+            border: 2px solid #004aad; /* Гол танхимын хүрээ */
+            border-radius: 10px;
+        }
+
+        .perimeter-side {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .booking-actions {
+            margin-top: 20px; text-align: center;
+            padding-top: 20px; border-top: 1px solid #eee;
+        }
+        .booking-btn {
+            background: #004aad; color: white; border: none;
+            padding: 10px 30px; border-radius: 5px; cursor: pointer;
+            font-size: 16px;
+        }
+
         @media (max-width: 768px) {
-            .header-banner {
-                height: auto; /* Өндрийг автоматаар тааруулна */
-                padding: 40px 0 20px 0;
-                background-position: center top;
-            }
-            
-            .header-content {
-                flex-direction: column; /* Лого, Нэр хоёрыг давхарлана */
-                text-align: center; /* Голлуулна */
-                gap: 10px;
-            }
-
-            .school-logo img {
-                width: 100px; /* Логог жижгэрүүлнэ */
-                height: 100px;
-                margin-bottom: 5px;
-            }
-
-            .school-name h1 {
-                font-size: 20px; /* Үсгийг жижгэрүүлнэ */
-            }
-
-            .school-name p {
-                font-size: 14px;
-                line-height: 1.4;
-            }
-
-            .menu button {
-                padding: 12px 10px;
-                font-size: 14px; /* Цэсний үсгийг жижгэрүүлнэ */
-                flex: 1; /* Товчнуудыг дэлгэцэнд тэнцүү хуваана */
-                text-align: center;
-            }
-
-            .container {
-                padding: 20px; /* Зайг багасгана */
-                margin: 15px;
-            }
-
-            .filter-item {
-                min-width: 100%; /* Хайлтын хэсгийг бүтэн болгоно */
-            }
+            .header-banner { height: auto; padding: 40px 0 20px 0; }
+            .header-content { flex-direction: column; text-align: center; gap: 15px; }
+            .school-logo img { width: 100px; height: 100px; }
+            .school-name h1 { font-size: 22px; }
+            .container { padding: 15px; margin: 10px auto; }
+            .scroll-hint { display: block; font-size: 12px; color: #777; text-align: center; margin-bottom: 5px; font-style: italic; }
         }
     </style>
 </head>
@@ -213,17 +290,16 @@
         <div class="menu">
             <button onclick="switchTab('teachers', this)" class="active-btn">Багш нарын хуваарь</button>
             <button onclick="switchTab('rooms', this)">Ангиудын сул цаг</button>
-            <button onclick="switchTab('library', this)">Номын сангийн суудал</button>
+            <button onclick="switchTab('library', this)">Номын сан</button>
         </div>
     </div>
 
     <div class="container">
         
         <div id="teachers" class="content-section active">
-            <h2 style="color: #004aad; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; font-size: 22px;">
+            <h2 style="color: #004aad; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; font-size: 20px;">
                 👩‍🏫 Хичээлийн Нэгдсэн Хуваарь
             </h2>
-            
             <div class="filter-container">
                 <div class="filter-group">
                     <div class="filter-item">
@@ -252,7 +328,7 @@
                     </div>
                 </div>
             </div>
-
+            <p class="scroll-hint">👉 Хүснэгтийг хажуу тийш гүйлгэж харна уу</p>
             <div class="table-responsive">
                 <table id="teacherTable">
                     <thead>
@@ -283,12 +359,46 @@
         </div>
 
         <div id="library" class="content-section">
-            <h2 style="color: #004aad;">📚 Номын сангийн суудал</h2>
-            <p>Номын сангийн суудал захиалгын хэсэг...</p>
+            <h2 style="color: #004aad; border-bottom: 2px solid #eee; padding-bottom: 10px;">📚 Номын сангийн суудал захиалга</h2>
+            
+            <div class="legend">
+                <div class="legend-item"><div class="dot" style="background:#27ae60"></div> Сул</div>
+                <div class="legend-item"><div class="dot" style="background:#2980b9"></div> Сонгосон</div>
+                <div class="legend-item"><div class="dot" style="background:#c0392b"></div> Эзэнтэй</div>
+            </div>
+
+            <p class="scroll-hint">👉 Суудлын бүдүүвчийг хажуу тийш гүйлгэж харна уу</p>
+            <div class="library-scroll-wrapper">
+                <div class="library-map">
+                    
+                    <div class="perimeter-row" id="perimeter-top">
+                        </div>
+
+                    <div class="middle-section">
+                        <div class="door-area">ХААЛГА</div>
+                        
+                        <div class="center-grid" id="center-grid">
+                            </div>
+
+                        <div class="perimeter-side" id="perimeter-right">
+                            </div>
+                    </div>
+
+                    <div class="perimeter-row" id="perimeter-bottom">
+                         </div>
+
+                </div>
+            </div>
+
+            <div class="booking-actions">
+                <p>Та <strong id="count">0</strong> суудал сонгосон байна.</p>
+                <button class="booking-btn" id="bookBtn">Захиалах</button>
+            </div>
         </div>
     </div>
 
     <script>
+        // --- 1. ТАБ СОЛИХ ---
         function switchTab(id, btnElement) {
             var sections = document.getElementsByClassName('content-section');
             for (var i = 0; i < sections.length; i++) {
@@ -303,6 +413,7 @@
             }
         }
 
+        // --- 2. ХИЧЭЭЛИЙН ХУВААРЬ ХАЙХ ---
         function filterSchedule() {
             var nameInput = document.getElementById("searchTeacher").value.toUpperCase();
             var dayInput = document.getElementById("dayFilter").value.toUpperCase();
@@ -333,6 +444,71 @@
                 }
             }
         }
+
+        // --- 3. НОМЫН САНГИЙН СУУДАЛ ҮҮСГЭХ ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const centerGrid = document.getElementById('center-grid');
+            const pTop = document.getElementById('perimeter-top');
+            const pBottom = document.getElementById('perimeter-bottom');
+            const pRight = document.getElementById('perimeter-right');
+
+            // Ширээ үүсгэдэг функц (2 суудалтай)
+            function createTable(id) {
+                return `
+                <div class="table-pair">
+                    <div class="seat available" data-id="${id}-A"></div>
+                    <div class="desk">${id}</div>
+                    <div class="seat available" data-id="${id}-B"></div>
+                </div>`;
+            }
+
+            // Гол танхимын 40 ширээ (80 суудал) - 5 багана, 8 мөр
+            for(let i=1; i<=40; i++) {
+                centerGrid.innerHTML += createTable('C'+i);
+            }
+
+            // Тойргийн ширээнүүд (Нийт 9 ширээ)
+            // Дээд тал: 3 ширээ
+            for(let i=1; i<=3; i++) pTop.innerHTML += createTable('P'+i);
+            // Баруун тал: 3 ширээ
+            for(let i=4; i<=6; i++) pRight.innerHTML += createTable('P'+i);
+            // Доод тал: 3 ширээ
+            for(let i=7; i<=9; i++) pBottom.innerHTML += createTable('P'+i);
+
+            // --- 4. СУУДАЛ ЗАХИАЛАХ ЛОГИК ---
+            const container = document.querySelector('.library-map');
+            const countEl = document.getElementById('count');
+            const bookBtn = document.getElementById('bookBtn');
+
+            function updateCount() {
+                const selectedSeats = document.querySelectorAll('.seat.selected');
+                countEl.innerText = selectedSeats.length;
+            }
+
+            container.addEventListener('click', (e) => {
+                if(e.target.classList.contains('seat') && !e.target.classList.contains('occupied')) {
+                    e.target.classList.toggle('selected');
+                    updateCount();
+                }
+            });
+
+            bookBtn.addEventListener('click', () => {
+                const selectedSeats = document.querySelectorAll('.seat.selected');
+                if(selectedSeats.length > 0) {
+                    let ids = [];
+                    selectedSeats.forEach(seat => ids.push(seat.getAttribute('data-id')));
+                    alert(`Баяр хүргэе! Та дараах суудлуудыг амжилттай захиаллаа: \n${ids.join(', ')}`);
+                    
+                    selectedSeats.forEach(seat => {
+                        seat.classList.remove('selected');
+                        seat.classList.add('occupied');
+                    });
+                    updateCount();
+                } else {
+                    alert('Та суудал сонгоогүй байна!');
+                }
+            });
+        });
     </script>
 
 </body>
