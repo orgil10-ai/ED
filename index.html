@@ -4,126 +4,165 @@
     <meta charset="UTF-8">
     <title>Эрдмийн Далай Сургууль</title>
     <style>
-        /* CSS: Дизайн */
+        /* CSS: Үндсэн загвар */
         html, body {
             margin: 0;
             padding: 0;
-            font-family: sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
         }
 
-        /* 1. ТОЛГОЙ ХЭСЭГ (Том зурагтай) */
+        /* 1. ТОЛГОЙ ХЭСЭГ (Сургуулийн зурагтай) */
         .header-banner {
-            /* Энд том зургийн линкийг солино */
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/National_University_of_Mongolia_building.jpg/1200px-National_University_of_Mongolia_building.jpg');
-            background-size: cover; /* Зургийг дэлгэцэнд дүүргэнэ */
+            /* Таны хадгалсан сургуулийн зураг энд орно */
+            background-image: url('school_bg.jpg'); 
+            background-size: cover;
             background-position: center;
-            height: 400px; /* Зургийн өндөр */
-            position: relative; /* Доторх элементүүдийг давхарлах */
+            height: 350px;
+            position: relative;
             display: flex;
-            justify-content: space-between; /* Лого, Нэр хоёрыг хоёр буланд шахна */
-            align-items: flex-start; /* Дээд талд нь шахна */
-            padding: 20px;
+            align-items: flex-end; /* Логог доор байрлуулах */
+            padding-bottom: 0;
         }
 
-        /* Зураг дээрх харанхуй давхарга (Текст тод харагдуулах) */
+        /* Зураг дээрх харанхуй бүрхүүл */
         .header-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5); /* Хагас тунгалаг хар өнгө */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
         }
 
-        /* Лого болон Нэрийн агуулга */
+        /* Лого болон Нэр */
         .header-content {
-            position: relative; /* Overlay дээр гаргах */
+            position: relative;
+            z-index: 2;
             display: flex;
-            justify-content: space-between;
+            align-items: center;
             width: 100%;
-            align-items: flex-start;
-            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 20px;
         }
 
         .school-logo img {
-            width: 120px; /* Логоны хэмжээ */
-            border-radius: 50%; /* Бөөрөнхий болгох (сонголтоор) */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            background: white; /* Логоны ард цагаан дэвсгэр */
         }
 
         .school-name {
             color: white;
-            text-align: right;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Сүүдэр өгөх */
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
         }
         .school-name h1 {
             margin: 0;
-            font-size: 28px;
-            font-weight: bold;
+            font-size: 32px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .school-name p {
             margin: 5px 0 0;
-            font-size: 16px;
-            font-weight: 300;
+            font-size: 18px;
+            font-weight: 400;
+            color: #ffd700; /* Шар өнгөөр тодотгох */
         }
 
         /* 2. ЦЭСНИЙ ХЭСЭГ */
-        .menu-container {
-            background: #333; /* Цэсний дэвсгэр өнгө */
-            padding: 10px 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        .menu-bar {
+            background: #004aad; /* Сургуулийн логоны цэнхэр өнгө */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky; /* Дээшээ гүйлгэхэд наалдах */
+            top: 0;
+            z-index: 100;
         }
 
         .menu {
             display: flex;
+            justify-content: center;
             gap: 10px;
             max-width: 1000px;
             margin: auto;
+            padding: 0 20px;
         }
         .menu button { 
-            padding: 10px 20px; cursor: pointer; border: none;
-            background: transparent; color: #ddd; font-weight: bold;
+            padding: 15px 25px; 
+            cursor: pointer; 
+            border: none;
+            background: transparent; 
+            color: rgba(255,255,255,0.8); 
+            font-weight: 600;
+            font-size: 16px;
             transition: 0.3s;
+            border-bottom: 4px solid transparent;
         }
         .menu button:hover { color: white; background: rgba(255,255,255,0.1); }
-        .menu button.active-btn { color: #fff; border-bottom: 3px solid #3498db; }
+        .menu button.active-btn { 
+            color: #fff; 
+            border-bottom: 4px solid #ffd700; /* Идэвхтэй үед шар зураас */
+        }
 
         /* 3. ҮНДСЭН АГУУЛГА */
         .container { 
             background: white; 
-            padding: 30px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-            max-width: 1000px;
-            margin: 30px auto; /* Дээд талаас зай авна */
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); 
+            max-width: 1100px;
+            margin: 30px auto; 
+            min-height: 400px;
         }
-        .content-section { display: none; }
+        .content-section { display: none; animation: fadeIn 0.3s ease-in; }
         .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Хайлтын хэсэг */
-        .filter-group { margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
-        input, select { padding: 10px; border: 1px solid #ddd; border-radius: 4px; min-width: 150px; flex-grow: 1; }
+        /* Хайлт болон Шүүлтүүр */
+        .filter-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 25px;
+        }
+        .filter-group { display: flex; gap: 15px; flex-wrap: wrap; }
+        .filter-item { flex: 1; min-width: 200px; }
+        .filter-item label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 14px; }
+        input, select { 
+            width: 100%; padding: 10px; 
+            border: 1px solid #ced4da; border-radius: 6px; 
+            font-size: 14px; box-sizing: border-box;
+        }
+        input:focus, select:focus { outline: none; border-color: #004aad; box-shadow: 0 0 0 3px rgba(0,74,173,0.1); }
 
         /* Хүснэгт */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { background-color: #2c3e50; color: white; padding: 12px; text-align: left;}
-        td { border: 1px solid #eee; padding: 12px; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; border-radius: 8px; overflow: hidden; }
+        th { background-color: #004aad; color: white; padding: 15px; text-align: left; font-weight: 600; }
+        td { border-bottom: 1px solid #eee; padding: 12px 15px; color: #333; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        tr:hover { background-color: #e2e6ea; }
+
     </style>
 </head>
 <body>
 
     <div class="header-banner">
-        <div class="header-overlay"></div> <div class="header-content">
+        <div class="header-overlay"></div>
+        <div class="header-content">
             <div class="school-logo">
-                <img src="https://upload.wikimedia.org/wikipedia/mn/thumb/9/9a/Mongolian_National_University_logo.svg/1200px-Mongolian_National_University_logo.svg.png" alt="School Logo">
+                <img src="logo.png" alt="Эрдмийн Далай Лого" onerror="this.src='https://via.placeholder.com/150?text=Logo'">
             </div>
             <div class="school-name">
-                <h1>ЭРДМИЙН ДАЛАЙ СУРГУУЛЬ</h1>
-                <p>ХӨВСГӨЛ АЙМАГ, МӨРӨН СУМ ЕРӨНХИЙ БОЛОВСРОЛЫН СУРГУУЛЬ</p>
+                <h1>"ЭРДМИЙН ДАЛАЙ" ЦОГЦОЛБОР СУРГУУЛЬ</h1>
+                <p>Хөвсгөл аймаг, Мөрөн сум Ерөнхий Боловсролын Сургууль</p>
             </div>
         </div>
     </div>
 
-    <div class="menu-container">
+    <div class="menu-bar">
         <div class="menu">
             <button onclick="switchTab('teachers', this)" class="active-btn">Багш нарын хуваарь</button>
             <button onclick="switchTab('rooms', this)">Ангиудын сул цаг</button>
@@ -134,23 +173,37 @@
     <div class="container">
         
         <div id="teachers" class="content-section active">
-            <h2>👩‍🏫 Хичээлийн нэгдсэн хуваарь</h2>
+            <h2 style="color: #004aad; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
+                👩‍🏫 Хичээлийн Нэгдсэн Хуваарь
+            </h2>
             
-            <div class="filter-group">
-                <input type="text" id="searchTeacher" onkeyup="filterSchedule()" placeholder="Багшийн нэрээр хайх...">
-                <select id="dayFilter" onchange="filterSchedule()">
-                    <option value="">Бүх өдөр</option>
-                    <option value="Даваа">Даваа</option>
-                    <option value="Мягмар">Мягмар</option>
-                    <option value="Лхагва">Лхагва</option>
-                    <option value="Пүрэв">Пүрэв</option>
-                    <option value="Баасан">Баасан</option>
-                </select>
-                <select id="classFilter" onchange="filterSchedule()">
-                    <option value="">Бүх анги</option>
-                    <option value="10А">10А</option>
-                    <option value="10В">10В</option>
-                    </select>
+            <div class="filter-container">
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <label>Багшийн нэр:</label>
+                        <input type="text" id="searchTeacher" onkeyup="filterSchedule()" placeholder="Жишээ: Билгүүн...">
+                    </div>
+                    <div class="filter-item">
+                        <label>Өдөр сонгох:</label>
+                        <select id="dayFilter" onchange="filterSchedule()">
+                            <option value="">-- Бүх өдөр --</option>
+                            <option value="Даваа">Даваа</option>
+                            <option value="Мягмар">Мягмар</option>
+                            <option value="Лхагва">Лхагва</option>
+                            <option value="Пүрэв">Пүрэв</option>
+                            <option value="Баасан">Баасан</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label>Анги сонгох:</label>
+                        <select id="classFilter" onchange="filterSchedule()">
+                            <option value="">-- Бүх анги --</option>
+                            <option value="10А">10А</option>
+                            <option value="10В">10В</option>
+                            <option value="11А">11А</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <table id="teacherTable">
@@ -160,7 +213,7 @@
                         <th>Хичээл</th>
                         <th>Өдөр</th>
                         <th>Цаг</th>
-                        <th>Анги</th>
+                        <th>Анги / Кабинет</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -170,31 +223,23 @@
                     <tr><td>Мөнх-Эрдэнэ</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10А (Заал)</td></tr>
                     <tr><td>Билгүүн</td><td>Түүх</td><td>Мягмар</td><td>01:00 - 01:40</td><td>10В (108 тоот)</td></tr>
                     <tr><td>Оюунгэрэл</td><td>Математик</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (209 тоот)</td></tr>
-                    <tr><td>Сансартуяа</td><td>Зурагзүй</td><td>Мягмар</td><td>11:30 - 12:55</td><td>10В (108 тоот)</td></tr>
                     <tr><td>Билгүүнбаяр</td><td>Физик</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td></tr>
-                    <tr><td>Отгонзул</td><td>Үндэсний бичиг</td><td>Пүрэв</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td></tr>
-                    <tr><td>Билэгзаяа</td><td>Хими</td><td>Баасан</td><td>09:50 - 11:15</td><td>10В (108 тоот)</td></tr>
-                    <tr><td>Билгүүн</td><td>Нийгэм</td><td>Баасан</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td></tr>
-                    <tr><td>Лхамсүрэн</td><td>Англи хэл</td><td>Пүрэв</td><td>11:30 - 12:15</td><td>10В (108 тоот)</td></tr>
-                    <tr><td>Лхамсүрэн</td><td>Англи хэл /Сонгон/</td><td>Пүрэв</td><td>12:15 - 12:55</td><td>10В (108 тоот)</td></tr>
-                    <tr><td>Хишигбаяр</td><td>Биологи</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td></tr>
                 </tbody>
             </table>
         </div>
 
         <div id="rooms" class="content-section">
-            <h2>🚪 Ангиудын сул цаг</h2>
-            <p>Одоогоор сул байгаа ангиудын жагсаалт энд харагдана.</p>
+            <h2 style="color: #004aad;">🚪 Ангиудын сул цаг</h2>
+            <p>Энд сул ангиудын мэдээлэл харагдана...</p>
         </div>
 
         <div id="library" class="content-section">
-            <h2>📚 Номын сангийн суудал</h2>
-            <p>Номын сангийн суудал захиалгын хэсэг энд байна.</p>
+            <h2 style="color: #004aad;">📚 Номын сангийн суудал</h2>
+            <p>Номын сангийн суудал захиалгын хэсэг...</p>
         </div>
     </div>
 
     <script>
-        // 1. Таб солих функц
         function switchTab(id, btnElement) {
             var sections = document.getElementsByClassName('content-section');
             for (var i = 0; i < sections.length; i++) {
@@ -209,7 +254,6 @@
             }
         }
 
-        // 2. Гурвалсан шүүлтүүр (Нэр + Өдөр + Анги)
         function filterSchedule() {
             var nameInput = document.getElementById("searchTeacher").value.toUpperCase();
             var dayInput = document.getElementById("dayFilter").value.toUpperCase();
@@ -219,9 +263,9 @@
             var tr = table.getElementsByTagName("tr");
 
             for (var i = 1; i < tr.length; i++) {
-                var tdName = tr[i].getElementsByTagName("td")[0]; 
-                var tdDay = tr[i].getElementsByTagName("td")[2];  
-                var tdClass = tr[i].getElementsByTagName("td")[4]; 
+                var tdName = tr[i].getElementsByTagName("td")[0];
+                var tdDay = tr[i].getElementsByTagName("td")[2];
+                var tdClass = tr[i].getElementsByTagName("td")[4];
                 
                 if (tdName && tdDay && tdClass) {
                     var nameText = tdName.textContent || tdName.innerText;
