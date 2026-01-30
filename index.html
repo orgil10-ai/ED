@@ -490,9 +490,12 @@
                             <input type="number" id="bookingMinutes" min="0" max="59" value="0" placeholder="Минут">
                         </div>
                     </div>
+                    <div class="control-row">
+                        <label>🔒 Нууц код (PIN) зохиох:</label>
+                        <input type="password" id="bookingPin" maxlength="4" placeholder="4 оронтой тоо (Жишээ: 1234)">
+                    </div>
                     <p style="font-size: 13px; color: #666; margin:0;">
-                        💡 Эзэнтэй (Улаан) суудал дээр <b>хулганаа аваачиж</b> үлдсэн цагийг харна уу.<br>
-                        💡 Цуцлах бол эзэнтэй суудал дээр <b>дарна уу</b>.
+                        💡 Энэхүү кодыг цуцлах үед ашиглана. Мартаж болохгүй!
                     </p>
                 </div>
 
@@ -629,20 +632,18 @@
                 // ЦУЦЛАХ: Эзэнтэй суудал дээр дарах үед
                 if (seat.classList.contains('occupied')) {
                     const seatName = seat.getAttribute('data-name') || seat.innerText;
-                    const endTime = parseInt(seat.getAttribute('data-end-time'));
+                    const savedPin = seat.getAttribute('data-pin');
                     
-                    let timeLeftMsg = "";
-                    if (endTime) {
-                        const remaining = Math.max(0, Math.ceil((endTime - Date.now()) / 60000));
-                        timeLeftMsg = `(Дуусахад ${remaining} минут үлдсэн)`;
-                    }
-
-                    const confirmCancel = confirm(`${seatName} суудлыг цуцлах уу? \n${timeLeftMsg}`);
-                    if (confirmCancel) {
+                    const inputPin = prompt(`${seatName} суудлыг цуцлахын тулд Нууц кодоо (PIN) хийнэ үү:`);
+                    
+                    if (inputPin === savedPin) {
                         seat.classList.remove('occupied');
                         seat.removeAttribute('data-end-time');
+                        seat.removeAttribute('data-pin');
                         seat.title = ""; 
-                        alert("Захиалга цуцлагдлаа.");
+                        alert("✅ Захиалга амжилттай цуцлагдлаа.");
+                    } else {
+                        alert("❌ Нууц код буруу байна!");
                     }
                     return;
                 }
@@ -656,6 +657,7 @@
                 const userType = document.getElementById('userType').value;
                 const hours = parseInt(document.getElementById('bookingHours').value) || 0;
                 const minutes = parseInt(document.getElementById('bookingMinutes').value) || 0;
+                const pin = document.getElementById('bookingPin').value;
                 const selectedSeats = document.querySelectorAll('.seat.selected');
 
                 if (selectedSeats.length === 0) {
@@ -665,6 +667,11 @@
 
                 if (hours === 0 && minutes === 0) {
                     alert("Та хугацаагаа оруулна уу!");
+                    return;
+                }
+
+                if (!pin || pin.length !== 4) {
+                    alert("Та 4 оронтой Нууц код (PIN) зохиож оруулна уу!");
                     return;
                 }
 
@@ -687,19 +694,23 @@
                     seat.classList.remove('selected');
                     seat.classList.add('occupied');
                     seat.setAttribute('data-end-time', endTime);
-                    // Эхний tooltip
+                    seat.setAttribute('data-pin', pin); // Пин кодыг хадгалах
                     seat.title = `Үлдсэн: ${hours}ц ${minutes}м`; 
                 });
 
                 let msg = `✅ Амжилттай захиаллаа!\n\n`;
                 msg += `👤 Төрөл: ${userType === 'regular' ? 'Энгийн сурагч' : 'Олимпиадын бэлтгэл'}\n`;
                 msg += `⏰ Хугацаа: ${hours} цаг ${minutes} минут\n`;
+                msg += `🔒 Нууц код: ${pin} (Мартаж болохгүй!)\n`;
                 msg += `🪑 Суудлууд: ${seatNames.join(", ")}`;
                 
                 alert(msg);
+                
+                // Пин кодыг цэвэрлэх (Дараагийн хүнд харагдахгүй байхын тулд)
+                document.getElementById('bookingPin').value = '';
             });
 
-            // ЦАГ ТООЛОХ TIMER (Секунд тутам шинэчилнэ)
+            // ЦАГ ТООЛОХ TIMER
             setInterval(() => {
                 const occupiedSeats = document.querySelectorAll('.seat.occupied');
                 const now = Date.now();
@@ -711,12 +722,11 @@
                     const timeLeft = endTime - now;
 
                     if (timeLeft <= 0) {
-                        // Цаг дууссан бол суллах
                         seat.classList.remove('occupied');
                         seat.removeAttribute('data-end-time');
+                        seat.removeAttribute('data-pin');
                         seat.title = "";
                     } else {
-                        // Tooltip шинэчлэх (Hover хийхэд харагдана)
                         const h = Math.floor(timeLeft / (1000 * 60 * 60));
                         const m = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
                         const s = Math.floor((timeLeft % (1000 * 60)) / 1000);
