@@ -227,7 +227,7 @@
             padding: 15px;
             border-radius: 10px;
             border: 1px solid #fae5d3;
-            min-width: 80px;
+            min-width: 100px;
             align-items: center;
         }
 
@@ -246,7 +246,7 @@
             padding: 10px;
         }
 
-        /* Хос суудалтай ширээний загвар */
+        /* Хос суудалтай ширээний загвар (Бүх ширээнд ашиглана) */
         .double-table {
             display: flex;
             justify-content: space-between;
@@ -255,6 +255,7 @@
             padding: 5px;
             border-radius: 8px;
             border: 1px solid #c39bd3;
+            min-width: 80px; /* Хэт жижигрэхгүй байх */
         }
 
         .table-divider {
@@ -290,23 +291,14 @@
         }
         .seat.computer::before { content: '💻'; font-size: 16px; }
 
-        /* Хичээлийн ширээ (Захын болон Голын) */
+        /* Хичээлийн ширээ (Бүх ширээ ижилхэн) */
         .seat.table {
-            width: 45px; /* Бага зэрэг жижиг болгож багтаамжийг нэмэв */
-            height: 45px;
+            width: 40px; 
+            height: 40px;
             background-color: #9b59b6; /* Ягаан өнгө */
             flex-direction: column;
         }
         .seat.table::before { content: '📖'; font-size: 14px; }
-        
-        /* Хажуу талын том ширээнүүд */
-        .seat.side-table {
-            width: 70px;
-            height: 50px;
-            background-color: #9b59b6;
-            flex-direction: column;
-        }
-        .seat.side-table::before { content: '📖'; font-size: 16px; }
 
 
         /* Утасны тохиргоо */
@@ -317,9 +309,8 @@
             .school-name h1 { font-size: 22px; }
             .main-hall { flex-direction: column; align-items: center; }
             .side-wing { flex-direction: row; flex-wrap: wrap; justify-content: center; width: 100%; }
-            /* Утсан дээр голын ширээнүүд 2 эгнээ болно */
             .center-grid { grid-template-columns: repeat(2, 1fr); }
-            .double-table { width: 100%; justify-content: space-around; }
+            .double-table { width: 45%; justify-content: space-around; } /* Утсан дээр жаахан зайтай */
         }
     </style>
 </head>
@@ -416,7 +407,7 @@
             <div class="library-layout">
                 <div class="legend">
                     <div class="legend-item"><div class="sample-box bg-computer"></div> Компьютер</div>
-                    <div class="legend-item"><div class="sample-box bg-table"></div> Хичээлийн ширээ</div>
+                    <div class="legend-item"><div class="sample-box bg-table"></div> Хичээлийн ширээ (2 хүн)</div>
                     <div class="legend-item"><div class="sample-box bg-occupied"></div> Эзэнтэй</div>
                 </div>
 
@@ -444,11 +435,31 @@
 
                 <div class="main-hall">
                     <div class="side-wing">
-                        <div class="zone-title">📖 Зүүн жигүүр</div>
-                        <div class="seat side-table" data-name="Table-L1">L1</div>
-                        <div class="seat side-table" data-name="Table-L2">L2</div>
-                        <div class="seat side-table" data-name="Table-L3">L3</div>
-                        <div class="seat side-table" data-name="Table-L4">L4</div>
+                        <div class="zone-title">📖 Зүүн (4 ширээ)</div>
+                        
+                        <div class="double-table">
+                            <div class="seat table" data-name="Table-L1A">L1A</div>
+                            <div class="table-divider"></div>
+                            <div class="seat table" data-name="Table-L1B">L1B</div>
+                        </div>
+
+                        <div class="double-table">
+                            <div class="seat table" data-name="Table-L2A">L2A</div>
+                            <div class="table-divider"></div>
+                            <div class="seat table" data-name="Table-L2B">L2B</div>
+                        </div>
+
+                        <div class="double-table">
+                            <div class="seat table" data-name="Table-L3A">L3A</div>
+                            <div class="table-divider"></div>
+                            <div class="seat table" data-name="Table-L3B">L3B</div>
+                        </div>
+
+                        <div class="double-table">
+                            <div class="seat table" data-name="Table-L4A">L4A</div>
+                            <div class="table-divider"></div>
+                            <div class="seat table" data-name="Table-L4B">L4B</div>
+                        </div>
                     </div>
 
                     <div class="center-area-container">
@@ -458,12 +469,37 @@
                     </div>
 
                     <div class="side-wing">
-                        <div class="zone-title">📖 Баруун жигүүр</div>
-                        <div class="seat side-table" data-name="Table-R1">R1</div>
-                        <div class="seat side-table" data-name="Table-R2">R2</div>
-                        <div class="seat side-table" data-name="Table-R3">R3</div>
-                        <div class="seat side-table" data-name="Table-R4">R4</div>
-                        <div class="seat side-table" data-name="Table-R5">R5</div>
+                        <div class="zone-title">📖 Баруун (5 ширээ)</div>
+                        
+                        <div class="double-table">
+                            <div class="seat table" data-name="Table-R1A">R1A</div>
+                            <div class="table-divider"></div>
+                            <div class="seat table" data-name="Table-R1B">R1B</div>
+                        </div>
+
+                        <div class="double-table">
+                            <div class="seat table" data-name="Table-R2A">R2A</div>
+                            <div class="table-divider"></div>
+                            <div class="seat table" data-name="Table-R2B">R2B</div>
+                        </div>
+
+                        <div class="double-table">
+                            <div class="seat table" data-name="Table-R3A">R3A</div>
+                            <div class="table-divider"></div>
+                            <div class="seat table" data-name="Table-R3B">R3B</div>
+                        </div>
+
+                        <div class="double-table">
+                            <div class="seat table" data-name="Table-R4A">R4A</div>
+                            <div class="table-divider"></div>
+                            <div class="seat table" data-name="Table-R4B">R4B</div>
+                        </div>
+
+                        <div class="double-table">
+                            <div class="seat table" data-name="Table-R5A">R5A</div>
+                            <div class="table-divider"></div>
+                            <div class="seat table" data-name="Table-R5B">R5B</div>
+                        </div>
                     </div>
                 </div>
                 
@@ -526,7 +562,6 @@
             // 40 ШИРЭЭГ АВТОМАТААР ҮҮСГЭХ (ГОЛ ТАНХИМ)
             const centerGrid = document.getElementById('center-tables');
             for (let i = 1; i <= 40; i++) {
-                // Ширээ бүрт 2 суудал (A ба B)
                 const tableHTML = `
                     <div class="double-table">
                         <div class="seat table" data-name="Table-${i}A">${i}A</div>
