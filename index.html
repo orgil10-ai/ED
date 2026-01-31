@@ -141,6 +141,7 @@
             transition: transform 0.2s;
         }
         .del-btn:hover { transform: scale(1.2); }
+        .locked-row { color: #999; text-align: center; }
 
         /* --- БАГШИЙН БУЛАН (FORM) --- */
         .admin-form {
@@ -235,16 +236,17 @@
                             <th>Өдөр</th>
                             <th>Цаг</th>
                             <th>Анги / Кабинет</th>
-                            <th style="width: 50px;">Устгах</th> </tr>
+                            <th style="width: 50px; text-align:center;">Тохиргоо</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        <tr><td>Шагдарсүрэн</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10В (Заал)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
-                        <tr><td>Билгүүн</td><td>Нийгэм</td><td>Даваа</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
-                        <tr><td>Цамбажав</td><td>Мэдээлэл</td><td>Даваа</td><td>11:30 - 12:55</td><td>10В (209 тоот)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
-                        <tr><td>Мөнх-Эрдэнэ</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10А (Заал)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
-                        <tr><td>Билгүүн</td><td>Түүх</td><td>Мягмар</td><td>01:00 - 01:40</td><td>10В (108 тоот)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
-                        <tr><td>Оюунгэрэл</td><td>Математик</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (209 тоот)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
-                        <tr><td>Билгүүнбаяр</td><td>Физик</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
+                        <tr><td>Шагдарсүрэн</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10В (Заал)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Билгүүн</td><td>Нийгэм</td><td>Даваа</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Цамбажав</td><td>Мэдээлэл</td><td>Даваа</td><td>11:30 - 12:55</td><td>10В (209 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Мөнх-Эрдэнэ</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10А (Заал)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Билгүүн</td><td>Түүх</td><td>Мягмар</td><td>01:00 - 01:40</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Оюунгэрэл</td><td>Математик</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (209 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Билгүүнбаяр</td><td>Физик</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -338,9 +340,15 @@
                     <label>Цаг:</label>
                     <input type="text" id="addTime" placeholder="Жишээ: 14:00 - 15:40">
                 </div>
-                <div class="form-group">
-                    <label>Анги / Кабинет:</label>
-                    <input type="text" id="addClass" placeholder="Жишээ: 11А (305)">
+                <div class="form-group" style="display:flex; gap:10px;">
+                    <div style="flex:1;">
+                        <label>Анги:</label>
+                        <input type="text" id="addClassName" placeholder="Жишээ: 11А">
+                    </div>
+                    <div style="flex:1;">
+                        <label>Кабинет:</label>
+                        <input type="text" id="addCabinet" placeholder="Жишээ: 305">
+                    </div>
                 </div>
                 
                 <button class="submit-btn" onclick="addNewLesson()">Хуваарьт нэмэх</button>
@@ -391,22 +399,29 @@
             var lesson = document.getElementById('addLesson').value;
             var day = document.getElementById('addDay').value;
             var time = document.getElementById('addTime').value;
-            var room = document.getElementById('addClass').value;
+            // Шинэ: Анги болон Кабинетийг тусад нь авах
+            var className = document.getElementById('addClassName').value;
+            var cabinet = document.getElementById('addCabinet').value;
 
-            if (name === "" || lesson === "" || time === "" || room === "") { alert("⚠️ Бүх талбарыг бөглөнө үү!"); return; }
+            if (name === "" || lesson === "" || time === "" || className === "" || cabinet === "") { 
+                alert("⚠️ Бүх талбарыг бөглөнө үү!"); return; 
+            }
+
+            // Стандарт хэлбэрт оруулах: "11А (305)"
+            var fullLocation = className + " (" + cabinet + ")";
 
             var table = document.getElementById("teacherTable").getElementsByTagName('tbody')[0];
             var newRow = table.insertRow();
             newRow.classList.add('new-row');
 
-            // Устгах товчтойгоор нэмнэ
-            newRow.innerHTML = `<td>${name}</td><td>${lesson}</td><td>${day}</td><td>${time}</td><td>${room}</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td>`;
+            newRow.innerHTML = `<td>${name}</td><td>${lesson}</td><td>${day}</td><td>${time}</td><td>${fullLocation}</td><td style="text-align:center;"><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td>`;
 
             alert("✅ Хичээл амжилттай нэмэгдлээ!");
             document.getElementById('addName').value = "";
             document.getElementById('addLesson').value = "";
             document.getElementById('addTime').value = "";
-            document.getElementById('addClass').value = "";
+            document.getElementById('addClassName').value = "";
+            document.getElementById('addCabinet').value = "";
             
             switchTab('teachers');
             var buttons = document.querySelectorAll('.menu button');
@@ -414,7 +429,6 @@
             buttons[0].classList.add('active-btn');
         }
 
-        // ШИНЭ: МӨР УСТГАХ ФУНКЦ
         function deleteRow(btn) {
             var pass = prompt("Энэ хичээлийг устгахын тулд Багшийн нууц үгээ (PIN) оруулна уу:");
             if (pass === "1234") {
