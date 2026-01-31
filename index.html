@@ -130,8 +130,17 @@
         th { background-color: #004aad; color: white; padding: 12px; text-align: left; }
         td { border-bottom: 1px solid #eee; padding: 12px; font-size: 14px; }
         tr:nth-child(even) { background-color: #f8f9fa; }
-        /* Шинээр нэмэгдсэн мөрийг тодруулах */
         .new-row { background-color: #d4efdf !important; transition: background 1s; }
+        
+        /* Устгах товч */
+        .del-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+        .del-btn:hover { transform: scale(1.2); }
 
         /* --- БАГШИЙН БУЛАН (FORM) --- */
         .admin-form {
@@ -205,21 +214,37 @@
             <div class="filter-container">
                 <input type="text" id="searchTeacher" onkeyup="filterSchedule()" placeholder="Багшийн нэрээр хайх...">
                 <div style="display:flex; gap:10px;">
-                    <select id="dayFilter" onchange="filterSchedule()"><option value="">Бүх өдөр</option><option>Даваа</option><option>Мягмар</option><option>Лхагва</option><option>Пүрэв</option><option>Баасан</option></select>
+                    <select id="dayFilter" onchange="filterSchedule()">
+                        <option value="">Бүх өдөр</option>
+                        <option value="Даваа">Даваа</option>
+                        <option value="Мягмар">Мягмар</option>
+                        <option value="Лхагва">Лхагва</option>
+                        <option value="Пүрэв">Пүрэв</option>
+                        <option value="Баасан">Баасан</option>
+                        <option value="Бямба">Бямба (Давтлага)</option>
+                    </select>
                     <select id="classFilter" onchange="filterSchedule()"><option value="">Бүх анги</option><option>10А</option><option>10В</option><option>11А</option></select>
                 </div>
             </div>
             <div class="table-responsive">
                 <table id="teacherTable">
-                    <thead><tr><th>Багшийн нэр</th><th>Хичээл</th><th>Өдөр</th><th>Цаг</th><th>Анги / Кабинет</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>Багшийн нэр</th>
+                            <th>Хичээл</th>
+                            <th>Өдөр</th>
+                            <th>Цаг</th>
+                            <th>Анги / Кабинет</th>
+                            <th style="width: 50px;">Устгах</th> </tr>
+                    </thead>
                     <tbody>
-                        <tr><td>Шагдарсүрэн</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10В (Заал)</td></tr>
-                        <tr><td>Билгүүн</td><td>Нийгэм</td><td>Даваа</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td></tr>
-                        <tr><td>Цамбажав</td><td>Мэдээлэл</td><td>Даваа</td><td>11:30 - 12:55</td><td>10В (209 тоот)</td></tr>
-                        <tr><td>Мөнх-Эрдэнэ</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10А (Заал)</td></tr>
-                        <tr><td>Билгүүн</td><td>Түүх</td><td>Мягмар</td><td>01:00 - 01:40</td><td>10В (108 тоот)</td></tr>
-                        <tr><td>Оюунгэрэл</td><td>Математик</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (209 тоот)</td></tr>
-                        <tr><td>Билгүүнбаяр</td><td>Физик</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Шагдарсүрэн</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10В (Заал)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
+                        <tr><td>Билгүүн</td><td>Нийгэм</td><td>Даваа</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
+                        <tr><td>Цамбажав</td><td>Мэдээлэл</td><td>Даваа</td><td>11:30 - 12:55</td><td>10В (209 тоот)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
+                        <tr><td>Мөнх-Эрдэнэ</td><td>Биеийн тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10А (Заал)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
+                        <tr><td>Билгүүн</td><td>Түүх</td><td>Мягмар</td><td>01:00 - 01:40</td><td>10В (108 тоот)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
+                        <tr><td>Оюунгэрэл</td><td>Математик</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (209 тоот)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
+                        <tr><td>Билгүүнбаяр</td><td>Физик</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td></tr>
                     </tbody>
                 </table>
             </div>
@@ -306,6 +331,7 @@
                         <option value="Лхагва">Лхагва</option>
                         <option value="Пүрэв">Пүрэв</option>
                         <option value="Баасан">Баасан</option>
+                        <option value="Бямба">Бямба (Давтлага)</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -324,7 +350,6 @@
     </div>
 
     <script>
-        // --- 1. ТАБ СОЛИХ ---
         function switchTab(id, btnElement) {
             var sections = document.getElementsByClassName('content-section');
             for (var i = 0; i < sections.length; i++) { sections[i].classList.remove('active'); }
@@ -336,7 +361,6 @@
             }
         }
 
-        // --- 2. БАГШИЙН ХУВААРЬ ХАЙХ ---
         function filterSchedule() {
             var nameInput = document.getElementById("searchTeacher").value.toUpperCase();
             var dayInput = document.getElementById("dayFilter").value.toUpperCase();
@@ -359,56 +383,49 @@
             }
         }
 
-        // --- 3. ШИНЭ: БАГШ ХИЧЭЭЛ НЭМЭХ ---
         function addNewLesson() {
-            // 1. Нууц үг шалгах (Түр зуур '1234' гэж хийв)
             var pass = document.getElementById('adminPass').value;
-            if (pass !== '1234') {
-                alert("❌ Нууц үг буруу байна! (Demo: 1234)");
-                return;
-            }
+            if (pass !== '1234') { alert("❌ Нууц үг буруу байна! (Demo: 1234)"); return; }
 
-            // 2. Утгуудыг авах
             var name = document.getElementById('addName').value;
             var lesson = document.getElementById('addLesson').value;
             var day = document.getElementById('addDay').value;
             var time = document.getElementById('addTime').value;
             var room = document.getElementById('addClass').value;
 
-            if (name === "" || lesson === "" || time === "" || room === "") {
-                alert("⚠️ Бүх талбарыг бөглөнө үү!");
-                return;
-            }
+            if (name === "" || lesson === "" || time === "" || room === "") { alert("⚠️ Бүх талбарыг бөглөнө үү!"); return; }
 
-            // 3. Хүснэгтэд нэмэх
             var table = document.getElementById("teacherTable").getElementsByTagName('tbody')[0];
             var newRow = table.insertRow();
-            newRow.classList.add('new-row'); // Шинэ гэдгийг тодруулах
+            newRow.classList.add('new-row');
 
-            newRow.innerHTML = `
-                <td>${name}</td>
-                <td>${lesson}</td>
-                <td>${day}</td>
-                <td>${time}</td>
-                <td>${room}</td>
-            `;
+            // Устгах товчтойгоор нэмнэ
+            newRow.innerHTML = `<td>${name}</td><td>${lesson}</td><td>${day}</td><td>${time}</td><td>${room}</td><td><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td>`;
 
-            // 4. Мэдээлэл цэвэрлэх ба Хуваарь руу шилжих
             alert("✅ Хичээл амжилттай нэмэгдлээ!");
             document.getElementById('addName').value = "";
             document.getElementById('addLesson').value = "";
             document.getElementById('addTime').value = "";
             document.getElementById('addClass').value = "";
             
-            // Хуваарь таб руу шилжих
             switchTab('teachers');
-            // Цэсний идэвхтэй товчийг солих
             var buttons = document.querySelectorAll('.menu button');
             buttons.forEach(btn => btn.classList.remove('active-btn'));
             buttons[0].classList.add('active-btn');
         }
 
-        // --- 4. НОМЫН САН ---
+        // ШИНЭ: МӨР УСТГАХ ФУНКЦ
+        function deleteRow(btn) {
+            var pass = prompt("Энэ хичээлийг устгахын тулд Багшийн нууц үгээ (PIN) оруулна уу:");
+            if (pass === "1234") {
+                var row = btn.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+                alert("🗑️ Хичээл устгагдлаа.");
+            } else if (pass !== null) {
+                alert("❌ Нууц үг буруу байна!");
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const centerGrid = document.getElementById('center-tables');
             for (let i = 1; i <= 40; i++) {
