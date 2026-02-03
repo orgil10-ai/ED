@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google-site-verification" content="82PmDYOlD80pIrla3yzwWpSeiw_BFRzBaVtMSLmLlNc" />
 
-    <title>Ерөнхий Боловсролын "Эрдмийн Далай"  сургууль | Ухаалаг Систем</title>
+    <title>Ерөнхий Боловсролын "Эрдмийн Далай" сургууль | Ухаалаг Систем</title>
     
     <style>
         /* CSS: Үндсэн загвар */
@@ -181,7 +181,7 @@
 
         /* --- БУСАД STYLE --- */
         .table-responsive { width: 100%; overflow-x: auto; margin-top: 10px; border: 1px solid #eee; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
         th { background-color: #004aad; color: white; padding: 12px; text-align: left; }
         td { border-bottom: 1px solid #eee; padding: 12px; font-size: 14px; }
         tr:nth-child(even) { background-color: #f8f9fa; }
@@ -205,6 +205,10 @@
         .seat.computer { background-color: #3498db; width: 50px; height: 50px; flex-direction: column; } .seat.computer::before { content: '💻'; }
         .seat.table { background-color: #9b59b6; flex-direction: column; } .seat.table::before { content: '📖'; }
         .door { width: 100%; height: 40px; background: #95a5a6; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 5px; font-size: 12px; }
+
+        /* Admin Form */
+        .admin-form { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        .form-group label { font-weight: bold; display: block; margin-bottom: 5px; color: #2c3e50; }
 
         @media (max-width: 768px) {
             .header-banner { height: 250px; }
@@ -232,7 +236,8 @@
     <div class="menu-bar">
         <div class="menu">
             <button onclick="switchTab('teachers', this)" class="active-btn">Багш нарын хуваарь</button>
-            <button onclick="switchTab('elessons', this)">💻 Цахим хичээл</button> <button onclick="switchTab('rooms', this)">Ангиудын сул цаг</button>
+            <button onclick="switchTab('elessons', this)">💻 Цахим хичээл</button> 
+            <button onclick="switchTab('rooms', this)">Ангиудын сул цаг</button>
             <button onclick="switchTab('library', this)">Номын сан</button>
             <button onclick="switchTab('admin', this)">✏️ Багшийн булан</button>
         </div>
@@ -244,7 +249,13 @@
             <h2 style="color: #004aad; border-bottom: 2px solid #eee; padding-bottom: 10px;">👩‍🏫 Хичээлийн Нэгдсэн Хуваарь</h2>
             <div class="filter-container">
                 <input type="text" id="searchTeacher" onkeyup="filterSchedule()" placeholder="Багшийн нэрээр хайх...">
-                <div style="display:flex; gap:10px;">
+                <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                    <select id="typeFilter" onchange="filterSchedule()">
+                        <option value="">-- Бүх төрөл --</option>
+                        <option value="Ерөнхий">Ерөнхий</option>
+                        <option value="Гүнзгий">Гүнзгий</option>
+                        <option value="Сонгон">Сонгон</option>
+                    </select>
                     <select id="dayFilter" onchange="filterSchedule()">
                         <option value="">Бүх өдөр</option>
                         <option value="Даваа">Даваа</option>
@@ -261,108 +272,108 @@
                 <table id="teacherTable">
                     <thead>
                         <tr>
-                            <th>Багшийн нэр</th><th>Хичээл</th><th>Өдөр</th><th>Цаг</th><th>Анги / Кабинет</th>
+                            <th>Багшийн нэр</th><th>Хичээл</th><th>Төрөл</th><th>Өдөр</th><th>Цаг</th><th>Анги / Кабинет</th>
                             <th style="width: 50px; text-align:center;">Тохиргоо</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>Б.Шагдарсүрэн</td><td>Биеийн Тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10В (Заал)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Билгүүн</td><td>Нийгэм</td><td>Даваа</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Д.Цамбажав</td><td>Мэдээлэл Технологи</td><td>Даваа</td><td>11:30 - 12:50</td><td>10В (209 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Л.Мөнх-Эрдэнэ</td><td>Биеийн Тамир</td><td>Даваа</td><td>08:30 - 09:50</td><td>10А (Заал)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Билгүүн</td><td>Түүх</td><td>Мягмар</td><td>12:55 - 13:40</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>С.Хишигбаяр</td><td>Биологи</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Мягмар</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>А.Сансартуяа</td><td>Газарзүй</td><td>Мягмар</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (209 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Лхамсүрэн</td><td>Англи Хэл</td><td>Лхагва</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик(Сонгон)</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Отгонзул</td><td>Монгол Хэл</td><td>Лхагва</td><td>09:55 - 10:30</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Отгонзул</td><td>Уран Зохиол</td><td>Лхагва</td><td>10:35 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Бархүү</td><td>Эрүүл Мэнд</td><td>Лхагва</td><td>12:55 - 01:40</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Отгонзул</td><td>ҮндэсниЙ Бичиг</td><td>Пүрэв</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Лхамсүрэн</td><td>Англи Хэл</td><td>Пүрэв</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Пүрэв</td><td>12:55 - 01:40</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Билгүүн</td><td>Нийгэм</td><td>Баасан</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Т.Билэгзаа</td><td>Хими</td><td>Баасан</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Билгүүнбаяр</td><td>Физик(сонгон)</td><td>Баасан</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Бо.Ариунаа</td><td>Англи хэл(гүнзгий)</td><td>Даваа</td><td>15:20 - 17:05</td><td>10А 10Б 10В 10Г (509 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Бо.Ариунаа</td><td>Англи Хэл(гүнзгий)</td><td>Мягмар</td><td>14:00 - 15:15</td><td>10А 10Б 10В 10Г (509 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Билгүүн</td><td>>Нийгэм(сонгон)</td><td>Мягмар</td><td>17:05 - 18:30</td><td>10А 10Б 10В 10Г (509 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл(сонгон)</td><td>Мягмар</td><td>17:00 - 18:30</td><td>10А (510 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Д.Цагаанчулуун</td><td>Орос Хэл(сонгон)</td><td>Лхагва</td><td>14:00 - 14:35</td><td>10А 10Б 10В 10Г (509 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>М.Оюунцэцэг</td><td>Хими(сонгон)</td><td>Пүрэв</td><td>14:00 - 15:15</td><td>10А 10Б 10В 10Г (106 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Р.Батдорж</td><td>Дизайн Тэхнологи</td><td>Пүрэв</td><td>14:40 - 15:15</td><td>10В (509 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Х.Гэрэлчулуун</td><td>Зураг Зүй</td><td>Пүрэв</td><td>15:20 - 16:15</td><td>10В (510 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Жавхлан</td><td>Мэдээлэл Технологи</td><td>Баасан</td><td>17:00 - 18:30</td><td>10А 10Б 10В 10Г (106 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик(гүнзгий)</td><td>Баасан</td><td>05:00 - 07:15</td><td>10Б 10В (207 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>С.Хишигбаяр</td><td>Биологи(сонгон)</td><td>Баасан</td><td>14:00 - 15:15</td><td>10А 10Б 10В 10Г (503 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Даваа</td><td>08:30 - 09:15</td><td>10Г (109 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Уран Зохиол</td><td>Даваа</td><td>09:20 - 09:50</td><td>10Г (109 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>П.Маньбазар</td><td>Математик</td><td>Даваа</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Даваа</td><td>11:30 - 12:55</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ж.Болормаа</td><td>Математик(сонгон)</td><td>Даваа</td><td>05:05 - 07:15</td><td>10А 10Г (210)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Х.Сэлэнгэ</td><td>Түүх(сонгон)</td><td>Даваа</td><td>14:00 - 03:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Т.Билэгзаяа</td><td>Хими</td><td>Мягмар</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Мягмар</td><td>11:30 - 12:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл(сонгон)</td><td>Мягмар</td><td>15:20 - 17:00</td><td>10Б 10 Г(510 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Д.Оюу-Эрдэнэ</td><td>Биеийн Тамир</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>П.Маньбазар</td><td>Математик</td><td>Лхагва</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Үндэсний Бичиг</td><td>Лхагва</td><td>11:30 - 12:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>М.Ганболд</td><td>Математик(гүнзгий)</td><td>Лхагва</td><td>14:00 - 15:20</td><td>10А 10Г (210 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Х.Сэлэнгэ</td><td>Нийгэм</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>П.Маньбазар</td><td>Математик</td><td>Пүрэв</td><td>09:55 - 10:30</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Баярхүү</td><td>Эрүүл Мэнд</td><td>Пүрэв</td><td>10:35 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Д.Цамбажав</td><td>Мэпээлэл технологи</td><td>Пүрэв</td><td>11:30 - 12:10</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Билгүүнбаяр</td><td>Физик(сонгон)</td><td>Пүрэв</td><td>12:15 - 14:40</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Баярхүү</td><td>Биологи</td><td>Баасан</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Х.Сэлэнгэ</td><td>Түүх</td><td>Баасан</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>П.Мягмардорж</td><td>Газарзүй</td><td>Баасан</td><td>11:30 - 12:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>А.Бямбасүрэн</td><td>Физик</td><td>Даваа</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>С.Хишигбаяр</td><td>Биологи</td><td>Даваа</td><td>09:55 - 11:15</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ба.Ариунаа</td><td>Англи Хэл</td><td>Даваа</td><td>11:30 - 12:55</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Отгонзул</td><td>Монгол Хэл</td><td>Мягмар</td><td>09:55 - 10:30</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Отгонзул</td><td>Уран Зохиол</td><td>Мягмар</td><td>10:35 - 11:15</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Нямбаяр</td><td>Иргэний Ёс Зүй</td><td>Мягмар</td><td>11:30 - 12:55</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ч.Норовцэрэн</td><td>Түүх</td><td>Мягмар</td><td>13:00 - 13:40</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Т.Мөнхбаатар</td><td>Биеийн Тамир</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10Б (Заал)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Лхагва</td><td>09:55 - 11:15</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>М.Оюунцэцэг</td><td>Хими</td><td>Лхагва</td><td>11:30 - 12:55</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>А.Сансартуяа</td><td>Газар Зүй</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ба.Ариунаа</td><td>Англи Хэл</td><td>Пүрэв</td><td>09:55 - 10:30</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ба.Ариунаа</td><td>Англи Хэл (сонгон)</td><td>Пүрэв</td><td>10:35 - 11:15</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик Сонгон</td><td>Пүрэв</td><td>11:30 - 12:10</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Отгонзул</td><td>Үндэсний Бичиг</td><td>Пүрэв</td><td>12:15 - 13:40</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Маргад</td><td>Нийгэм</td><td>Баасан</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Жавхлан</td><td>Мэдээлэл Технологи</td><td>Баасан</td><td>09:55 - 11:15</td><td>10Б (203 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Баярхүү</td><td>Эрүүл Мэнд</td><td>Баасан</td><td>11:30 - 12:10</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Даваа</td><td>09:55 – 11:15</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>П.Сүхээ</td><td>Нийгэм</td><td>Даваа</td><td>11:30 – 12:55</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ж.Болормаа></td><td>Ангийн Ажил</td><td>Даваа</td><td>13:00 – 13:40</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Мягмар</td><td>08:30 – 09:50</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Жавхлан</td><td>Мэдээллийн Технологи</td><td>Мягмар</td><td>09:55-11:15</td><td>10А (203 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Мягмар</td><td>11:30-12:10</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Уран Зохиол</td><td>Мягмар</td><td>12:15-12:55</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Лхагва</td><td>08:30-09:50</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr> 
-                        <tr><td>М.Оюунцэцэг</td><td>Хими</td><td>Лхагва</td><td>09:55-11:15</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr> 
-                        <tr><td>Ц.Баярхүү</td><td>Эрүүл Мэнд</td><td>Лхагва</td><td>11:30-12:10</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr> 
-                        <tr><td>Э.Билгүүн</td><td>Түүх</td><td>Лхагва</td><td>12:15-12:55</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr> 
-                        <tr><td>Б.Тэгшжаргал</td><td>Үндэсний Бичиг</td><td>Пүрэв</td><td>08:30-09:50<td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr> 
-                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Пүрэв</td><td>09:55-10:30</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr> 
-                        <tr><td>О.Аззаяа</td><td>Англи Хэл (сонгон)</td><td>Пүрэв</td><td>10:30-12:10</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr> 
-                        <tr><td>Ж.Болормаа</td><td>Математик (сонгон)</td><td>Пүрэв</td><td>12:15-12:55</td><td>10А (214) тоот</td><td class="locked-row">🔒</td></tr> 
-                        <tr><td>Ц.Баярхүү</td><td>Биологи</td><td>Пүрэв</td><td>13:00-13:40</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr> 
-                        <tr><td>А.Баямбасүрэн</td><td>Физик</td><td>Баасан</td><td>08:30-09:55</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr> 
-                        <tr><td>П.Мягмардорж</td><td>Газарзүй</td><td>Баасан</td><td>09:55-11:15</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr> 
-                        <tr><td>П.Сүхээ</td><td>Иргээний Ёс Зүй</td><td>Баасан</td><td>11:30-12:50</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr> 
- 
- 
+                        <tr><td>Б.Шагдарсүрэн</td><td>Биеийн Тамир</td><td>Ерөнхий</td><td>Даваа</td><td>08:30 - 09:50</td><td>10В (Заал)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Э.Билгүүн</td><td>Нийгэм</td><td>Ерөнхий</td><td>Даваа</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Д.Цамбажав</td><td>Мэдээлэл Технологи</td><td>Ерөнхий</td><td>Даваа</td><td>11:30 - 12:50</td><td>10В (209 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Л.Мөнх-Эрдэнэ</td><td>Биеийн Тамир</td><td>Ерөнхий</td><td>Даваа</td><td>08:30 - 09:50</td><td>10А (Заал)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Э.Билгүүн</td><td>Түүх</td><td>Ерөнхий</td><td>Мягмар</td><td>12:55 - 13:40</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>С.Хишигбаяр</td><td>Биологи</td><td>Ерөнхий</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Мягмар</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>А.Сансартуяа</td><td>Газарзүй</td><td>Ерөнхий</td><td>Мягмар</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (209 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Э.Лхамсүрэн</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Лхагва</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Сонгон</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Отгонзул</td><td>Монгол Хэл</td><td>Ерөнхий</td><td>Лхагва</td><td>09:55 - 10:30</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Отгонзул</td><td>Уран Зохиол</td><td>Ерөнхий</td><td>Лхагва</td><td>10:35 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Бархүү</td><td>Эрүүл Мэнд</td><td>Ерөнхий</td><td>Лхагва</td><td>12:55 - 01:40</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Отгонзул</td><td>ҮндэсниЙ Бичиг</td><td>Ерөнхий</td><td>Пүрэв</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Э.Лхамсүрэн</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Пүрэв</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Пүрэв</td><td>12:55 - 01:40</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Э.Билгүүн</td><td>Нийгэм</td><td>Ерөнхий</td><td>Баасан</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Т.Билэгзаа</td><td>Хими</td><td>Ерөнхий</td><td>Баасан</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Сонгон</td><td>Баасан</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
+                        
+                        <tr><td>Бо.Ариунаа</td><td>Англи хэл</td><td>Гүнзгий</td><td>Даваа</td><td>15:20 - 17:05</td><td>10А 10Б 10В 10Г (509 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Бо.Ариунаа</td><td>Англи Хэл</td><td>Гүнзгий</td><td>Мягмар</td><td>14:00 - 15:15</td><td>10А 10Б 10В 10Г (509 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Э.Билгүүн</td><td>Нийгэм</td><td>Сонгон</td><td>Мягмар</td><td>17:05 - 18:30</td><td>10А 10Б 10В 10Г (509 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Сонгон</td><td>Мягмар</td><td>17:00 - 18:30</td><td>10А (510 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Д.Цагаанчулуун</td><td>Орос Хэл</td><td>Сонгон</td><td>Лхагва</td><td>14:00 - 14:35</td><td>10А 10Б 10В 10Г (509 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>М.Оюунцэцэг</td><td>Хими</td><td>Сонгон</td><td>Пүрэв</td><td>14:00 - 15:15</td><td>10А 10Б 10В 10Г (106 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Р.Батдорж</td><td>Дизайн Тэхнологи</td><td>Ерөнхий</td><td>Пүрэв</td><td>14:40 - 15:15</td><td>10В (509 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Х.Гэрэлчулуун</td><td>Зураг Зүй</td><td>Ерөнхий</td><td>Пүрэв</td><td>15:20 - 16:15</td><td>10В (510 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>О.Жавхлан</td><td>Мэдээлэл Технологи</td><td>Ерөнхий</td><td>Баасан</td><td>17:00 - 18:30</td><td>10А 10Б 10В 10Г (106 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Гүнзгий</td><td>Баасан</td><td>05:00 - 07:15</td><td>10Б 10В (207 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>С.Хишигбаяр</td><td>Биологи</td><td>Сонгон</td><td>Баасан</td><td>14:00 - 15:15</td><td>10А 10Б 10В 10Г (503 тоот)</td><td class="locked-row">🔒</td></tr>
 
+                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Ерөнхий</td><td>Даваа</td><td>08:30 - 09:15</td><td>10Г (109 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Уран Зохиол</td><td>Ерөнхий</td><td>Даваа</td><td>09:20 - 09:50</td><td>10Г (109 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>П.Маньбазар</td><td>Математик</td><td>Ерөнхий</td><td>Даваа</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Даваа</td><td>11:30 - 12:55</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Сонгон</td><td>Даваа</td><td>05:05 - 07:15</td><td>10А 10Г (210)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Х.Сэлэнгэ</td><td>Түүх</td><td>Сонгон</td><td>Даваа</td><td>14:00 - 03:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Ерөнхий</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Т.Билэгзаяа</td><td>Хими</td><td>Ерөнхий</td><td>Мягмар</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Мягмар</td><td>11:30 - 12:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Сонгон</td><td>Мягмар</td><td>15:20 - 17:00</td><td>10Б 10 Г(510 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Д.Оюу-Эрдэнэ</td><td>Биеийн Тамир</td><td>Ерөнхий</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>П.Маньбазар</td><td>Математик</td><td>Ерөнхий</td><td>Лхагва</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Үндэсний Бичиг</td><td>Ерөнхий</td><td>Лхагва</td><td>11:30 - 12:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>М.Ганболд</td><td>Математик</td><td>Гүнзгий</td><td>Лхагва</td><td>14:00 - 15:20</td><td>10А 10Г (210 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Х.Сэлэнгэ</td><td>Нийгэм</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>П.Маньбазар</td><td>Математик</td><td>Ерөнхий</td><td>Пүрэв</td><td>09:55 - 10:30</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Баярхүү</td><td>Эрүүл Мэнд</td><td>Ерөнхий</td><td>Пүрэв</td><td>10:35 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Д.Цамбажав</td><td>Мэпээлэл технологи</td><td>Ерөнхий</td><td>Пүрэв</td><td>11:30 - 12:10</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Сонгон</td><td>Пүрэв</td><td>12:15 - 14:40</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Баярхүү</td><td>Биологи</td><td>Ерөнхий</td><td>Баасан</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Х.Сэлэнгэ</td><td>Түүх</td><td>Ерөнхий</td><td>Баасан</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>П.Мягмардорж</td><td>Газарзүй</td><td>Ерөнхий</td><td>Баасан</td><td>11:30 - 12:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
 
+                        <tr><td>А.Бямбасүрэн</td><td>Физик</td><td>Ерөнхий</td><td>Даваа</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>С.Хишигбаяр</td><td>Биологи</td><td>Ерөнхий</td><td>Даваа</td><td>09:55 - 11:15</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ба.Ариунаа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Даваа</td><td>11:30 - 12:55</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Отгонзул</td><td>Монгол Хэл</td><td>Ерөнхий</td><td>Мягмар</td><td>09:55 - 10:30</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Отгонзул</td><td>Уран Зохиол</td><td>Ерөнхий</td><td>Мягмар</td><td>10:35 - 11:15</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Э.Нямбаяр</td><td>Иргэний Ёс Зүй</td><td>Ерөнхий</td><td>Мягмар</td><td>11:30 - 12:55</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ч.Норовцэрэн</td><td>Түүх</td><td>Ерөнхий</td><td>Мягмар</td><td>13:00 - 13:40</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Т.Мөнхбаатар</td><td>Биеийн Тамир</td><td>Ерөнхий</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10Б (Заал)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Лхагва</td><td>09:55 - 11:15</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>М.Оюунцэцэг</td><td>Хими</td><td>Ерөнхий</td><td>Лхагва</td><td>11:30 - 12:55</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>А.Сансартуяа</td><td>Газар Зүй</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ба.Ариунаа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Пүрэв</td><td>09:55 - 10:30</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ба.Ариунаа</td><td>Англи Хэл</td><td>Сонгон</td><td>Пүрэв</td><td>10:35 - 11:15</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Сонгон</td><td>Пүрэв</td><td>11:30 - 12:10</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Отгонзул</td><td>Үндэсний Бичиг</td><td>Ерөнхий</td><td>Пүрэв</td><td>12:15 - 13:40</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Маргад</td><td>Нийгэм</td><td>Ерөнхий</td><td>Баасан</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>О.Жавхлан</td><td>Мэдээлэл Технологи</td><td>Ерөнхий</td><td>Баасан</td><td>09:55 - 11:15</td><td>10Б (203 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Баярхүү</td><td>Эрүүл Мэнд</td><td>Ерөнхий</td><td>Баасан</td><td>11:30 - 12:10</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
+
+                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Ерөнхий</td><td>Даваа</td><td>09:55 – 11:15</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>П.Сүхээ</td><td>Нийгэм</td><td>Ерөнхий</td><td>Даваа</td><td>11:30 – 12:55</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ж.Болормаа</td><td>Ангийн Ажил</td><td>Ерөнхий</td><td>Даваа</td><td>13:00 – 13:40</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Мягмар</td><td>08:30 – 09:50</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>О.Жавхлан</td><td>Мэдээллийн Технологи</td><td>Ерөнхий</td><td>Мягмар</td><td>09:55-11:15</td><td>10А (203 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Ерөнхий</td><td>Мягмар</td><td>11:30-12:10</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Уран Зохиол</td><td>Ерөнхий</td><td>Мягмар</td><td>12:15-12:55</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Ерөнхий</td><td>Лхагва</td><td>08:30-09:50</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>М.Оюунцэцэг</td><td>Хими</td><td>Ерөнхий</td><td>Лхагва</td><td>09:55-11:15</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Баярхүү</td><td>Эрүүл Мэнд</td><td>Ерөнхий</td><td>Лхагва</td><td>11:30-12:10</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Э.Билгүүн</td><td>Түүх</td><td>Ерөнхий</td><td>Лхагва</td><td>12:15-12:55</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Үндэсний Бичиг</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30-09:50</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Пүрэв</td><td>09:55-10:30</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Сонгон</td><td>Пүрэв</td><td>10:30-12:10</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Сонгон</td><td>Пүрэв</td><td>12:15-12:55</td><td>10А (214) тоот</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>Ц.Баярхүү</td><td>Биологи</td><td>Ерөнхий</td><td>Пүрэв</td><td>13:00-13:40</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>А.Баямбасүрэн</td><td>Физик</td><td>Ерөнхий</td><td>Баасан</td><td>08:30-09:55</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>П.Мягмардорж</td><td>Газарзүй</td><td>Ерөнхий</td><td>Баасан</td><td>09:55-11:15</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
+                        <tr><td>П.Сүхээ</td><td>Иргээний Ёс Зүй</td><td>Ерөнхий</td><td>Баасан</td><td>11:30-12:50</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -468,6 +479,16 @@
                 
                 <div class="form-group"><label>Багшийн нэр:</label><input type="text" id="addName" placeholder="Жишээ: Дорж"></div>
                 <div class="form-group"><label>Хичээлийн нэр:</label><input type="text" id="addLesson" placeholder="Жишээ: Физик"></div>
+                
+                <div class="form-group">
+                    <label>Хичээлийн төрөл:</label>
+                    <select id="addType">
+                        <option value="Ерөнхий">Ерөнхий</option>
+                        <option value="Гүнзгий">Гүнзгий</option>
+                        <option value="Сонгон">Сонгон</option>
+                    </select>
+                </div>
+
                 <div class="form-group"><label>Өдөр:</label><select id="addDay"><option value="Даваа">Даваа</option><option value="Мягмар">Мягмар</option><option value="Лхагва">Лхагва</option><option value="Пүрэв">Пүрэв</option><option value="Баасан">Баасан</option><option value="Бямба">Бямба (Давтлага)</option></select></div>
                 <div class="form-group"><label>Цаг:</label><input type="text" id="addTime" placeholder="Жишээ: 14:00 - 15:40"></div>
                 <div class="form-group" style="display:flex; gap:10px;">
@@ -497,37 +518,44 @@
             var nameInput = document.getElementById("searchTeacher").value.toUpperCase();
             var dayInput = document.getElementById("dayFilter").value.toUpperCase();
             var classInput = document.getElementById("classFilter").value.toUpperCase();
+            var typeInput = document.getElementById("typeFilter").value.toUpperCase();
+
             var table = document.getElementById("teacherTable");
             var tr = table.getElementsByTagName("tr");
+
             for (var i = 1; i < tr.length; i++) {
                 var tdName = tr[i].getElementsByTagName("td")[0];
-                var tdDay = tr[i].getElementsByTagName("td")[2];
-                var tdClass = tr[i].getElementsByTagName("td")[4];
-                if (tdName && tdDay && tdClass) {
+                var tdType = tr[i].getElementsByTagName("td")[2]; 
+                var tdDay = tr[i].getElementsByTagName("td")[3];
+                var tdClass = tr[i].getElementsByTagName("td")[5]; 
+                
+                if (tdName && tdDay && tdClass && tdType) {
                     var nameText = tdName.textContent || tdName.innerText;
+                    var typeText = tdType.textContent || tdType.innerText;
                     var dayText = tdDay.textContent || tdDay.innerText;
                     var classText = tdClass.textContent || tdClass.innerText;
+                    
                     var nameMatch = nameText.toUpperCase().indexOf(nameInput) > -1;
                     var dayMatch = dayInput === "" || dayText.toUpperCase() === dayInput;
                     var classMatch = classInput === "" || classText.toUpperCase().indexOf(classInput) > -1;
-                    tr[i].style.display = (nameMatch && dayMatch && classMatch) ? "" : "none";
+                    var typeMatch = typeInput === "" || typeText.toUpperCase().indexOf(typeInput) > -1;
+                    
+                    if (nameMatch && dayMatch && classMatch && typeMatch) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
                 }
             }
         }
 
-        // --- ЦАХИМ ХИЧЭЭЛ НЭМЭХ ---
         function toggleLessonForm() {
             var form = document.getElementById('addLessonForm');
             if (form.style.display === "none") {
                 var pass = prompt("Багшийн нууц үг (PIN) оруулна уу:");
-                if (pass === "1234") {
-                    form.style.display = "block";
-                } else if (pass !== null) {
-                    alert("❌ Нууц үг буруу байна!");
-                }
-            } else {
-                form.style.display = "none";
-            }
+                if (pass === "1234") { form.style.display = "block"; } 
+                else if (pass !== null) { alert("❌ Нууц үг буруу байна!"); }
+            } else { form.style.display = "none"; }
         }
 
         function addTeleLesson() {
@@ -535,80 +563,45 @@
             var topic = document.getElementById('elTopic').value;
             var teacher = document.getElementById('elTeacher').value;
             var link = document.getElementById('elLink').value;
-
-            if (!subject || !topic || !teacher || !link) {
-                alert("⚠️ Бүх талбарыг бөглөнө үү!"); return;
-            }
-
-            // Youtube ID-г линкнээс салгаж авах (Зураг харуулахын тулд)
+            if (!subject || !topic || !teacher || !link) { alert("⚠️ Бүх талбарыг бөглөнө үү!"); return; }
             var thumbUrl = "";
             var youtubeID = "";
-            
             if (link.includes("youtube.com") || link.includes("youtu.be")) {
                 var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
                 var match = link.match(regExp);
-                if (match && match[2].length == 11) {
-                    youtubeID = match[2];
-                    thumbUrl = `https://img.youtube.com/vi/${youtubeID}/hqdefault.jpg`;
-                }
+                if (match && match[2].length == 11) { youtubeID = match[2]; thumbUrl = `https://img.youtube.com/vi/${youtubeID}/hqdefault.jpg`; }
             }
-
-            // Зураг байхгүй бол энгийн өнгө
             var thumbStyle = thumbUrl ? `background-image: url('${thumbUrl}');` : `background-color: #3498db;`;
-
-            var cardHTML = `
-                <div class="lesson-card">
-                    <div class="lesson-thumb" style="${thumbStyle}"></div>
-                    <div class="lesson-content">
-                        <div class="lesson-subject">${subject}</div>
-                        <div class="lesson-title">${topic}</div>
-                        <div class="lesson-teacher">Багш: ${teacher}</div>
-                        <a href="${link}" target="_blank" class="lesson-btn">ҮЗЭХ</a>
-                    </div>
-                </div>
-            `;
-
+            var cardHTML = `<div class="lesson-card"><div class="lesson-thumb" style="${thumbStyle}"></div><div class="lesson-content"><div class="lesson-subject">${subject}</div><div class="lesson-title">${topic}</div><div class="lesson-teacher">Багш: ${teacher}</div><a href="${link}" target="_blank" class="lesson-btn">ҮЗЭХ</a></div></div>`;
             document.getElementById('lessonGrid').innerHTML += cardHTML;
-            
             alert("✅ Хичээл амжилттай нийтлэгдлээ!");
-            document.getElementById('addLessonForm').style.display = "none"; // Form-ыг хаах
-            // Input-уудыг цэвэрлэх
-            document.getElementById('elSubject').value = "";
-            document.getElementById('elTopic').value = "";
-            document.getElementById('elTeacher').value = "";
-            document.getElementById('elLink').value = "";
+            document.getElementById('addLessonForm').style.display = "none";
+            document.getElementById('elSubject').value = ""; document.getElementById('elTopic').value = ""; document.getElementById('elTeacher').value = ""; document.getElementById('elLink').value = "";
         }
 
-        // --- ХУВААРЬТ ХИЧЭЭЛ НЭМЭХ ---
         function addNewLesson() {
             var pass = document.getElementById('adminPass').value;
             if (pass !== '1234') { alert("❌ Нууц үг буруу байна! (Demo: 1234)"); return; }
 
             var name = document.getElementById('addName').value;
             var lesson = document.getElementById('addLesson').value;
+            var type = document.getElementById('addType').value;
             var day = document.getElementById('addDay').value;
             var time = document.getElementById('addTime').value;
             var className = document.getElementById('addClassName').value;
             var cabinet = document.getElementById('addCabinet').value;
 
-            if (name === "" || lesson === "" || time === "" || className === "" || cabinet === "") { 
-                alert("⚠️ Бүх талбарыг бөглөнө үү!"); return; 
-            }
+            if (name === "" || lesson === "" || time === "" || className === "" || cabinet === "") { alert("⚠️ Бүх талбарыг бөглөнө үү!"); return; }
 
             var fullLocation = className + " (" + cabinet + ")";
             var table = document.getElementById("teacherTable").getElementsByTagName('tbody')[0];
             var newRow = table.insertRow();
             newRow.classList.add('new-row');
 
-            newRow.innerHTML = `<td>${name}</td><td>${lesson}</td><td>${day}</td><td>${time}</td><td>${fullLocation}</td><td style="text-align:center;"><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td>`;
+            newRow.innerHTML = `<td>${name}</td><td>${lesson}</td><td>${type}</td><td>${day}</td><td>${time}</td><td>${fullLocation}</td><td style="text-align:center;"><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td>`;
 
             alert("✅ Хичээл амжилттай нэмэгдлээ!");
-            document.getElementById('addName').value = "";
-            document.getElementById('addLesson').value = "";
-            document.getElementById('addTime').value = "";
-            document.getElementById('addClassName').value = "";
-            document.getElementById('addCabinet').value = "";
-            
+            document.getElementById('addName').value = ""; document.getElementById('addLesson').value = ""; document.getElementById('addTime').value = ""; document.getElementById('addClassName').value = ""; document.getElementById('addCabinet').value = "";
             switchTab('teachers');
             var buttons = document.querySelectorAll('.menu button');
             buttons.forEach(btn => btn.classList.remove('active-btn'));
@@ -621,63 +614,38 @@
                 var row = btn.parentNode.parentNode;
                 row.parentNode.removeChild(row);
                 alert("🗑️ Хичээл устгагдлаа.");
-            } else if (pass !== null) {
-                alert("❌ Нууц үг буруу байна!");
-            }
+            } else if (pass !== null) { alert("❌ Нууц үг буруу байна!"); }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             const centerGrid = document.getElementById('center-tables');
             for (let i = 1; i <= 40; i++) {
-                centerGrid.innerHTML += `
-                    <div class="double-table">
-                        <div class="seat table" data-name="${i}A">${i}A</div>
-                        <div class="table-divider"></div>
-                        <div class="seat table" data-name="${i}B">${i}B</div>
-                    </div>`;
+                centerGrid.innerHTML += `<div class="double-table"><div class="seat table" data-name="${i}A">${i}A</div><div class="table-divider"></div><div class="seat table" data-name="${i}B">${i}B</div></div>`;
             }
-
             const librarySection = document.getElementById('library');
             librarySection.addEventListener('click', (e) => {
                 const seat = e.target.closest('.seat');
                 if (!seat) return;
-
                 if (seat.classList.contains('occupied')) {
                     const seatName = seat.getAttribute('data-name') || seat.innerText;
                     const savedPin = seat.getAttribute('data-pin');
                     const inputPin = prompt(`${seatName} суудлыг цуцлахын тулд ПИН кодоо хийнэ үү:`);
-                    if (inputPin === savedPin) {
-                        seat.classList.remove('occupied');
-                        seat.removeAttribute('data-pin');
-                        alert("✅ Захиалга цуцлагдлаа.");
-                    } else if (inputPin !== null) {
-                        alert("❌ ПИН код буруу байна!");
-                    }
+                    if (inputPin === savedPin) { seat.classList.remove('occupied'); seat.removeAttribute('data-pin'); alert("✅ Захиалга цуцлагдлаа."); } 
+                    else if (inputPin !== null) { alert("❌ ПИН код буруу байна!"); }
                     return;
                 }
                 seat.classList.toggle('selected');
             });
-
             document.getElementById('bookBtn').addEventListener('click', () => {
                 const userType = document.getElementById('userType').value;
                 const duration = parseFloat(document.getElementById('bookingDuration').value);
                 const pin = document.getElementById('bookingPin').value;
                 const selectedSeats = document.querySelectorAll('.seat.selected');
-
                 if (selectedSeats.length === 0) { alert("Та суудал сонгоогүй байна!"); return; }
                 if (!duration || duration <= 0) { alert("Та цагаа зөв оруулна уу!"); return; }
                 if (!pin || pin.length !== 4) { alert("Та 4 оронтой ПИН код зохионо уу!"); return; }
-
-                if (userType === 'regular' && duration > 2) {
-                    alert("⚠️ Энгийн сурагч дээд тал нь 2 цаг захиалах боломжтой!"); return;
-                }
-
-                selectedSeats.forEach(seat => {
-                    seat.classList.remove('selected');
-                    seat.classList.add('occupied');
-                    seat.setAttribute('data-pin', pin);
-                });
-
+                if (userType === 'regular' && duration > 2) { alert("⚠️ Энгийн сурагч дээд тал нь 2 цаг захиалах боломжтой!"); return; }
+                selectedSeats.forEach(seat => { seat.classList.remove('selected'); seat.classList.add('occupied'); seat.setAttribute('data-pin', pin); });
                 alert("✅ Амжилттай захиаллаа!");
                 document.getElementById('bookingPin').value = '';
             });
