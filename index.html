@@ -569,7 +569,7 @@
             }
         }
 
-        // --- AI CHAT LOGIC ---
+        // --- AI CHAT LOGIC (GEMINI 1.5 FLASH) ---
         function handleKeyPress(event) {
             if (event.key === 'Enter') { sendMessage(); }
         }
@@ -591,11 +591,11 @@
             chatHistory.scrollTop = chatHistory.scrollHeight;
 
             // --- API ТОХИРГОО ---
-            // ЭНД "Gemini Project" ГЭХ ДЭЭД ТАЛЫН ТҮЛХҮҮРЭЭ ХУУЛЖ ТАВИАРАЙ!
+            // ЭНД ДӨНГӨЖ САЯ АВСАН (...wyPs) ТҮЛХҮҮРЭЭ ХУУЛЖ ТАВИАРАЙ
             const API_KEY = "AIzaSyBizr6GJYxmv5AVjYPcKeVbHtOjeW7wyPs"; 
             
-            // "gemini-pro" ЗАГВАРЫГ АШИГЛАНА (ЭНЭ НЬ ХАМГИЙН НАЙДВАРТАЙ)
-            const URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + API_KEY;
+            // Загварыг gemini-1.5-flash болгож тохируулав (Шинэ түлхүүр дээр ажиллана)
+            const URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY;
 
             const systemPrompt = `
                 Чи бол 'Эрдмийн Далай' сургуулийн AI туслах. 
