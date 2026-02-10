@@ -590,18 +590,18 @@
             chatHistory.appendChild(loadingDiv);
             chatHistory.scrollTop = chatHistory.scrollHeight;
 
-            // --- API ТОХИРГОО ---
-            // АНХААР: ЭНД ТҮЛХҮҮРЭЭ ХИЙГЭЭРЭЙ
+           // --- API ТОХИРГОО ---
+            // ЭНД ДӨНГӨЖ САЯ "+ Create project" ДАРЖ АВСАН ШИНЭ ТҮЛХҮҮРЭЭ ХИЙНЭ
             const API_KEY = "AIzaSyBizr6GJYxmv5AVjYPcKeVbHtOjeW7wyPs"; 
             
-            // "v1beta" хувилбарыг ашиглаж, "gemini-pro" загварыг дуудна (Хамгийн найдвартай)
-            const URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + API_KEY;
+            // Загварыг gemini-1.5-flash болгож байна (Энэ нь үнэгүй, хурдан)
+            const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
             const systemPrompt = `
                 Чи бол 'Эрдмийн Далай' сургуулийн AI туслах. 
                 Монголоор товч, ойлгомжтой хариул.
             `;
-
+            
             try {
                 const response = await fetch(URL, {
                     method: "POST",
