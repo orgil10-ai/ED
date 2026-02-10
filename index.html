@@ -3,564 +3,459 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="google-site-verification" content="82PmDYOlD80pIrla3yzwWpSeiw_BFRzBaVtMSLmLlNc" />
-
-    <title>Ерөнхий Боловсролын "Эрдмийн Далай" сургууль | Ухаалаг Систем</title>
+    <title>Ерөнхий Боловсролын "Эрдмийн Далай" сургууль</title>
     
     <style>
-        /* CSS: Үндсэн загвар */
-        html, body {
+        /* --- ҮНДСЭН ТОХИРГОО --- */
+        :root {
+            --primary-blue: #004aad;
+            --light-blue: #e3f2fd;
+            --text-dark: #2c3e50;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            overflow-x: hidden; 
+            background-color: #f8f9fa;
+            color: var(--text-dark);
+            overflow-x: hidden;
         }
 
-        /* 1. ТОЛГОЙ ХЭСЭГ */
-        .header-banner {
-            background-image: url('school_bg.jpg'); 
-            background-size: cover;
-            background-position: center;
-            height: 280px;
-            position: relative;
+        /* --- HEADER --- */
+        .header-top {
             display: flex;
-            align-items: flex-end;
-            padding-bottom: 20px;
-        }
-
-        .header-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.9));
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 2;
-            display: flex;
+            justify-content: space-between;
             align-items: center;
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-            gap: 20px;
-        }
-
-        .school-logo img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 3px solid white;
+            padding: 15px 50px;
             background: white;
-            object-fit: contain;
-        }
-
-        .school-name { color: white; text-shadow: 2px 2px 5px rgba(0,0,0,0.9); }
-        .school-name h1 { margin: 0; font-size: 24px; font-weight: 700; text-transform: uppercase; }
-        .school-name p { margin: 5px 0 0; font-size: 14px; font-weight: 400; color: #ffd700; }
-
-        /* 2. ЦЭСНИЙ ХЭСЭГ */
-        .menu-bar {
-            background: #004aad;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-area img { width: 50px; height: 50px; }
+        .logo-text h2 { margin: 0; font-size: 18px; color: var(--primary-blue); text-transform: uppercase; }
+        .logo-text p { margin: 0; font-size: 12px; color: #777; }
 
-        .menu {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            max-width: 1000px;
-            margin: auto;
-            padding: 0 5px;
-            flex-wrap: nowrap;
-            overflow-x: auto; 
-        }
-        .menu button { 
-            padding: 15px 15px; 
-            cursor: pointer; 
+        .nav-links button {
+            background: transparent;
             border: none;
-            background: transparent; 
-            color: rgba(255,255,255,0.9); 
-            font-weight: 600;
-            font-size: 14px;
-            transition: 0.3s;
-            border-bottom: 4px solid transparent;
-            white-space: nowrap; 
-            flex-shrink: 0;
-        }
-        .menu button:hover { color: white; background: rgba(255,255,255,0.1); }
-        .menu button.active-btn { color: #fff; border-bottom: 4px solid #ffd700; }
-
-        /* 3. АГУУЛГА */
-        .container { 
-            background: white; 
-            padding: 20px; 
-            border-radius: 12px; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05); 
-            max-width: 1100px;
-            margin: 15px auto; 
-            min-height: 400px;
-            width: 96%; 
-            box-sizing: border-box;
-        }
-        .content-section { display: none; }
-        .active { display: block; }
-
-        /* --- STYLE: НИЙТЛЭГ ФОРМ --- */
-        input, select { 
-            width: 100%; padding: 12px; 
-            border: 1px solid #ced4da; border-radius: 6px; 
-            font-size: 16px; box-sizing: border-box; margin-bottom: 10px;
-        }
-        .submit-btn {
-            background: #e67e22; color: white; padding: 12px;
-            border: none; border-radius: 8px; font-size: 16px; font-weight: bold;
-            cursor: pointer; width: 100%; transition: 0.3s;
-        }
-        .submit-btn:hover { background: #d35400; }
-
-        /* --- STYLE: ЦАХИМ ХИЧЭЭЛ --- */
-        .elesson-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
-        .lesson-card { border: 1px solid #eee; border-radius: 10px; overflow: hidden; background: white; box-shadow: 0 3px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
-        .lesson-thumb { height: 160px; background-color: #34495e; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; }
-        .lesson-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
-        .lesson-btn { margin-top: auto; text-decoration: none; background: #004aad; color: white; padding: 10px; text-align: center; border-radius: 5px; font-weight: bold; font-size: 14px; }
-        .add-lesson-box { background: #fdf2e9; border: 1px solid #fae5d3; padding: 20px; border-radius: 10px; margin-bottom: 30px; }
-
-        /* --- STYLE: AI CHAT --- */
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            height: 500px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #fff;
-        }
-        .chat-history {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            background: #f9f9f9;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .chat-message {
-            max-width: 70%;
             padding: 10px 15px;
-            border-radius: 15px;
-            font-size: 15px;
-            line-height: 1.4;
-            position: relative;
-            word-wrap: break-word;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        .bot-msg {
-            align-self: flex-start;
-            background: #e1f5fe;
-            color: #0277bd;
-            border-bottom-left-radius: 2px;
+        .nav-links button:hover, .nav-links button.active-btn {
+            color: var(--primary-blue);
         }
-        .user-msg {
-            align-self: flex-end;
-            background: #004aad;
-            color: white;
-            border-bottom-right-radius: 2px;
-        }
-        .chat-input-area {
-            padding: 15px;
-            background: white;
-            border-top: 1px solid #ddd;
+
+        /* --- LANDING PAGE LAYOUT --- */
+        .landing-wrapper {
             display: flex;
-            gap: 10px;
+            min-height: calc(100vh - 80px);
+            padding: 40px;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
         }
-        .chat-input-area input { margin-bottom: 0; }
-        .chat-send-btn {
-            background: #004aad; color: white; border: none; padding: 0 20px;
-            border-radius: 6px; cursor: pointer; font-size: 20px;
+
+        /* ЗҮҮН ТАЛ: ТАНИЛЦУУЛГА */
+        .left-intro {
+            flex: 1;
+            background: var(--primary-blue);
+            border-radius: 30px;
+            padding: 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            min-width: 300px;
+            box-shadow: var(--shadow);
+        }
+        .left-intro::before {
+            content: '';
+            position: absolute;
+            top: -50px; right: -50px;
+            width: 200px; height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        .left-intro h1 { font-size: 36px; margin-bottom: 20px; line-height: 1.2; }
+        .left-intro p { font-size: 16px; margin-bottom: 30px; opacity: 0.9; line-height: 1.6; }
+        .school-hero-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-top: auto;
+            border: 4px solid rgba(255,255,255,0.2);
+            background-color: white; 
         }
 
-        /* --- БУСАД STYLE --- */
-        .table-responsive { width: 100%; overflow-x: auto; margin-top: 10px; border: 1px solid #eee; }
-        table { width: 100%; border-collapse: collapse; min-width: 700px; }
-        th { background-color: #004aad; color: white; padding: 12px; text-align: left; }
-        td { border-bottom: 1px solid #eee; padding: 12px; font-size: 14px; }
-        tr:nth-child(even) { background-color: #f8f9fa; }
-        .new-row { background-color: #d4efdf !important; transition: background 1s; }
-        .del-btn { background: transparent; border: none; cursor: pointer; font-size: 16px; }
-        .locked-row { color: #999; text-align: center; }
+        /* БАРУУН ТАЛ: ЦЭСНИЙ КАРТУУД */
+        .right-menu {
+            flex: 1.5;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            align-content: center;
+        }
 
-        /* Номын сан */
-        .library-layout { display: flex; flex-direction: column; align-items: center; gap: 30px; }
-        .zone-title { width: 100%; text-align: center; font-weight: bold; color: #777; margin-bottom: 10px; border-bottom: 1px dashed #ccc; }
-        .computer-zone { display: flex; overflow-x: auto; justify-content: center; gap: 10px; background: #f0f8ff; padding: 20px; border-radius: 10px; width: 100%; max-width: 800px; box-sizing: border-box; }
-        .main-hall { display: flex; justify-content: space-between; width: 100%; max-width: 1000px; gap: 20px; }
-        .side-wing { display: flex; flex-direction: column; gap: 15px; background: #fdf2e9; padding: 15px; border-radius: 10px; align-items: center; }
-        .vertical-pc-group { display: flex; flex-direction: column; gap: 8px; }
-        .center-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        .double-table { display: flex; justify-content: space-between; align-items: center; background: #e1d2f0; padding: 5px; border-radius: 8px; min-width: 80px; }
-        .table-divider { width: 2px; height: 30px; background: #af7ac5; margin: 0 5px; }
-        .seat { display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 12px; font-weight: bold; border-radius: 5px; width: 40px; height: 40px; }
-        .seat.occupied { background-color: #e74c3c !important; cursor: pointer; opacity: 0.9; }
-        .seat.selected { background-color: #f1c40f !important; color: black; border: 2px solid #f39c12; }
-        .seat.computer { background-color: #3498db; width: 50px; height: 50px; flex-direction: column; } .seat.computer::before { content: '💻'; }
-        .seat.table { background-color: #9b59b6; flex-direction: column; } .seat.table::before { content: '📖'; }
-        .door { width: 100%; height: 40px; background: #95a5a6; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 5px; font-size: 12px; }
+        .menu-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid #f0f0f0;
+        }
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,74,173,0.15);
+            border-color: var(--primary-blue);
+        }
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: var(--light-blue);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--primary-blue);
+        }
+        .card-text h3 { margin: 0 0 5px 0; font-size: 18px; color: var(--text-dark); }
+        .card-text p { margin: 0; font-size: 13px; color: #888; }
+        .menu-card.green .icon-box { background: #e8f5e9; color: #2ecc71; }
+        .menu-card.orange .icon-box { background: #fff3e0; color: #f39c12; }
+        .menu-card.purple .icon-box { background: #f3e5f5; color: #9b59b6; }
 
-        /* Admin Form */
-        .admin-form { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-        .form-group label { font-weight: bold; display: block; margin-bottom: 5px; color: #2c3e50; }
+        /* --- CONTENT SECTIONS (НУУГДМАЛ) --- */
+        .content-section {
+            display: none;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.5s;
+        }
+        .content-section.active { display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- BUTTON STYLES --- */
+        .back-btn {
+            background: #f1f1f1; border: none; padding: 8px 15px;
+            border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 20px;
+        }
+        .back-btn:hover { background: #e0e0e0; }
+
+        /* --- TABLES & FORMS --- */
+        .filter-container { margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+        input, select { padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th { background: var(--primary-blue); color: white; padding: 12px; text-align: left; }
+        td { border-bottom: 1px solid #eee; padding: 12px; }
+        
+        /* --- AI CHAT STYLES --- */
+        .chat-container { height: 500px; display: flex; flex-direction: column; border: 1px solid #eee; border-radius: 15px; overflow: hidden; }
+        .chat-history { flex: 1; padding: 20px; overflow-y: auto; background: #fafafa; display: flex; flex-direction: column; gap: 10px; }
+        .chat-message { max-width: 80%; padding: 12px 18px; border-radius: 15px; font-size: 15px; line-height: 1.5; }
+        .bot-msg { align-self: flex-start; background: var(--light-blue); color: #003366; border-bottom-left-radius: 2px; }
+        .user-msg { align-self: flex-end; background: var(--primary-blue); color: white; border-bottom-right-radius: 2px; }
+        .chat-input-area { padding: 15px; background: white; border-top: 1px solid #eee; display: flex; gap: 10px; }
+        .chat-send-btn { background: var(--primary-blue); color: white; border: none; padding: 0 25px; border-radius: 8px; cursor: pointer; font-size: 18px; }
+
+        /* --- LIBRARY STYLES --- */
+        .computer-zone { display: flex; gap: 10px; justify-content: center; background: #f4f6f8; padding: 15px; border-radius: 10px; margin-bottom: 20px; flex-wrap: wrap;}
+        .seat { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 5px; cursor: pointer; font-size: 12px; font-weight: bold; color: white; }
+        .seat.computer { background: #3498db; }
+        .seat.table { background: #9b59b6; }
+        .seat.occupied { background: #e74c3c; opacity: 0.7; cursor: not-allowed; }
+        .seat.selected { background: #f1c40f; color: black; border: 2px solid orange; }
 
         @media (max-width: 768px) {
-            .header-banner { height: 250px; }
-            .header-content { flex-direction: column; text-align: center; }
-            .main-hall { flex-direction: column; }
-            .side-wing { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-            .center-grid { grid-template-columns: repeat(2, 1fr); }
-            .vertical-pc-group { flex-direction: row; }
+            .header-top { padding: 15px 20px; }
+            .landing-wrapper { padding: 20px; flex-direction: column; }
+            .nav-links { display: none; } /* Mobile menu simplified */
         }
     </style>
 </head>
 <body>
 
-    <div class="header-banner">
-        <div class="header-overlay"></div>
-        <div class="header-content">
-            <div class="school-logo"><img src="logo.png" alt="Logo"></div>
-            <div class="school-name">
-                <h1>"ЭРДМИЙН ДАЛАЙ" ЦОГЦОЛБОР СУРГУУЛЬ</h1>
-                <p>Хөвсгөл аймаг, Мөрөн сум</p>
+    <div class="header-top">
+        <div class="logo-area">
+            <img src="logo.png" alt="Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/167/167707.png'">
+            <div class="logo-text">
+                <h2>Эрдмийн Далай</h2>
+                <p>Цогцолбор сургууль</p>
+            </div>
+        </div>
+        <div class="nav-links">
+            <button onclick="showLanding()">Нүүр</button>
+            <button onclick="switchTab('teachers')">Хуваарь</button>
+            <button onclick="switchTab('elessons')">Цахим хичээл</button>
+            <button onclick="switchTab('library')">Номын сан</button>
+            <button onclick="switchTab('ai-chat')" style="color:#e67e22;">🤖 AI Туслах</button>
+        </div>
+    </div>
+
+    <div id="landing" class="landing-wrapper">
+        <div class="left-intro">
+            <h1>Ирээдүйн боловсролыг<br>Эрдмийн Далайгаас</h1>
+            <p>Сурагч бүрийн хөгжлийг дэмжигч, орчин үеийн технологид суурилсан ухаалаг сургууль.</p>
+            <img src="school_bg.jpg" class="school-hero-img" alt="School Building">
+        </div>
+
+        <div class="right-menu">
+            <div class="menu-card" onclick="switchTab('teachers')">
+                <div class="icon-box">📅</div>
+                <div class="card-text">
+                    <h3>Багш нарын хуваарь</h3>
+                    <p>Хичээлийн цаг, анги танхим харах</p>
+                </div>
+            </div>
+
+            <div class="menu-card green" onclick="switchTab('elessons')">
+                <div class="icon-box">💻</div>
+                <div class="card-text">
+                    <h3>Цахим хичээл</h3>
+                    <p>Видео хичээлүүд үзэх</p>
+                </div>
+            </div>
+
+            <div class="menu-card purple" onclick="switchTab('library')">
+                <div class="icon-box">📚</div>
+                <div class="card-text">
+                    <h3>Номын сан</h3>
+                    <p>Суудал захиалга, цагийн хуваарь</p>
+                </div>
+            </div>
+
+            <div class="menu-card orange" onclick="switchTab('ai-chat')">
+                <div class="icon-box">🤖</div>
+                <div class="card-text">
+                    <h3>AI Туслах</h3>
+                    <p>Хиймэл оюун ухаанаас асуух</p>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="switchTab('rooms')">
+                <div class="icon-box">🚪</div>
+                <div class="card-text">
+                    <h3>Ангиудын сул цаг</h3>
+                    <p>Чөлөөт анги танхим хайх</p>
+                </div>
+            </div>
+
+            <div class="menu-card" onclick="switchTab('admin')">
+                <div class="icon-box">✏️</div>
+                <div class="card-text">
+                    <h3>Багшийн булан</h3>
+                    <p>Мэдээлэл оруулах, засах</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="menu-bar">
-        <div class="menu">
-            <button onclick="switchTab('teachers', this)" class="active-btn">Багш нарын хуваарь</button>
-            <button onclick="switchTab('elessons', this)">💻 Цахим хичээл</button> 
-            <button onclick="switchTab('rooms', this)">Ангиудын сул цаг</button>
-            <button onclick="switchTab('library', this)">Номын сан</button>
-            <button onclick="switchTab('ai-chat', this)">🤖 AI Туслах</button> <button onclick="switchTab('admin', this)">✏️ Багшийн булан</button>
+    <div id="teachers" class="content-section">
+        <button class="back-btn" onclick="showLanding()">⬅ Буцах</button>
+        <h2 style="color: var(--primary-blue);">👩‍🏫 Хичээлийн Нэгдсэн Хуваарь</h2>
+        <div class="filter-container">
+            <input type="text" id="searchTeacher" onkeyup="filterSchedule()" placeholder="Багшийн нэрээр хайх..." style="flex:1;">
+            <select id="dayFilter" onchange="filterSchedule()"><option value="">Бүх өдөр</option><option>Даваа</option><option>Мягмар</option><option>Лхагва</option><option>Пүрэв</option><option>Баасан</option></select>
+            <select id="classFilter" onchange="filterSchedule()"><option value="">Бүх анги</option><option>10А</option><option>10В</option><option>11А</option></select>
+        </div>
+        <div class="table-responsive">
+            <table id="teacherTable">
+                <thead>
+                    <tr><th>Багш</th><th>Хичээл</th><th>Төрөл</th><th>Өдөр</th><th>Цаг</th><th>Кабинет</th></tr>
+                </thead>
+                <tbody>
+                        <tr><td>Б.Шагдарсүрэн</td><td>Биеийн Тамир</td><td>Ерөнхий</td><td>Даваа</td><td>08:30 - 09:50</td><td>10В (Заал)</td></tr>
+                        <tr><td>Э.Билгүүн</td><td>Нийгэм</td><td>Ерөнхий</td><td>Даваа</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Д.Цамбажав</td><td>Мэдээлэл Технологи</td><td>Ерөнхий</td><td>Даваа</td><td>11:30 - 12:50</td><td>10В (209 тоот)</td></tr>
+                        <tr><td>Л.Мөнх-Эрдэнэ</td><td>Биеийн Тамир</td><td>Ерөнхий</td><td>Даваа</td><td>08:30 - 09:50</td><td>10А (Заал)</td></tr>
+                        <tr><td>Э.Билгүүн</td><td>Түүх</td><td>Ерөнхий</td><td>Мягмар</td><td>12:55 - 13:40</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>С.Хишигбаяр</td><td>Биологи</td><td>Ерөнхий</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Мягмар</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>А.Сансартуяа</td><td>Газарзүй</td><td>Ерөнхий</td><td>Мягмар</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (209 тоот)</td></tr>
+                        <tr><td>Э.Лхамсүрэн</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Лхагва</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Сонгон</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Б.Отгонзул</td><td>Монгол Хэл</td><td>Ерөнхий</td><td>Лхагва</td><td>09:55 - 10:30</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Б.Отгонзул</td><td>Уран Зохиол</td><td>Ерөнхий</td><td>Лхагва</td><td>10:35 - 11:15</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Ц.Бархүү</td><td>Эрүүл Мэнд</td><td>Ерөнхий</td><td>Лхагва</td><td>12:55 - 01:40</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Б.Отгонзул</td><td>ҮндэсниЙ Бичиг</td><td>Ерөнхий</td><td>Пүрэв</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Э.Лхамсүрэн</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Пүрэв</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Пүрэв</td><td>12:55 - 01:40</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Э.Билгүүн</td><td>Нийгэм</td><td>Ерөнхий</td><td>Баасан</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Т.Билэгзаа</td><td>Хими</td><td>Ерөнхий</td><td>Баасан</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Сонгон</td><td>Баасан</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td></tr>
+                        <tr><td>Бо.Ариунаа</td><td>Англи хэл</td><td>Гүнзгий</td><td>Даваа</td><td>15:20 - 17:05</td><td>10А 10Б 10В 10Г (509 тоот)</td></tr>
+                        <tr><td>Бо.Ариунаа</td><td>Англи Хэл</td><td>Гүнзгий</td><td>Мягмар</td><td>14:00 - 15:15</td><td>10А 10Б 10В 10Г (509 тоот)</td></tr>
+                        <tr><td>Э.Билгүүн</td><td>Нийгэм</td><td>Сонгон</td><td>Мягмар</td><td>17:05 - 18:30</td><td>10А 10Б 10В 10Г (509 тоот)</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Сонгон</td><td>Мягмар</td><td>17:00 - 18:30</td><td>10А (510 тоот)</td></tr>
+                        <tr><td>Д.Цагаанчулуун</td><td>Орос Хэл</td><td>Сонгон</td><td>Лхагва</td><td>14:00 - 14:35</td><td>10А 10Б 10В 10Г (509 тоот)</td></tr>
+                        <tr><td>М.Оюунцэцэг</td><td>Хими</td><td>Сонгон</td><td>Пүрэв</td><td>14:00 - 15:15</td><td>10А 10Б 10В 10Г (106 тоот)</td></tr>
+                        <tr><td>Р.Батдорж</td><td>Дизайн Тэхнологи</td><td>Ерөнхий</td><td>Пүрэв</td><td>14:40 - 15:15</td><td>10В (509 тоот)</td></tr>
+                        <tr><td>Х.Гэрэлчулуун</td><td>Зураг Зүй</td><td>Ерөнхий</td><td>Пүрэв</td><td>15:20 - 16:15</td><td>10В (510 тоот)</td></tr>
+                        <tr><td>О.Жавхлан</td><td>Мэдээлэл Технологи</td><td>Ерөнхий</td><td>Баасан</td><td>17:00 - 18:30</td><td>10А 10Б 10В 10Г (106 тоот)</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Гүнзгий</td><td>Баасан</td><td>05:00 - 07:15</td><td>10Б 10В (207 тоот)</td></tr>
+                        <tr><td>С.Хишигбаяр</td><td>Биологи</td><td>Сонгон</td><td>Баасан</td><td>14:00 - 15:15</td><td>10А 10Б 10В 10Г (503 тоот)</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Ерөнхий</td><td>Даваа</td><td>08:30 - 09:15</td><td>10Г (109 тоот)</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Уран Зохиол</td><td>Ерөнхий</td><td>Даваа</td><td>09:20 - 09:50</td><td>10Г (109 тоот)</td></tr>
+                        <tr><td>П.Маньбазар</td><td>Математик</td><td>Ерөнхий</td><td>Даваа</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Даваа</td><td>11:30 - 12:55</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Сонгон</td><td>Даваа</td><td>05:05 - 07:15</td><td>10А 10Г (210)</td></tr>
+                        <tr><td>Х.Сэлэнгэ</td><td>Түүх</td><td>Сонгон</td><td>Даваа</td><td>14:00 - 03:15</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Ерөнхий</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>Т.Билэгзаяа</td><td>Хими</td><td>Ерөнхий</td><td>Мягмар</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Мягмар</td><td>11:30 - 12:50</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Сонгон</td><td>Мягмар</td><td>15:20 - 17:00</td><td>10Б 10 Г(510 тоот)</td></tr>
+                        <tr><td>Д.Оюу-Эрдэнэ</td><td>Биеийн Тамир</td><td>Ерөнхий</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>П.Маньбазар</td><td>Математик</td><td>Ерөнхий</td><td>Лхагва</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Үндэсний Бичиг</td><td>Ерөнхий</td><td>Лхагва</td><td>11:30 - 12:50</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>М.Ганболд</td><td>Математик</td><td>Гүнзгий</td><td>Лхагва</td><td>14:00 - 15:20</td><td>10А 10Г (210 тоот)</td></tr>
+                        <tr><td>Х.Сэлэнгэ</td><td>Нийгэм</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>П.Маньбазар</td><td>Математик</td><td>Ерөнхий</td><td>Пүрэв</td><td>09:55 - 10:30</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>Ц.Баярхүү</td><td>Эрүүл Мэнд</td><td>Ерөнхий</td><td>Пүрэв</td><td>10:35 - 11:15</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>Д.Цамбажав</td><td>Мэпээлэл технологи</td><td>Ерөнхий</td><td>Пүрэв</td><td>11:30 - 12:10</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Сонгон</td><td>Пүрэв</td><td>12:15 - 14:40</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>Ц.Баярхүү</td><td>Биологи</td><td>Ерөнхий</td><td>Баасан</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>Х.Сэлэнгэ</td><td>Түүх</td><td>Ерөнхий</td><td>Баасан</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>П.Мягмардорж</td><td>Газарзүй</td><td>Ерөнхий</td><td>Баасан</td><td>11:30 - 12:50</td><td>10Г (107 тоот)</td></tr>
+                        <tr><td>А.Бямбасүрэн</td><td>Физик</td><td>Ерөнхий</td><td>Даваа</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>С.Хишигбаяр</td><td>Биологи</td><td>Ерөнхий</td><td>Даваа</td><td>09:55 - 11:15</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Ба.Ариунаа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Даваа</td><td>11:30 - 12:55</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Б.Отгонзул</td><td>Монгол Хэл</td><td>Ерөнхий</td><td>Мягмар</td><td>09:55 - 10:30</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Б.Отгонзул</td><td>Уран Зохиол</td><td>Ерөнхий</td><td>Мягмар</td><td>10:35 - 11:15</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Э.Нямбаяр</td><td>Иргэний Ёс Зүй</td><td>Ерөнхий</td><td>Мягмар</td><td>11:30 - 12:55</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Ч.Норовцэрэн</td><td>Түүх</td><td>Ерөнхий</td><td>Мягмар</td><td>13:00 - 13:40</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Т.Мөнхбаатар</td><td>Биеийн Тамир</td><td>Ерөнхий</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10Б (Заал)</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Лхагва</td><td>09:55 - 11:15</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>М.Оюунцэцэг</td><td>Хими</td><td>Ерөнхий</td><td>Лхагва</td><td>11:30 - 12:55</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>А.Сансартуяа</td><td>Газар Зүй</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Ба.Ариунаа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Пүрэв</td><td>09:55 - 10:30</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Ба.Ариунаа</td><td>Англи Хэл</td><td>Сонгон</td><td>Пүрэв</td><td>10:35 - 11:15</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Сонгон</td><td>Пүрэв</td><td>11:30 - 12:10</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Б.Отгонзул</td><td>Үндэсний Бичиг</td><td>Ерөнхий</td><td>Пүрэв</td><td>12:15 - 13:40</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Б.Маргад</td><td>Нийгэм</td><td>Ерөнхий</td><td>Баасан</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>О.Жавхлан</td><td>Мэдээлэл Технологи</td><td>Ерөнхий</td><td>Баасан</td><td>09:55 - 11:15</td><td>10Б (203 тоот)</td></tr>
+                        <tr><td>Ц.Баярхүү</td><td>Эрүүл Мэнд</td><td>Ерөнхий</td><td>Баасан</td><td>11:30 - 12:10</td><td>10Б (107 тоот)</td></tr>
+                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Ерөнхий</td><td>Даваа</td><td>09:55 – 11:15</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>П.Сүхээ</td><td>Нийгэм</td><td>Ерөнхий</td><td>Даваа</td><td>11:30 – 12:55</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>Ж.Болормаа</td><td>Ангийн Ажил</td><td>Ерөнхий</td><td>Даваа</td><td>13:00 – 13:40</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Мягмар</td><td>08:30 – 09:50</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>О.Жавхлан</td><td>Мэдээллийн Технологи</td><td>Ерөнхий</td><td>Мягмар</td><td>09:55-11:15</td><td>10А (203 тоот)</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Ерөнхий</td><td>Мягмар</td><td>11:30-12:10</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Уран Зохиол</td><td>Ерөнхий</td><td>Мягмар</td><td>12:15-12:55</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Ерөнхий</td><td>Лхагва</td><td>08:30-09:50</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>М.Оюунцэцэг</td><td>Хими</td><td>Ерөнхий</td><td>Лхагва</td><td>09:55-11:15</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>Ц.Баярхүү</td><td>Эрүүл Мэнд</td><td>Ерөнхий</td><td>Лхагва</td><td>11:30-12:10</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>Э.Билгүүн</td><td>Түүх</td><td>Ерөнхий</td><td>Лхагва</td><td>12:15-12:55</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>Б.Тэгшжаргал</td><td>Үндэсний Бичиг</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30-09:50</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Пүрэв</td><td>09:55-10:30</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Сонгон</td><td>Пүрэв</td><td>10:30-12:10</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Сонгон</td><td>Пүрэв</td><td>12:15-12:55</td><td>10А (214) тоот</td></tr>
+                        <tr><td>Ц.Баярхүү</td><td>Биологи</td><td>Ерөнхий</td><td>Пүрэв</td><td>13:00-13:40</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>А.Баямбасүрэн</td><td>Физик</td><td>Ерөнхий</td><td>Баасан</td><td>08:30-09:55</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>П.Мягмардорж</td><td>Газарзүй</td><td>Ерөнхий</td><td>Баасан</td><td>09:55-11:15</td><td>10А (214 тоот)</td></tr>
+                        <tr><td>П.Сүхээ</td><td>Иргэний Ёс Зүй</td><td>Ерөнхий</td><td>Баасан</td><td>11:30-12:50</td><td>10А (214 тоот)</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <div class="container">
-        
-        <div id="teachers" class="content-section active">
-            <h2 style="color: #004aad; border-bottom: 2px solid #eee; padding-bottom: 10px;">👩‍🏫 Хичээлийн Нэгдсэн Хуваарь</h2>
-            <div class="filter-container">
-                <input type="text" id="searchTeacher" onkeyup="filterSchedule()" placeholder="Багшийн нэрээр хайх...">
-                <div style="display:flex; gap:10px; flex-wrap: wrap;">
-                    <select id="typeFilter" onchange="filterSchedule()">
-                        <option value="">-- Бүх төрөл --</option>
-                        <option value="Ерөнхий">Ерөнхий</option>
-                        <option value="Гүнзгий">Гүнзгий</option>
-                        <option value="Сонгон">Сонгон</option>
-                    </select>
-                    <select id="dayFilter" onchange="filterSchedule()">
-                        <option value="">Бүх өдөр</option>
-                        <option value="Даваа">Даваа</option>
-                        <option value="Мягмар">Мягмар</option>
-                        <option value="Лхагва">Лхагва</option>
-                        <option value="Пүрэв">Пүрэв</option>
-                        <option value="Баасан">Баасан</option>
-                        <option value="Бямба">Бямба (Давтлага)</option>
-                    </select>
-                    <select id="classFilter" onchange="filterSchedule()"><option value="">Бүх анги</option><option>10А</option><option>10В</option><option>11А</option></select>
-                </div>
+    <div id="ai-chat" class="content-section">
+        <button class="back-btn" onclick="showLanding()">⬅ Буцах</button>
+        <h2 style="color: var(--primary-blue);">🤖 AI Ухаалаг Туслах</h2>
+        <div class="chat-container">
+            <div class="chat-history" id="chatHistory">
+                <div class="chat-message bot-msg">Сайн байна уу? Би "Эрдмийн Далай" сургуулийн AI туслах байна. Танд юугаар туслах вэ?</div>
             </div>
-            <div class="table-responsive">
-                <table id="teacherTable">
-                    <thead>
-                        <tr>
-                            <th>Багшийн нэр</th><th>Хичээл</th><th>Төрөл</th><th>Өдөр</th><th>Цаг</th><th>Анги / Кабинет</th>
-                            <th style="width: 50px; text-align:center;">Тохиргоо</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Б.Шагдарсүрэн</td><td>Биеийн Тамир</td><td>Ерөнхий</td><td>Даваа</td><td>08:30 - 09:50</td><td>10В (Заал)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Билгүүн</td><td>Нийгэм</td><td>Ерөнхий</td><td>Даваа</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Д.Цамбажав</td><td>Мэдээлэл Технологи</td><td>Ерөнхий</td><td>Даваа</td><td>11:30 - 12:50</td><td>10В (209 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Л.Мөнх-Эрдэнэ</td><td>Биеийн Тамир</td><td>Ерөнхий</td><td>Даваа</td><td>08:30 - 09:50</td><td>10А (Заал)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Билгүүн</td><td>Түүх</td><td>Ерөнхий</td><td>Мягмар</td><td>12:55 - 13:40</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>С.Хишигбаяр</td><td>Биологи</td><td>Ерөнхий</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Мягмар</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>А.Сансартуяа</td><td>Газарзүй</td><td>Ерөнхий</td><td>Мягмар</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (209 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Лхамсүрэн</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Лхагва</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Сонгон</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Отгонзул</td><td>Монгол Хэл</td><td>Ерөнхий</td><td>Лхагва</td><td>09:55 - 10:30</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Отгонзул</td><td>Уран Зохиол</td><td>Ерөнхий</td><td>Лхагва</td><td>10:35 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Бархүү</td><td>Эрүүл Мэнд</td><td>Ерөнхий</td><td>Лхагва</td><td>12:55 - 01:40</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Отгонзул</td><td>ҮндэсниЙ Бичиг</td><td>Ерөнхий</td><td>Пүрэв</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Лхамсүрэн</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Пүрэв</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Пүрэв</td><td>12:55 - 01:40</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Билгүүн</td><td>Нийгэм</td><td>Ерөнхий</td><td>Баасан</td><td>08:30 - 09:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Т.Билэгзаа</td><td>Хими</td><td>Ерөнхий</td><td>Баасан</td><td>09:55 - 11:15</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Сонгон</td><td>Баасан</td><td>11:30 - 12:50</td><td>10В (108 тоот)</td><td class="locked-row">🔒</td></tr>
-                        
-                        <tr><td>Бо.Ариунаа</td><td>Англи хэл</td><td>Гүнзгий</td><td>Даваа</td><td>15:20 - 17:05</td><td>10А 10Б 10В 10Г (509 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Бо.Ариунаа</td><td>Англи Хэл</td><td>Гүнзгий</td><td>Мягмар</td><td>14:00 - 15:15</td><td>10А 10Б 10В 10Г (509 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Билгүүн</td><td>Нийгэм</td><td>Сонгон</td><td>Мягмар</td><td>17:05 - 18:30</td><td>10А 10Б 10В 10Г (509 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Сонгон</td><td>Мягмар</td><td>17:00 - 18:30</td><td>10А (510 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Д.Цагаанчулуун</td><td>Орос Хэл</td><td>Сонгон</td><td>Лхагва</td><td>14:00 - 14:35</td><td>10А 10Б 10В 10Г (509 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>М.Оюунцэцэг</td><td>Хими</td><td>Сонгон</td><td>Пүрэв</td><td>14:00 - 15:15</td><td>10А 10Б 10В 10Г (106 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Р.Батдорж</td><td>Дизайн Тэхнологи</td><td>Ерөнхий</td><td>Пүрэв</td><td>14:40 - 15:15</td><td>10В (509 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Х.Гэрэлчулуун</td><td>Зураг Зүй</td><td>Ерөнхий</td><td>Пүрэв</td><td>15:20 - 16:15</td><td>10В (510 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Жавхлан</td><td>Мэдээлэл Технологи</td><td>Ерөнхий</td><td>Баасан</td><td>17:00 - 18:30</td><td>10А 10Б 10В 10Г (106 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Гүнзгий</td><td>Баасан</td><td>05:00 - 07:15</td><td>10Б 10В (207 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>С.Хишигбаяр</td><td>Биологи</td><td>Сонгон</td><td>Баасан</td><td>14:00 - 15:15</td><td>10А 10Б 10В 10Г (503 тоот)</td><td class="locked-row">🔒</td></tr>
-
-                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Ерөнхий</td><td>Даваа</td><td>08:30 - 09:15</td><td>10Г (109 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Уран Зохиол</td><td>Ерөнхий</td><td>Даваа</td><td>09:20 - 09:50</td><td>10Г (109 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>П.Маньбазар</td><td>Математик</td><td>Ерөнхий</td><td>Даваа</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Даваа</td><td>11:30 - 12:55</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Сонгон</td><td>Даваа</td><td>05:05 - 07:15</td><td>10А 10Г (210)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Х.Сэлэнгэ</td><td>Түүх</td><td>Сонгон</td><td>Даваа</td><td>14:00 - 03:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Ерөнхий</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Т.Билэгзаяа</td><td>Хими</td><td>Ерөнхий</td><td>Мягмар</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Мягмар</td><td>11:30 - 12:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Сонгон</td><td>Мягмар</td><td>15:20 - 17:00</td><td>10Б 10 Г(510 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Д.Оюу-Эрдэнэ</td><td>Биеийн Тамир</td><td>Ерөнхий</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>П.Маньбазар</td><td>Математик</td><td>Ерөнхий</td><td>Лхагва</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Үндэсний Бичиг</td><td>Ерөнхий</td><td>Лхагва</td><td>11:30 - 12:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>М.Ганболд</td><td>Математик</td><td>Гүнзгий</td><td>Лхагва</td><td>14:00 - 15:20</td><td>10А 10Г (210 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Х.Сэлэнгэ</td><td>Нийгэм</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>П.Маньбазар</td><td>Математик</td><td>Ерөнхий</td><td>Пүрэв</td><td>09:55 - 10:30</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Баярхүү</td><td>Эрүүл Мэнд</td><td>Ерөнхий</td><td>Пүрэв</td><td>10:35 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Д.Цамбажав</td><td>Мэпээлэл технологи</td><td>Ерөнхий</td><td>Пүрэв</td><td>11:30 - 12:10</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Билгүүнбаяр</td><td>Физик</td><td>Сонгон</td><td>Пүрэв</td><td>12:15 - 14:40</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Баярхүү</td><td>Биологи</td><td>Ерөнхий</td><td>Баасан</td><td>08:30 - 09:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Х.Сэлэнгэ</td><td>Түүх</td><td>Ерөнхий</td><td>Баасан</td><td>09:55 - 11:15</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>П.Мягмардорж</td><td>Газарзүй</td><td>Ерөнхий</td><td>Баасан</td><td>11:30 - 12:50</td><td>10Г (107 тоот)</td><td class="locked-row">🔒</td></tr>
-
-                        <tr><td>А.Бямбасүрэн</td><td>Физик</td><td>Ерөнхий</td><td>Даваа</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>С.Хишигбаяр</td><td>Биологи</td><td>Ерөнхий</td><td>Даваа</td><td>09:55 - 11:15</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ба.Ариунаа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Даваа</td><td>11:30 - 12:55</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Мягмар</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Отгонзул</td><td>Монгол Хэл</td><td>Ерөнхий</td><td>Мягмар</td><td>09:55 - 10:30</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Отгонзул</td><td>Уран Зохиол</td><td>Ерөнхий</td><td>Мягмар</td><td>10:35 - 11:15</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Нямбаяр</td><td>Иргэний Ёс Зүй</td><td>Ерөнхий</td><td>Мягмар</td><td>11:30 - 12:55</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ч.Норовцэрэн</td><td>Түүх</td><td>Ерөнхий</td><td>Мягмар</td><td>13:00 - 13:40</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Т.Мөнхбаатар</td><td>Биеийн Тамир</td><td>Ерөнхий</td><td>Лхагва</td><td>08:30 - 09:50</td><td>10Б (Заал)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Ерөнхий</td><td>Лхагва</td><td>09:55 - 11:15</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>М.Оюунцэцэг</td><td>Хими</td><td>Ерөнхий</td><td>Лхагва</td><td>11:30 - 12:55</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>А.Сансартуяа</td><td>Газар Зүй</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ба.Ариунаа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Пүрэв</td><td>09:55 - 10:30</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ба.Ариунаа</td><td>Англи Хэл</td><td>Сонгон</td><td>Пүрэв</td><td>10:35 - 11:15</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Оюунгэрэл</td><td>Математик</td><td>Сонгон</td><td>Пүрэв</td><td>11:30 - 12:10</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Отгонзул</td><td>Үндэсний Бичиг</td><td>Ерөнхий</td><td>Пүрэв</td><td>12:15 - 13:40</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Маргад</td><td>Нийгэм</td><td>Ерөнхий</td><td>Баасан</td><td>08:30 - 09:50</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Жавхлан</td><td>Мэдээлэл Технологи</td><td>Ерөнхий</td><td>Баасан</td><td>09:55 - 11:15</td><td>10Б (203 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Баярхүү</td><td>Эрүүл Мэнд</td><td>Ерөнхий</td><td>Баасан</td><td>11:30 - 12:10</td><td>10Б (107 тоот)</td><td class="locked-row">🔒</td></tr>
-
-                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Ерөнхий</td><td>Даваа</td><td>09:55 – 11:15</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>П.Сүхээ</td><td>Нийгэм</td><td>Ерөнхий</td><td>Даваа</td><td>11:30 – 12:55</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ж.Болормаа</td><td>Ангийн Ажил</td><td>Ерөнхий</td><td>Даваа</td><td>13:00 – 13:40</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Мягмар</td><td>08:30 – 09:50</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Жавхлан</td><td>Мэдээллийн Технологи</td><td>Ерөнхий</td><td>Мягмар</td><td>09:55-11:15</td><td>10А (203 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Монгол Хэл</td><td>Ерөнхий</td><td>Мягмар</td><td>11:30-12:10</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Уран Зохиол</td><td>Ерөнхий</td><td>Мягмар</td><td>12:15-12:55</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Ерөнхий</td><td>Лхагва</td><td>08:30-09:50</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>М.Оюунцэцэг</td><td>Хими</td><td>Ерөнхий</td><td>Лхагва</td><td>09:55-11:15</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Баярхүү</td><td>Эрүүл Мэнд</td><td>Ерөнхий</td><td>Лхагва</td><td>11:30-12:10</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Э.Билгүүн</td><td>Түүх</td><td>Ерөнхий</td><td>Лхагва</td><td>12:15-12:55</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Б.Тэгшжаргал</td><td>Үндэсний Бичиг</td><td>Ерөнхий</td><td>Пүрэв</td><td>08:30-09:50</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Ерөнхий</td><td>Пүрэв</td><td>09:55-10:30</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>О.Аззаяа</td><td>Англи Хэл</td><td>Сонгон</td><td>Пүрэв</td><td>10:30-12:10</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ж.Болормаа</td><td>Математик</td><td>Сонгон</td><td>Пүрэв</td><td>12:15-12:55</td><td>10А (214) тоот</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>Ц.Баярхүү</td><td>Биологи</td><td>Ерөнхий</td><td>Пүрэв</td><td>13:00-13:40</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>А.Баямбасүрэн</td><td>Физик</td><td>Ерөнхий</td><td>Баасан</td><td>08:30-09:55</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>П.Мягмардорж</td><td>Газарзүй</td><td>Ерөнхий</td><td>Баасан</td><td>09:55-11:15</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                        <tr><td>П.Сүхээ</td><td>Иргэний Ёс Зүй</td><td>Ерөнхий</td><td>Баасан</td><td>11:30-12:50</td><td>10А (214 тоот)</td><td class="locked-row">🔒</td></tr>
-                    </tbody>
-                </table>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Асуултаа энд бичнэ үү..." style="flex:1;" onkeypress="handleKeyPress(event)">
+                <button class="chat-send-btn" onclick="sendMessage()">➤</button>
             </div>
         </div>
+    </div>
 
-        <div id="elessons" class="content-section">
-            <h2 style="color: #004aad; border-bottom: 2px solid #eee; padding-bottom: 10px;">💻 Цахим хичээлүүд</h2>
-            
-            <button onclick="toggleLessonForm()" style="background:#f39c12; color:white; border:none; padding:10px 20px; border-radius:5px; font-weight:bold; cursor:pointer; margin-bottom:15px;">➕ Хичээл нэмэх (Багш)</button>
-            
-            <div id="addLessonForm" class="add-lesson-box" style="display:none;">
-                <h3 style="margin-top:0; color:#e67e22;">Шинэ хичээл оруулах</h3>
-                <input type="text" id="elSubject" placeholder="Хичээлийн нэр (Жишээ: Физик)">
-                <input type="text" id="elTopic" placeholder="Сэдэв (Жишээ: Ньютоны хууль)">
-                <input type="text" id="elTeacher" placeholder="Багшийн нэр">
-                <input type="text" id="elLink" placeholder="Youtube эсвэл Medle линк">
-                <button class="submit-btn" onclick="addTeleLesson()">Нийтлэх</button>
-            </div>
-
-            <div class="elesson-container" id="lessonGrid">
-                <div class="lesson-card">
-                    <div class="lesson-thumb" style="background-image: url('https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg');"></div>
-                    <div class="lesson-content">
-                        <div class="lesson-subject">Мэдээлэл зүй</div>
-                        <div class="lesson-title">Програмчлалын үндэс ба Алгоритм</div>
-                        <div class="lesson-teacher">Багш: Цамбажав</div>
-                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="lesson-btn">ҮЗЭХ</a>
-                    </div>
-                </div>
-                <div class="lesson-card">
-                    <div class="lesson-thumb" style="background-color: #2ecc71;"></div>
-                    <div class="lesson-content">
-                        <div class="lesson-subject">Математик</div>
-                        <div class="lesson-title">Тригонометр тэгшитгэл бодох аргачлал</div>
-                        <div class="lesson-teacher">Багш: Оюунгэрэл</div>
-                        <a href="#" class="lesson-btn">ҮЗЭХ</a>
-                    </div>
+    <div id="elessons" class="content-section">
+        <button class="back-btn" onclick="showLanding()">⬅ Буцах</button>
+        <h2>💻 Цахим хичээлүүд</h2>
+        <div class="elesson-container" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
+            <div class="menu-card">
+                <div style="width:100%;">
+                    <h3>Мэдээлэл зүй</h3>
+                    <p>Програмчлалын үндэс</p>
+                    <button style="background:var(--primary-blue); color:white; border:none; padding:5px 10px; border-radius:5px; margin-top:10px;">Үзэх</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div id="rooms" class="content-section">
-            <h2 style="color: #004aad;">🚪 Ангиудын сул цаг</h2>
-            <p>Энд сул ангиудын мэдээлэл харагдана...</p>
+    <div id="library" class="content-section">
+        <button class="back-btn" onclick="showLanding()">⬅ Буцах</button>
+        <h2 style="text-align:center;">📚 Номын сангийн захиалга</h2>
+        <div class="computer-zone">
+            <div class="seat computer">1</div><div class="seat computer">2</div><div class="seat computer">3</div>
+            <div class="seat table">A1</div><div class="seat table">A2</div><div class="seat table">A3</div>
         </div>
-
-        <div id="library" class="content-section">
-            <h2 style="color: #004aad; text-align: center;">📚 Номын сангийн суудал захиалга</h2>
-            
-            <div style="background:#eaf2f8; padding:15px; border-radius:10px; margin-bottom:20px; max-width:600px; margin-left:auto; margin-right:auto;">
-                <label>Сурагчийн төрөл:</label>
-                <select id="userType" style="margin-bottom:10px;"><option value="regular">Энгийн сурагч (Max 2 цаг)</option><option value="olympiad">Олимпиадын бэлтгэл</option></select>
-                <label>Захиалах цаг:</label>
-                <input type="number" id="bookingDuration" value="1" min="1" max="24" style="margin-bottom:10px;">
-                <label>🔒 Нууц код (PIN):</label>
-                <input type="tel" id="bookingPin" maxlength="4" placeholder="4 оронтой тоо">
-                <p style="font-size:12px; color:#666;">💡 Цуцлахын тулд эзэнтэй суудал дээр дарна уу.</p>
-            </div>
-
-            <div class="library-layout">
-                <div class="zone-title">💻 Цахим уншлагын хэсэг</div>
-                <div class="computer-zone">
-                    <div class="seat computer" data-name="PC-1">1</div><div class="seat computer" data-name="PC-2">2</div><div class="seat computer" data-name="PC-3">3</div><div class="seat computer" data-name="PC-4">4</div>
-                    <div class="seat computer" data-name="PC-5">5</div><div class="seat computer" data-name="PC-6">6</div><div class="seat computer" data-name="PC-7">7</div><div class="seat computer" data-name="PC-8">8</div>
-                    <div class="seat computer" data-name="PC-9">9</div><div class="seat computer" data-name="PC-10">10</div><div class="seat computer" data-name="PC-11">11</div><div class="seat computer" data-name="PC-12">12</div>
-                </div>
-
-                <div class="main-hall">
-                    <div class="side-wing">
-                        <div class="vertical-pc-group"><div class="seat computer" data-name="PC-L1">L1</div><div class="seat computer" data-name="PC-L2">L2</div><div class="seat computer" data-name="PC-L3">L3</div><div class="seat computer" data-name="PC-L4">L4</div></div>
-                        <div class="door">🚪 ХААЛГА</div>
-                        <div class="double-table"><div class="seat table" data-name="L1A">L1A</div><div class="table-divider"></div><div class="seat table" data-name="L1B">L1B</div></div>
-                        <div class="double-table"><div class="seat table" data-name="L2A">L2A</div><div class="table-divider"></div><div class="seat table" data-name="L2B">L2B</div></div>
-                        <div class="double-table"><div class="seat table" data-name="L3A">L3A</div><div class="table-divider"></div><div class="seat table" data-name="L3B">L3B</div></div>
-                        <div class="double-table"><div class="seat table" data-name="L4A">L4A</div><div class="table-divider"></div><div class="seat table" data-name="L4B">L4B</div></div>
-                    </div>
-                    
-                    <div class="center-area-container">
-                        <div class="zone-title">Гол танхим (40 ширээ)</div>
-                        <div id="center-tables" class="center-grid"></div>
-                    </div>
-
-                    <div class="side-wing">
-                        <div class="vertical-pc-group"><div class="seat computer" data-name="PC-R1">R1</div><div class="seat computer" data-name="PC-R2">R2</div><div class="seat computer" data-name="PC-R3">R3</div><div class="seat computer" data-name="PC-R4">R4</div></div>
-                        <div style="height:30px;"></div>
-                        <div class="double-table"><div class="seat table" data-name="R1A">R1A</div><div class="table-divider"></div><div class="seat table" data-name="R1B">R1B</div></div>
-                        <div class="double-table"><div class="seat table" data-name="R2A">R2A</div><div class="table-divider"></div><div class="seat table" data-name="R2B">R2B</div></div>
-                        <div class="double-table"><div class="seat table" data-name="R3A">R3A</div><div class="table-divider"></div><div class="seat table" data-name="R3B">R3B</div></div>
-                        <div class="double-table"><div class="seat table" data-name="R4A">R4A</div><div class="table-divider"></div><div class="seat table" data-name="R4B">R4B</div></div>
-                        <div class="double-table"><div class="seat table" data-name="R5A">R5A</div><div class="table-divider"></div><div class="seat table" data-name="R5B">R5B</div></div>
-                    </div>
-                </div>
-                <button id="bookBtn" style="background:#27ae60; color:white; padding:15px; width:100%; border:none; border-radius:10px; cursor:pointer; font-size:18px; font-weight:bold; margin-top:20px;">ЗАХИАЛАХ</button>
-            </div>
-        </div>
-
-        <div id="ai-chat" class="content-section">
-            <h2 style="color: #004aad; border-bottom: 2px solid #eee; padding-bottom: 10px;">🤖 AI Туслах</h2>
-            <div class="chat-container">
-                <div class="chat-history" id="chatHistory">
-                    <div class="chat-message bot-msg">
-                        Сайн байна уу! Би "Эрдмийн Далай" сургуулийн ухаалаг туслах байна. Танд юугаар туслах вэ?
-                    </div>
-                </div>
-                <div class="chat-input-area">
-                    <input type="text" id="chatInput" placeholder="Асуултаа энд бичнэ үү..." onkeypress="handleKeyPress(event)">
-                    <button class="chat-send-btn" onclick="sendMessage()">➤</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="admin" class="content-section">
-            <h2 style="color: #e67e22; border-bottom: 2px solid #eee; padding-bottom: 10px;">✏️ Хуваарьт хичээл нэмэх</h2>
-            
-            <div class="admin-form">
-                <div class="form-group"><label>Багшийн нууц үг:</label><input type="password" id="adminPass" placeholder="Нууц үгээ хийнэ үү..."></div>
-                <hr style="border: 0; border-top: 1px solid #eee; width: 100%;">
-                
-                <div class="form-group"><label>Багшийн нэр:</label><input type="text" id="addName" placeholder="Жишээ: Дорж"></div>
-                <div class="form-group"><label>Хичээлийн нэр:</label><input type="text" id="addLesson" placeholder="Жишээ: Физик"></div>
-                
-                <div class="form-group">
-                    <label>Хичээлийн төрөл:</label>
-                    <select id="addType">
-                        <option value="Ерөнхий">Ерөнхий</option>
-                        <option value="Гүнзгий">Гүнзгий</option>
-                        <option value="Сонгон">Сонгон</option>
-                    </select>
-                </div>
-
-                <div class="form-group"><label>Өдөр:</label><select id="addDay"><option value="Даваа">Даваа</option><option value="Мягмар">Мягмар</option><option value="Лхагва">Лхагва</option><option value="Пүрэв">Пүрэв</option><option value="Баасан">Баасан</option><option value="Бямба">Бямба (Давтлага)</option></select></div>
-                <div class="form-group"><label>Цаг:</label><input type="text" id="addTime" placeholder="Жишээ: 14:00 - 15:40"></div>
-                <div class="form-group" style="display:flex; gap:10px;">
-                    <div style="flex:1;"><label>Анги:</label><input type="text" id="addClassName" placeholder="Жишээ: 11А"></div>
-                    <div style="flex:1;"><label>Кабинет:</label><input type="text" id="addCabinet" placeholder="Жишээ: 305"></div>
-                </div>
-                
-                <button class="submit-btn" onclick="addNewLesson()">Хуваарьт нэмэх</button>
-            </div>
-        </div>
-
+        <button id="bookBtn" style="width:100%; padding:15px; background:#27ae60; color:white; border:none; border-radius:10px; font-size:16px;">ЗАХИАЛАХ</button>
     </div>
 
     <script>
-        function switchTab(id, btnElement) {
-            var sections = document.getElementsByClassName('content-section');
-            for (var i = 0; i < sections.length; i++) { sections[i].classList.remove('active'); }
-            document.getElementById(id).classList.add('active');
-            if (btnElement) {
-                var buttons = document.querySelectorAll('.menu button');
-                buttons.forEach(btn => btn.classList.remove('active-btn'));
-                btnElement.classList.add('active-btn');
+        // 1. ХУУДАС ШИЛЖИХ
+        function showLanding() {
+            document.getElementById('landing').style.display = 'flex';
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+        }
+
+        function switchTab(tabId) {
+            document.getElementById('landing').style.display = 'none';
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+            
+            const activeSection = document.getElementById(tabId);
+            if (activeSection) {
+                activeSection.classList.add('active');
             }
         }
 
+        // 2. ХУВААРЬ ШҮҮХ
         function filterSchedule() {
-            var nameInput = document.getElementById("searchTeacher").value.toUpperCase();
-            var dayInput = document.getElementById("dayFilter").value.toUpperCase();
-            var classInput = document.getElementById("classFilter").value.toUpperCase();
-            var typeInput = document.getElementById("typeFilter").value.toUpperCase();
-
+            var input = document.getElementById("searchTeacher").value.toUpperCase();
+            var day = document.getElementById("dayFilter").value.toUpperCase();
             var table = document.getElementById("teacherTable");
             var tr = table.getElementsByTagName("tr");
 
             for (var i = 1; i < tr.length; i++) {
                 var tdName = tr[i].getElementsByTagName("td")[0];
-                var tdType = tr[i].getElementsByTagName("td")[2]; 
                 var tdDay = tr[i].getElementsByTagName("td")[3];
-                var tdClass = tr[i].getElementsByTagName("td")[5]; 
-                
-                if (tdName && tdDay && tdClass && tdType) {
-                    var nameText = tdName.textContent || tdName.innerText;
-                    var typeText = tdType.textContent || tdType.innerText;
-                    var dayText = tdDay.textContent || tdDay.innerText;
-                    var classText = tdClass.textContent || tdClass.innerText;
-                    
-                    var nameMatch = nameText.toUpperCase().indexOf(nameInput) > -1;
-                    var dayMatch = dayInput === "" || dayText.toUpperCase() === dayInput;
-                    var classMatch = classInput === "" || classText.toUpperCase().indexOf(classInput) > -1;
-                    var typeMatch = typeInput === "" || typeText.toUpperCase().indexOf(typeInput) > -1;
-                    
-                    if (nameMatch && dayMatch && classMatch && typeMatch) {
+                if (tdName && tdDay) {
+                    var txtName = tdName.textContent || tdName.innerText;
+                    var txtDay = tdDay.textContent || tdDay.innerText;
+                    if (txtName.toUpperCase().indexOf(input) > -1 && (day === "" || txtDay.toUpperCase().indexOf(day) > -1)) {
                         tr[i].style.display = "";
                     } else {
                         tr[i].style.display = "none";
@@ -569,10 +464,8 @@
             }
         }
 
-        // --- AI CHAT LOGIC (GEMINI 1.5 FLASH) ---
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') { sendMessage(); }
-        }
+        // 3. AI CHAT LOGIC (Gemini 1.5 Flash - Key Embedded)
+        function handleKeyPress(event) { if (event.key === 'Enter') sendMessage(); }
 
         async function sendMessage() {
             var input = document.getElementById("chatInput");
@@ -590,156 +483,51 @@
             chatHistory.appendChild(loadingDiv);
             chatHistory.scrollTop = chatHistory.scrollHeight;
 
-            // --- API ТОХИРГОО ---
-            // ЭНД ДӨНГӨЖ САЯ АВСАН (...wyPs) ТҮЛХҮҮРЭЭ ХУУЛЖ ТАВИАРАЙ
+            // --- API KEY ХЭСЭГ (Таны өгсөн түлхүүр) ---
             const API_KEY = "AIzaSyBizr6GJYxmv5AVjYPcKeVbHtOjeW7wyPs"; 
             
-            // Загварыг gemini-1.5-flash болгож тохируулав (Шинэ түлхүүр дээр ажиллана)
-            const URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY;
-
-            const systemPrompt = `
-                Чи бол 'Эрдмийн Далай' сургуулийн AI туслах. 
-                Монголоор товч, ойлгомжтой хариул.
-            `;
+            const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
             try {
                 const response = await fetch(URL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{ text: systemPrompt + "\nАсуулт: " + message }]
-                        }]
+                        contents: [{ parts: [{ text: "Чи бол сургуулийн туслах. Монголоор хариул. Асуулт: " + message }] }]
                     })
                 });
-
                 const data = await response.json();
+                let botResponse = "Алдаа гарлаа.";
                 
-                let botResponse = "";
-
-                if (data.error) {
-                    console.error("API Error:", data.error);
-                    botResponse = `⚠️ АЛДАА: ${data.error.message} (Code: ${data.error.code})`;
-                } else if (data.candidates && data.candidates.length > 0) {
-                    botResponse = data.candidates[0].content.parts[0].text;
-                    botResponse = botResponse.replace(/\*\*/g, "").replace(/\*/g, "-");
-                } else {
-                    botResponse = "Хариулт олдсонгүй.";
+                if(data.candidates) {
+                    botResponse = data.candidates[0].content.parts[0].text.replace(/\*/g, "");
+                } else if(data.error) {
+                    botResponse = "API Алдаа: " + data.error.message;
                 }
 
                 chatHistory.removeChild(loadingDiv);
                 chatHistory.innerHTML += `<div class="chat-message bot-msg">${botResponse}</div>`;
-
             } catch (error) {
                 chatHistory.removeChild(loadingDiv);
-                chatHistory.innerHTML += `<div class="chat-message bot-msg" style="color:red;">СҮЛЖЭЭНИЙ АЛДАА: ${error.message}</div>`;
+                chatHistory.innerHTML += `<div class="chat-message bot-msg">Сүлжээний алдаа.</div>`;
             }
-
             chatHistory.scrollTop = chatHistory.scrollHeight;
         }
 
-        function toggleLessonForm() {
-            var form = document.getElementById('addLessonForm');
-            if (form.style.display === "none") {
-                var pass = prompt("Багшийн нууц үг (PIN) оруулна уу:");
-                if (pass === "1234") { form.style.display = "block"; } 
-                else if (pass !== null) { alert("❌ Нууц үг буруу байна!"); }
-            } else { form.style.display = "none"; }
-        }
-
-        function addTeleLesson() {
-            var subject = document.getElementById('elSubject').value;
-            var topic = document.getElementById('elTopic').value;
-            var teacher = document.getElementById('elTeacher').value;
-            var link = document.getElementById('elLink').value;
-            if (!subject || !topic || !teacher || !link) { alert("⚠️ Бүх талбарыг бөглөнө үү!"); return; }
-            var thumbUrl = "";
-            var youtubeID = "";
-            if (link.includes("youtube.com") || link.includes("youtu.be")) {
-                var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-                var match = link.match(regExp);
-                if (match && match[2].length == 11) { youtubeID = match[2]; thumbUrl = `https://img.youtube.com/vi/${youtubeID}/hqdefault.jpg`; }
-            }
-            var thumbStyle = thumbUrl ? `background-image: url('${thumbUrl}');` : `background-color: #3498db;`;
-            var cardHTML = `<div class="lesson-card"><div class="lesson-thumb" style="${thumbStyle}"></div><div class="lesson-content"><div class="lesson-subject">${subject}</div><div class="lesson-title">${topic}</div><div class="lesson-teacher">Багш: ${teacher}</div><a href="${link}" target="_blank" class="lesson-btn">ҮЗЭХ</a></div></div>`;
-            document.getElementById('lessonGrid').innerHTML += cardHTML;
-            alert("✅ Хичээл амжилттай нийтлэгдлээ!");
-            document.getElementById('addLessonForm').style.display = "none";
-            document.getElementById('elSubject').value = ""; document.getElementById('elTopic').value = ""; document.getElementById('elTeacher').value = ""; document.getElementById('elLink').value = "";
-        }
-
-        function addNewLesson() {
-            var pass = document.getElementById('adminPass').value;
-            if (pass !== '1234') { alert("❌ Нууц үг буруу байна! (Demo: 1234)"); return; }
-
-            var name = document.getElementById('addName').value;
-            var lesson = document.getElementById('addLesson').value;
-            var type = document.getElementById('addType').value;
-            var day = document.getElementById('addDay').value;
-            var time = document.getElementById('addTime').value;
-            var className = document.getElementById('addClassName').value;
-            var cabinet = document.getElementById('addCabinet').value;
-
-            if (name === "" || lesson === "" || time === "" || className === "" || cabinet === "") { alert("⚠️ Бүх талбарыг бөглөнө үү!"); return; }
-
-            var fullLocation = className + " (" + cabinet + ")";
-            var table = document.getElementById("teacherTable").getElementsByTagName('tbody')[0];
-            var newRow = table.insertRow();
-            newRow.classList.add('new-row');
-
-            newRow.innerHTML = `<td>${name}</td><td>${lesson}</td><td>${type}</td><td>${day}</td><td>${time}</td><td>${fullLocation}</td><td style="text-align:center;"><button class="del-btn" onclick="deleteRow(this)">🗑️</button></td>`;
-
-            alert("✅ Хичээл амжилттай нэмэгдлээ!");
-            document.getElementById('addName').value = ""; document.getElementById('addLesson').value = ""; document.getElementById('addTime').value = ""; document.getElementById('addClassName').value = ""; document.getElementById('addCabinet').value = "";
-            switchTab('teachers');
-            var buttons = document.querySelectorAll('.menu button');
-            buttons.forEach(btn => btn.classList.remove('active-btn'));
-            buttons[0].classList.add('active-btn');
-        }
-
-        function deleteRow(btn) {
-            var pass = prompt("Энэ хичээлийг устгахын тулд Багшийн нууц үгээ (PIN) оруулна уу:");
-            if (pass === "1234") {
-                var row = btn.parentNode.parentNode;
-                row.parentNode.removeChild(row);
-                alert("🗑️ Хичээл устгагдлаа.");
-            } else if (pass !== null) { alert("❌ Нууц үг буруу байна!"); }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const centerGrid = document.getElementById('center-tables');
-            for (let i = 1; i <= 40; i++) {
-                centerGrid.innerHTML += `<div class="double-table"><div class="seat table" data-name="${i}A">${i}A</div><div class="table-divider"></div><div class="seat table" data-name="${i}B">${i}B</div></div>`;
-            }
-            const librarySection = document.getElementById('library');
-            librarySection.addEventListener('click', (e) => {
-                const seat = e.target.closest('.seat');
-                if (!seat) return;
-                if (seat.classList.contains('occupied')) {
-                    const seatName = seat.getAttribute('data-name') || seat.innerText;
-                    const savedPin = seat.getAttribute('data-pin');
-                    const inputPin = prompt(`${seatName} суудлыг цуцлахын тулд ПИН кодоо хийнэ үү:`);
-                    if (inputPin === savedPin) { seat.classList.remove('occupied'); seat.removeAttribute('data-pin'); alert("✅ Захиалга цуцлагдлаа."); } 
-                    else if (inputPin !== null) { alert("❌ ПИН код буруу байна!"); }
-                    return;
+        // 4. НОМЫН САН
+        document.querySelectorAll('.seat').forEach(seat => {
+            seat.addEventListener('click', function() {
+                if(!this.classList.contains('occupied')) {
+                    this.classList.toggle('selected');
                 }
-                seat.classList.toggle('selected');
             });
-            document.getElementById('bookBtn').addEventListener('click', () => {
-                const userType = document.getElementById('userType').value;
-                const duration = parseFloat(document.getElementById('bookingDuration').value);
-                const pin = document.getElementById('bookingPin').value;
-                const selectedSeats = document.querySelectorAll('.seat.selected');
-                if (selectedSeats.length === 0) { alert("Та суудал сонгоогүй байна!"); return; }
-                if (!duration || duration <= 0) { alert("Та цагаа зөв оруулна уу!"); return; }
-                if (!pin || pin.length !== 4) { alert("Та 4 оронтой ПИН код зохионо уу!"); return; }
-                if (userType === 'regular' && duration > 2) { alert("⚠️ Энгийн сурагч дээд тал нь 2 цаг захиалах боломжтой!"); return; }
-                selectedSeats.forEach(seat => { seat.classList.remove('selected'); seat.classList.add('occupied'); seat.setAttribute('data-pin', pin); });
-                alert("✅ Амжилттай захиаллаа!");
-                document.getElementById('bookingPin').value = '';
+        });
+        document.getElementById('bookBtn').addEventListener('click', () => {
+            alert('Захиалга амжилттай!');
+            document.querySelectorAll('.seat.selected').forEach(s => {
+                s.classList.remove('selected'); s.classList.add('occupied');
             });
         });
     </script>
-
 </body>
 </html>
