@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-// FIREBASE CONFIG
+// --- FIREBASE CONFIG ---
 const firebaseConfig = {
     apiKey: "AIzaSyDqEaWLW-Pl6WRhgw22ifp0pi-Zkrqfwq4",
     authDomain: "erdmiin-dalai-library.firebaseapp.com",
@@ -21,12 +21,12 @@ let seatsData = {};
 try {
     const app = initializeApp(firebaseConfig);
     db = getDatabase(app);
-    console.log("Firebase Connected Successfully");
+    console.log("Firebase Connected");
 } catch(e) {
-    console.error("Firebase Connection Failed:", e);
+    console.error("Firebase Config Error:", e);
 }
 
-// --- GLOBAL FUNCTIONS (HTML-ээс дуудах боломжтой болгох) ---
+// --- GLOBAL FUNCTIONS ---
 window.showLanding = function() {
     document.getElementById('landing').style.display = 'flex';
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
@@ -135,10 +135,14 @@ window.addNewLesson = function() {
     else alert("Нууц үг буруу"); 
 }
 
-// --- LIBRARY LOGIC ---
+// --- LIBRARY LOGIC (ЗАССАН ХЭСЭГ) ---
 function initLibrary() {
     const center = document.getElementById('center-tables');
-    if(center.innerHTML === "") {
+    
+    // ЭНД ӨӨРЧЛӨЛТ ОРСОН: Хоосон эсэхийг шалгахгүйгээр шууд цэвэрлээд зурна.
+    // Энэ нь таны "comment" бичсэн асуудлыг шийднэ.
+    if(center.querySelectorAll('.double-table').length === 0) {
+        center.innerHTML = ""; // Доторх тайлбарыг устгана
         for(let i=1; i<=20; i++) {
             center.innerHTML += `<div class="double-table"><div class="seat table" id="C${i}A">${i}A</div><div class="table-divider"></div><div class="seat table" id="C${i}B">${i}B</div></div>`;
         }
@@ -167,7 +171,7 @@ function initLibrary() {
         if(e.target.classList.contains('seat')) {
             const seat = e.target;
             
-            // IF OCCUPIED -> CANCEL
+            // ЗАХИАЛСАН СУУДАЛ ЦУЦЛАХ ХЭСЭГ
             if(seat.classList.contains('occupied')) {
                 const data = seatsData[seat.id];
                 if(data) {
@@ -175,7 +179,8 @@ function initLibrary() {
                     const timeStr = endDate.getHours() + ":" + String(endDate.getMinutes()).padStart(2, '0');
                     
                     const pinInput = prompt(`Энэ суудал ${timeStr} цагт дуусна.\n\nЦуцлахын тулд ПИН кодоо хийнэ үү:`);
-                    if(pinInput === data.pin) {
+                    // Number/String conversion fix
+                    if(String(pinInput) === String(data.pin)) {
                         remove(ref(db, 'seats/' + seat.id));
                         alert("Захиалга цуцлагдлаа!");
                     } else if(pinInput !== null) {
@@ -185,7 +190,7 @@ function initLibrary() {
                 return;
             }
             
-            // IF EMPTY -> SELECT
+            // СУУДАЛ СОНГОХ
             e.target.classList.toggle('selected');
         }
         
@@ -220,6 +225,7 @@ function handleBooking() {
 
 // Initialize on Load
 document.addEventListener('DOMContentLoaded', () => {
-    initLibrary();
+    // Шууд ачаалахгүй, Tab солих үед ачаална.
+    // Гэхдээ эхний удаад номнуудыг харуулна.
     renderBooks(books);
 });
