@@ -1,8 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-// --- 1. FIREBASE CONFIG (Номын сангийн хэсэг) ---
-// Энэ хэсэг таны өмнөх тохиргоогоор хэвээрээ үлдсэн
+// --- 1. FIREBASE CONFIG ---
 const firebaseConfig = {
     apiKey: "AIzaSyDqEaWLW-Pl6WRhgw22ifp0pi-Zkrqfwq4",
     authDomain: "erdmiin-dalai-library.firebaseapp.com",
@@ -13,8 +12,7 @@ const firebaseConfig = {
     appId: "1:223189730146:web:e22672ce71d259d5f7a23b"
 };
 
-// --- 2. AI KEY (ШИНЭЧЛЭГДСЭН) ---
-// Таны сая явуулсан түлхүүрийг энд хийлээ
+// --- 2. AI KEY (Таны өгсөн түлхүүр) ---
 const AI_KEY = "AIzaSyABeqYEy5TRCWVGOIGpp5xFzX9EW0doV8M";
 
 let db;
@@ -29,7 +27,7 @@ try {
     console.error("Firebase Config Error:", e);
 }
 
-// --- GLOBAL FUNCTIONS (HTML-ээс дуудах боломжтой функцүүд) ---
+// --- GLOBAL FUNCTIONS ---
 
 // 1. Хуудас шилжих
 window.showLanding = function() {
@@ -43,7 +41,6 @@ window.switchTab = function(id) {
     const activeSection = document.getElementById(id);
     if(activeSection) activeSection.classList.add('active');
     
-    // Номын сан руу орох үед л ачаална
     if(id === 'library') {
         initLibrary(); 
     }
@@ -70,7 +67,7 @@ window.handleKeyPress = function(e) {
     if(e.key === 'Enter') sendMessage(); 
 }
 
-// 4. AI Чат илгээх (Шинэ түлхүүрээр ажиллана)
+// 4. AI Чат илгээх (ЗАССАН ХЭСЭГ: gemini-pro ашиглана)
 window.sendMessage = async function() {
     var input = document.getElementById("chatInput"); 
     var msg = input.value.trim(); 
@@ -90,7 +87,8 @@ window.sendMessage = async function() {
     hist.scrollTop = hist.scrollHeight;
     
     try {
-        const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + AI_KEY, {
+        // ЭНД "gemini-pro" БОЛГОЖ ӨӨРЧЛӨВ
+        const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + AI_KEY, {
             method: "POST", 
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ 
@@ -167,7 +165,6 @@ window.addNewLesson = function() {
 function initLibrary() {
     const center = document.getElementById('center-tables');
     
-    // Гол ширээ зурах (Давхардахаас сэргийлж шалгана)
     if(center.querySelectorAll('.double-table').length === 0) {
         center.innerHTML = ""; 
         for(let i=1; i<=20; i++) {
@@ -183,9 +180,8 @@ function initLibrary() {
             
             Object.keys(seatsData).forEach(key => {
                 const el = document.getElementById(key);
-                // Хугацаа дууссан эсэхийг шалгах
                 if(seatsData[key].endTime < Date.now()) {
-                    remove(ref(db, 'seats/' + key)); // Автоматаар чөлөөлөх
+                    remove(ref(db, 'seats/' + key)); 
                 } else if(el && seatsData[key].status === 'occupied') {
                     el.classList.add('occupied');
                 }
@@ -201,7 +197,6 @@ function initLibrary() {
         if(e.target.classList.contains('seat')) {
             const seat = e.target;
             
-            // ХЭРВЭЭ ЭЗЭНТЭЙ БОЛ -> МЭДЭЭЛЭЛ ХАРАХ БОЛОН ЦУЦЛАХ
             if(seat.classList.contains('occupied')) {
                 const data = seatsData[seat.id];
                 if(data) {
@@ -221,7 +216,6 @@ function initLibrary() {
                 return;
             }
             
-            // СУУДАЛ СОНГОХ
             e.target.classList.toggle('selected');
         }
         
@@ -242,7 +236,6 @@ function handleBooking() {
     if(pin.length !== 4) { alert("4 оронтой ПИН хийнэ үү!"); return; }
     if(hours === 0 && minutes === 0) { alert("Хугацаагаа сонгоно уу!"); return; }
 
-    // Нийт хугацааг миллисекунд рүү хөрвүүлэх
     const durationMs = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000);
     const endTime = Date.now() + durationMs;
 
@@ -260,8 +253,6 @@ function handleBooking() {
     alert("Амжилттай захиалагдлаа!");
 }
 
-// Эхлэх үед ачаалах
 document.addEventListener('DOMContentLoaded', () => {
-    // Эхний удаад номнуудыг харуулна
     renderBooks(books);
 });
