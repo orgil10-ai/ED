@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-// --- 1. FIREBASE CONFIG ---
+// --- 1. FIREBASE CONFIG (Таны өмнөх тохиргоо) ---
 const firebaseConfig = {
     apiKey: "AIzaSyDqEaWLW-Pl6WRhgw22ifp0pi-Zkrqfwq4",
     authDomain: "erdmiin-dalai-library.firebaseapp.com",
@@ -12,13 +12,13 @@ const firebaseConfig = {
     appId: "1:223189730146:web:e22672ce71d259d5f7a23b"
 };
 
-// --- 2. OPENAI KEY (ChatGPT) ---
-// ЭНД ChatGPT-ийн түлхүүрээ хийнэ (sk-...)
-const OPENAI_KEY = "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";
+// --- 2. AI KEY (Таны шинэ түлхүүр - Google Gemini) ---
+const AI_KEY = "AIzaSyB8S87nVIXaF_YXuRI3Tbih5lJO2dE_9hM";
 
 let db;
 let seatsData = {};
 
+// Firebase холболт
 try {
     const app = initializeApp(firebaseConfig);
     db = getDatabase(app);
@@ -39,7 +39,10 @@ window.switchTab = function(id) {
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
     const activeSection = document.getElementById(id);
     if(activeSection) activeSection.classList.add('active');
-    if(id === 'library') initLibrary(); 
+    
+    if(id === 'library') {
+        initLibrary(); 
+    }
 }
 
 window.filterSchedule = function() {
@@ -61,7 +64,7 @@ window.handleKeyPress = function(e) {
     if(e.key === 'Enter') sendMessage(); 
 }
 
-// --- 4. AI CHAT (ChatGPT LOGIC) ---
+// --- 3. AI CHAT (GEMINI - БҮРЭН ЗАСАГДСАН) ---
 window.sendMessage = async function() {
     var input = document.getElementById("chatInput"); 
     var msg = input.value.trim(); 
@@ -78,19 +81,14 @@ window.sendMessage = async function() {
     hist.scrollTop = hist.scrollHeight;
     
     try {
-        // OPENAI API дуудах хэсэг
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        // Gemini 1.5 Flash ашиглана (Хурдан бөгөөд Үнэгүй)
+        const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + AI_KEY, {
             method: "POST", 
-            headers: { 
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + OPENAI_KEY // Түлхүүр холбох
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ 
-                model: "gpt-3.5-turbo", // Эсвэл "gpt-4o"
-                messages: [
-                    { role: "system", content: "Чи бол 'Эрдмийн Далай' сургуулийн туслах. Монголоор товч, найрсаг хариул." },
-                    { role: "user", content: msg }
-                ]
+                contents: [{ 
+                    parts: [{ text: "Чи бол 'Эрдмийн Далай' сургуулийн ухаалаг туслах. Монголоор товч, ойлгомжтой хариул. Асуулт: " + msg }] 
+                }] 
             })
         });
 
@@ -98,10 +96,11 @@ window.sendMessage = async function() {
         hist.removeChild(loading);
 
         if (data.error) {
-            console.error("OpenAI Error:", data.error);
+            console.error("Gemini Error:", data.error);
             hist.innerHTML += `<div class="chat-message bot-msg" style="color:red;">Алдаа: ${data.error.message}</div>`;
         } else {
-            const botReply = data.choices[0].message.content;
+            // Одууд (**) -ийг арилгаж цэвэрлэх
+            const botReply = data.candidates[0].content.parts[0].text.replace(/\*\*/g, "");
             hist.innerHTML += `<div class="chat-message bot-msg">${botReply}</div>`;
         }
 
@@ -113,7 +112,7 @@ window.sendMessage = async function() {
     hist.scrollTop = hist.scrollHeight;
 }
 
-// 5. Ном захиалга
+// --- 4. НОМ ЗАХИАЛГА ---
 const books = [
     { title: "Монголын Нууц Товчоо", author: "Ц.Дамдинсүрэн" },
     { title: "Гарри Поттер", author: "Ж.К.Роулинг" },
@@ -143,14 +142,16 @@ window.searchBooks = function() {
     renderBooks(books.filter(b => b.title.toUpperCase().includes(val)));
 }
 
-// 6. Бусад функцүүд
+// Бусад
 window.toggleLessonForm = function() { var f=document.getElementById('addLessonForm'); f.style.display = f.style.display==='none'?'block':'none'; }
 window.addTeleLesson = function() { alert("Нэмэгдлээ!"); document.getElementById('addLessonForm').style.display='none'; }
 window.addNewLesson = function() { if(document.getElementById('adminPass').value==='1234') alert("Хуваарь шинэчлэгдлээ!"); else alert("Нууц үг буруу"); }
 
-// --- 7. LIBRARY LOGIC ---
+// --- 5. LIBRARY LOGIC (НОМЫН САН) ---
 function initLibrary() {
     const center = document.getElementById('center-tables');
+    
+    // Давхардахаас сэргийлэх
     if(center.querySelectorAll('.double-table').length === 0) {
         center.innerHTML = ""; 
         for(let i=1; i<=20; i++) {
@@ -163,8 +164,10 @@ function initLibrary() {
         onValue(seatsRef, (snapshot) => {
             seatsData = snapshot.val() || {};
             document.querySelectorAll('.seat').forEach(s => s.classList.remove('occupied'));
+            
             Object.keys(seatsData).forEach(key => {
                 const el = document.getElementById(key);
+                // Хугацаа дууссан бол автоматаар устгах
                 if(seatsData[key].endTime < Date.now()) {
                     remove(ref(db, 'seats/' + key)); 
                 } else if(el && seatsData[key].status === 'occupied') {
@@ -181,13 +184,17 @@ function initLibrary() {
     newLibrary.addEventListener('click', e => {
         if(e.target.classList.contains('seat')) {
             const seat = e.target;
+            
+            // Эзэнтэй бол -> Мэдээлэл харах / Цуцлах
             if(seat.classList.contains('occupied')) {
                 const data = seatsData[seat.id];
                 if(data) {
                     const endDate = new Date(data.endTime);
                     const timeStr = endDate.getHours() + ":" + String(endDate.getMinutes()).padStart(2, '0');
                     const className = data.className ? `АНГИ: ${data.className}\n` : '';
+                    
                     const pinInput = prompt(`${className}Энэ суудал ${timeStr}-д дуусна.\n\nЦуцлахын тулд ПИН кодоо хийнэ үү:`);
+                    
                     if(String(pinInput) === String(data.pin)) {
                         remove(ref(db, 'seats/' + seat.id));
                         alert("Захиалга цуцлагдлаа!");
@@ -197,8 +204,11 @@ function initLibrary() {
                 }
                 return;
             }
+            
+            // Сул бол -> Сонгох
             e.target.classList.toggle('selected');
         }
+        
         if(e.target.id === 'bookBtn') handleBooking();
         if(e.target.classList.contains('back-btn')) window.showLanding();
     });
