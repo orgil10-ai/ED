@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ерөнхий Боловсролын "Эрдмийн Далай" сургууль</title>
     
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#004aad">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="logo.png">
+
     <style>
         /* --- ҮНДСЭН ТОХИРГОО --- */
         :root {
@@ -22,6 +28,7 @@
             background-color: #f8f9fa;
             color: var(--text-dark);
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* --- HEADER --- */
@@ -35,8 +42,19 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            padding-top: env(safe-area-inset-top);
         }
-        .logo-area { display: flex; align-items: center; gap: 15px; }
+        
+        /* ЛОГО ХЭСГИЙН ЗАГВАР (ШИНЭЧЛЭГДСЭН) */
+        .logo-area { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            cursor: pointer; /* Дарж болно гэдгийг харуулах */
+            transition: opacity 0.2s;
+        }
+        .logo-area:active { opacity: 0.7; } /* Дарах үед бүдгэрэх эффект */
+        
         .logo-area img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary-blue); }
         .logo-text h2 { margin: 0; font-size: 18px; color: var(--primary-blue); text-transform: uppercase; }
         .logo-text p { margin: 0; font-size: 12px; color: #777; }
@@ -52,7 +70,7 @@
         }
         .nav-links button:hover { color: var(--primary-blue); }
 
-        /* --- LANDING PAGE --- */
+        /* --- LANDING PAGE LAYOUT --- */
         .landing-wrapper {
             display: flex;
             min-height: calc(100vh - 80px);
@@ -76,6 +94,10 @@
             overflow: hidden;
             min-width: 300px;
             box-shadow: var(--shadow);
+        }
+        .left-intro::before {
+            content: ''; position: absolute; top: -50px; right: -50px;
+            width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%;
         }
         .left-intro h1 { font-size: 36px; margin-bottom: 20px; line-height: 1.2; }
         .left-intro p { font-size: 16px; margin-bottom: 30px; opacity: 0.9; line-height: 1.6; }
@@ -111,7 +133,7 @@
         .menu-card.green .icon-box { background: #e8f5e9; color: #2ecc71; }
         .menu-card.orange .icon-box { background: #fff3e0; color: #f39c12; }
         .menu-card.purple .icon-box { background: #f3e5f5; color: #9b59b6; }
-        .menu-card.red .icon-box { background: #ffebee; color: #e74c3c; } /* Шинэ */
+        .menu-card.red .icon-box { background: #ffebee; color: #e74c3c; }
 
         /* --- CONTENT SECTIONS --- */
         .content-section {
@@ -155,7 +177,7 @@
         .seat.table { background-color: #9b59b6; flex-direction: column; } .seat.table::before { content: '📖'; }
         .door { width: 100%; height: 40px; background: #95a5a6; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 5px; font-size: 12px; }
 
-        /* --- BOOK ORDER STYLES (NEW) --- */
+        /* --- BOOK ORDER STYLES --- */
         .book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; margin-top: 20px; }
         .book-card { border: 1px solid #eee; border-radius: 15px; overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .book-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
@@ -166,6 +188,10 @@
         .book-author { font-size: 13px; color: #777; margin-bottom: 15px; }
         .order-btn { margin-top: auto; background: var(--primary-blue); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
         .order-btn:hover { background: #003366; }
+
+        /* --- ADMIN FORM --- */
+        .admin-form { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        .form-group label { font-weight: bold; display: block; margin-bottom: 5px; color: #2c3e50; }
 
         /* --- AI CHAT STYLES --- */
         .chat-container { height: 500px; display: flex; flex-direction: column; border: 1px solid #eee; border-radius: 15px; overflow: hidden; }
@@ -199,7 +225,7 @@
 <body>
 
     <div class="header-top">
-        <div class="logo-area">
+        <div class="logo-area" onclick="window.location.reload()">
             <img src="logo.png" alt="Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/167/167707.png'">
             <div class="logo-text">
                 <h2>Эрдмийн Далай</h2>
@@ -210,7 +236,7 @@
             <button onclick="showLanding()">Нүүр</button>
             <button onclick="switchTab('teachers')">Хуваарь</button>
             <button onclick="switchTab('book_order')">Ном</button> <button onclick="switchTab('elessons')">Цахим хичээл</button>
-            <button onclick="switchTab('library')">Суудал</button>
+            <button onclick="switchTab('library')">Номын сан</button>
             <button onclick="switchTab('ai-chat')" style="color:#e67e22;">🤖 AI Туслах</button>
         </div>
     </div>
