@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ерөнхий Боловсролын "Эрдмийн Далай" сургууль</title>
     
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#004aad">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="logo.png">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -235,75 +241,11 @@
         <h2 style="text-align:center;">🪑 Суудал захиалга (Real-time)</h2>
         <div style="background:#eaf2f8; padding:15px; border-radius:10px; margin-bottom:20px; text-align:center;">
             <label>Төрөл:</label><select id="userType"><option>Энгийн</option><option>Олимпиад</option></select>
-            <label>Хугацаа (цаг):</label><input type="number" id="bookingDuration" value="1" min="1" max="5" style="width:50px;">
-            <label>ПИН:</label><input type="tel" id="bookingPin" maxlength="4" style="width:80px;">
+            <label>Анги:</label><input type="text" id="userClass" placeholder="10A" style="width:50px;">
+            <label>Цаг:</label><input type="number" id="bookingHours" value="1" min="0" max="5" style="width:40px;">
+            <label>Мин:</label><input type="number" id="bookingMinutes" value="0" min="0" max="59" step="15" style="width:40px;">
+            <label>ПИН:</label><input type="tel" id="bookingPin" maxlength="4" style="width:60px;">
         </div>
-
-        <div id="library" class="content-section">
-        <button class="back-btn" onclick="showLanding()">⬅ Буцах</button>
-        <h2 style="text-align:center;">🪑 Суудал захиалга</h2>
-        
-        <div style="background:#eaf2f8; padding:15px; border-radius:10px; margin-bottom:20px; display:flex; flex-wrap:wrap; gap:10px; justify-content:center; align-items:center;">
-            
-            <div>
-                <label style="display:block; font-size:12px; font-weight:bold;">Анги:</label>
-                <input type="text" id="userClass" placeholder="Ж: 10А" style="width:70px; padding:8px; text-align:center;">
-            </div>
-
-            <div>
-                <label style="display:block; font-size:12px; font-weight:bold;">Цаг:</label>
-                <input type="number" id="bookingHours" value="1" min="0" max="5" style="width:50px; padding:8px; text-align:center;">
-            </div>
-
-            <div>
-                <label style="display:block; font-size:12px; font-weight:bold;">Мин:</label>
-                <input type="number" id="bookingMinutes" value="0" min="0" max="59" step="15" style="width:50px; padding:8px; text-align:center;">
-            </div>
-
-            <div>
-                <label style="display:block; font-size:12px; font-weight:bold;">ПИН:</label>
-                <input type="tel" id="bookingPin" maxlength="4" placeholder="****" style="width:60px; padding:8px; text-align:center;">
-            </div>
-
-        </div>
-
-        <div class="library-layout">
-            <div class="zone-title">💻 Цахим уншлагын хэсэг</div>
-            <div class="computer-zone">
-                <div class="seat computer" id="PC-1">1</div><div class="seat computer" id="PC-2">2</div><div class="seat computer" id="PC-3">3</div>
-                <div class="seat computer" id="PC-4">4</div><div class="seat computer" id="PC-5">5</div><div class="seat computer" id="PC-6">6</div>
-                <div class="seat computer" id="PC-7">7</div><div class="seat computer" id="PC-8">8</div><div class="seat computer" id="PC-9">9</div>
-                <div class="seat computer" id="PC-10">10</div><div class="seat computer" id="PC-11">11</div><div class="seat computer" id="PC-12">12</div>
-            </div>
-
-            <div class="main-hall">
-                <div class="side-wing">
-                    <div class="vertical-pc-group"><div class="seat computer" id="PC-L1">L1</div><div class="seat computer" id="PC-L2">L2</div><div class="seat computer" id="PC-L3">L3</div><div class="seat computer" id="PC-L4">L4</div></div>
-                    <div class="door">🚪 ХААЛГА</div>
-                    <div class="double-table"><div class="seat table" id="L1A">L1A</div><div class="table-divider"></div><div class="seat table" id="L1B">L1B</div></div>
-                    <div class="double-table"><div class="seat table" id="L2A">L2A</div><div class="table-divider"></div><div class="seat table" id="L2B">L2B</div></div>
-                    <div class="double-table"><div class="seat table" id="L3A">L3A</div><div class="table-divider"></div><div class="seat table" id="L3B">L3B</div></div>
-                    <div class="double-table"><div class="seat table" id="L4A">L4A</div><div class="table-divider"></div><div class="seat table" id="L4B">L4B</div></div>
-                </div>
-                
-                <div class="center-area-container">
-                    <div class="zone-title">Гол танхим</div>
-                    <div id="center-tables" class="center-grid"></div>
-                </div>
-
-                <div class="side-wing">
-                    <div class="vertical-pc-group"><div class="seat computer" id="PC-R1">R1</div><div class="seat computer" id="PC-R2">R2</div><div class="seat computer" id="PC-R3">R3</div><div class="seat computer" id="PC-R4">R4</div></div>
-                    <div style="height:30px;"></div>
-                    <div class="double-table"><div class="seat table" id="R1A">R1A</div><div class="table-divider"></div><div class="seat table" id="R1B">R1B</div></div>
-                    <div class="double-table"><div class="seat table" id="R2A">R2A</div><div class="table-divider"></div><div class="seat table" id="R2B">R2B</div></div>
-                    <div class="double-table"><div class="seat table" id="R3A">R3A</div><div class="table-divider"></div><div class="seat table" id="R3B">R3B</div></div>
-                    <div class="double-table"><div class="seat table" id="R4A">R4A</div><div class="table-divider"></div><div class="seat table" id="R4B">R4B</div></div>
-                    <div class="double-table"><div class="seat table" id="R5A">R5A</div><div class="table-divider"></div><div class="seat table" id="R5B">R5B</div></div>
-                </div>
-            </div>
-            <button id="bookBtn" style="width:100%; padding:15px; background:#27ae60; color:white; border:none; border-radius:10px; font-size:16px; margin-top:20px;">ЗАХИАЛАХ</button>
-        </div>
-    </div>
 
         <div class="library-layout">
             <div class="zone-title">💻 Цахим уншлагын хэсэг</div>
