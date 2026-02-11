@@ -91,7 +91,7 @@ window.sendMessage = async function() {
     hist.scrollTop = hist.scrollHeight;
 }
 
-// BOOK ORDER
+// BOOK ORDER LOGIC
 const books = [
     { title: "Монголын Нууц Товчоо", author: "Ц.Дамдинсүрэн" },
     { title: "Гарри Поттер", author: "Ж.К.Роулинг" },
@@ -135,14 +135,13 @@ window.addNewLesson = function() {
     else alert("Нууц үг буруу"); 
 }
 
-// --- LIBRARY LOGIC (ЗАССАН ХЭСЭГ) ---
+// --- LIBRARY LOGIC (ШИНЭЧЛЭГДСЭН) ---
 function initLibrary() {
     const center = document.getElementById('center-tables');
     
-    // ЭНД ӨӨРЧЛӨЛТ ОРСОН: Хоосон эсэхийг шалгахгүйгээр шууд цэвэрлээд зурна.
-    // Энэ нь таны "comment" бичсэн асуудлыг шийднэ.
+    // Гол ширээ зурах (Давхардахаас сэргийлж шалгана)
     if(center.querySelectorAll('.double-table').length === 0) {
-        center.innerHTML = ""; // Доторх тайлбарыг устгана
+        center.innerHTML = ""; 
         for(let i=1; i<=20; i++) {
             center.innerHTML += `<div class="double-table"><div class="seat table" id="C${i}A">${i}A</div><div class="table-divider"></div><div class="seat table" id="C${i}B">${i}B</div></div>`;
         }
@@ -156,7 +155,10 @@ function initLibrary() {
             
             Object.keys(seatsData).forEach(key => {
                 const el = document.getElementById(key);
-                if(el && seatsData[key].status === 'occupied') {
+                // Хугацаа дууссан эсэхийг шалгах
+                if(seatsData[key].endTime < Date.now()) {
+                    remove(ref(db, 'seats/' + key)); // Автоматаар цуцлах
+                } else if(el && seatsData[key].status === 'occupied') {
                     el.classList.add('occupied');
                 }
             });
@@ -171,15 +173,16 @@ function initLibrary() {
         if(e.target.classList.contains('seat')) {
             const seat = e.target;
             
-            // ЗАХИАЛСАН СУУДАЛ ЦУЦЛАХ ХЭСЭГ
+            // ХЭРВЭЭ ЭЗЭНТЭЙ БОЛ -> МЭДЭЭЛЭЛ ХАРАХ БОЛОН ЦУЦЛАХ
             if(seat.classList.contains('occupied')) {
                 const data = seatsData[seat.id];
                 if(data) {
                     const endDate = new Date(data.endTime);
                     const timeStr = endDate.getHours() + ":" + String(endDate.getMinutes()).padStart(2, '0');
+                    const className = data.className ? `АНГИ: ${data.className}\n` : '';
                     
-                    const pinInput = prompt(`Энэ суудал ${timeStr} цагт дуусна.\n\nЦуцлахын тулд ПИН кодоо хийнэ үү:`);
-                    // Number/String conversion fix
+                    const pinInput = prompt(`${className}Энэ суудал ${timeStr}-д дуусна.\n\nЦуцлахын тулд ПИН кодоо хийнэ үү:`);
+                    
                     if(String(pinInput) === String(data.pin)) {
                         remove(ref(db, 'seats/' + seat.id));
                         alert("Захиалга цуцлагдлаа!");
@@ -202,19 +205,25 @@ function initLibrary() {
 function handleBooking() {
     const selected = document.querySelectorAll('.seat.selected');
     const pin = document.getElementById('bookingPin').value;
-    const duration = parseInt(document.getElementById('bookingDuration').value);
+    const userClass = document.getElementById('userClass').value;
+    const hours = parseInt(document.getElementById('bookingHours').value) || 0;
+    const minutes = parseInt(document.getElementById('bookingMinutes').value) || 0;
 
     if(selected.length === 0) { alert("Суудал сонгоно уу!"); return; }
+    if(!userClass) { alert("Ангийн нэрээ оруулна уу! (Жишээ: 10А)"); return; }
     if(pin.length !== 4) { alert("4 оронтой ПИН хийнэ үү!"); return; }
-    if(!duration || duration < 1) { alert("Цагаа зөв оруулна уу!"); return; }
+    if(hours === 0 && minutes === 0) { alert("Хугацаагаа сонгоно уу!"); return; }
 
-    const endTime = Date.now() + (duration * 60 * 60 * 1000); 
+    // Нийт хугацааг миллисекунд рүү хөрвүүлэх
+    const durationMs = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000);
+    const endTime = Date.now() + durationMs;
 
     selected.forEach(s => {
         if(db) {
             set(ref(db, 'seats/' + s.id), {
                 status: 'occupied',
                 pin: pin,
+                className: userClass,
                 endTime: endTime
             });
         }
@@ -223,9 +232,7 @@ function handleBooking() {
     alert("Амжилттай захиалагдлаа!");
 }
 
-// Initialize on Load
 document.addEventListener('DOMContentLoaded', () => {
-    // Шууд ачаалахгүй, Tab солих үед ачаална.
-    // Гэхдээ эхний удаад номнуудыг харуулна.
+    initLibrary();
     renderBooks(books);
 });
