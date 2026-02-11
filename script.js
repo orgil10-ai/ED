@@ -1,7 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-// --- FIREBASE CONFIG ---
+// --- 1. FIREBASE CONFIG (Номын сангийн хэсэг) ---
+// Энэ хэсэг таны өмнөх тохиргоогоор хэвээрээ үлдсэн
 const firebaseConfig = {
     apiKey: "AIzaSyDqEaWLW-Pl6WRhgw22ifp0pi-Zkrqfwq4",
     authDomain: "erdmiin-dalai-library.firebaseapp.com",
@@ -12,21 +13,25 @@ const firebaseConfig = {
     appId: "1:223189730146:web:e22672ce71d259d5f7a23b"
 };
 
-// AI KEY
-const AI_KEY = "AIzaSyBizr6GJYxmv5AVjYPcKeVbHtOjeW7wyPs";
+// --- 2. AI KEY (ШИНЭЧЛЭГДСЭН) ---
+// Таны сая явуулсан түлхүүрийг энд хийлээ
+const AI_KEY = "AIzaSyABeqYEy5TRCWVGOIGpp5xFzX9EW0doV8M";
 
 let db;
 let seatsData = {};
 
+// Firebase холболт шалгах
 try {
     const app = initializeApp(firebaseConfig);
     db = getDatabase(app);
-    console.log("Firebase Connected");
+    console.log("Firebase Connected Successfully");
 } catch(e) {
     console.error("Firebase Config Error:", e);
 }
 
-// --- GLOBAL FUNCTIONS ---
+// --- GLOBAL FUNCTIONS (HTML-ээс дуудах боломжтой функцүүд) ---
+
+// 1. Хуудас шилжих
 window.showLanding = function() {
     document.getElementById('landing').style.display = 'flex';
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
@@ -38,11 +43,13 @@ window.switchTab = function(id) {
     const activeSection = document.getElementById(id);
     if(activeSection) activeSection.classList.add('active');
     
+    // Номын сан руу орох үед л ачаална
     if(id === 'library') {
         initLibrary(); 
     }
 }
 
+// 2. Багш хайх
 window.filterSchedule = function() {
     var input = document.getElementById("searchTeacher").value.toUpperCase();
     var day = document.getElementById("dayFilter").value.toUpperCase();
@@ -58,40 +65,61 @@ window.filterSchedule = function() {
     }
 }
 
+// 3. AI Чат (Enter дарахад)
 window.handleKeyPress = function(e) { 
     if(e.key === 'Enter') sendMessage(); 
 }
 
+// 4. AI Чат илгээх (Шинэ түлхүүрээр ажиллана)
 window.sendMessage = async function() {
     var input = document.getElementById("chatInput"); 
     var msg = input.value.trim(); 
     if(msg==="") return;
     
     var hist = document.getElementById("chatHistory");
+    
+    // Хэрэглэгчийн мессеж
     hist.innerHTML += `<div class="chat-message user-msg">${msg}</div>`; 
     input.value = "";
     
+    // Уншиж байна...
     var loading = document.createElement("div"); 
     loading.className = "chat-message bot-msg"; 
     loading.innerHTML = "<i>Бодож байна...</i>"; 
     hist.appendChild(loading);
+    hist.scrollTop = hist.scrollHeight;
     
     try {
         const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + AI_KEY, {
-            method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ contents: [{ parts: [{ text: "School assistant. Answer in Mongolian. Q: " + msg }] }] })
+            method: "POST", 
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ 
+                contents: [{ 
+                    parts: [{ text: "Чи бол 'Эрдмийн Далай' сургуулийн туслах. Монголоор товч, найрсаг хариул. Асуулт: " + msg }] 
+                }] 
+            })
         });
+
         const data = await response.json();
         hist.removeChild(loading);
-        hist.innerHTML += `<div class="chat-message bot-msg">${data.candidates ? data.candidates[0].content.parts[0].text : "Алдаа гарлаа."}</div>`;
+
+        if (data.error) {
+            console.error("AI Error:", data.error);
+            hist.innerHTML += `<div class="chat-message bot-msg" style="color:red;">Алдаа: ${data.error.message}</div>`;
+        } else {
+            const botReply = data.candidates[0].content.parts[0].text.replace(/\*/g, "");
+            hist.innerHTML += `<div class="chat-message bot-msg">${botReply}</div>`;
+        }
+
     } catch(e) { 
         hist.removeChild(loading); 
-        hist.innerHTML += `<div class="chat-message bot-msg">Сүлжээний алдаа.</div>`; 
+        console.error("Network Error:", e);
+        hist.innerHTML += `<div class="chat-message bot-msg" style="color:red;">Сүлжээний алдаа. Интернэтээ шалгана уу.</div>`; 
     }
     hist.scrollTop = hist.scrollHeight;
 }
 
-// BOOK ORDER LOGIC
+// 5. Ном захиалга (Жагсаалт)
 const books = [
     { title: "Монголын Нууц Товчоо", author: "Ц.Дамдинсүрэн" },
     { title: "Гарри Поттер", author: "Ж.К.Роулинг" },
@@ -121,7 +149,7 @@ window.searchBooks = function() {
     renderBooks(books.filter(b => b.title.toUpperCase().includes(val)));
 }
 
-// ADMIN & E-LESSON
+// 6. Багшийн булан & Цахим хичээл
 window.toggleLessonForm = function() { 
     var f=document.getElementById('addLessonForm'); 
     f.style.display = f.style.display==='none'?'block':'none'; 
@@ -135,7 +163,7 @@ window.addNewLesson = function() {
     else alert("Нууц үг буруу"); 
 }
 
-// --- LIBRARY LOGIC (ШИНЭЧЛЭГДСЭН) ---
+// --- 7. LIBRARY LOGIC (НОМЫН САН) ---
 function initLibrary() {
     const center = document.getElementById('center-tables');
     
@@ -157,7 +185,7 @@ function initLibrary() {
                 const el = document.getElementById(key);
                 // Хугацаа дууссан эсэхийг шалгах
                 if(seatsData[key].endTime < Date.now()) {
-                    remove(ref(db, 'seats/' + key)); // Автоматаар цуцлах
+                    remove(ref(db, 'seats/' + key)); // Автоматаар чөлөөлөх
                 } else if(el && seatsData[key].status === 'occupied') {
                     el.classList.add('occupied');
                 }
@@ -232,7 +260,8 @@ function handleBooking() {
     alert("Амжилттай захиалагдлаа!");
 }
 
+// Эхлэх үед ачаалах
 document.addEventListener('DOMContentLoaded', () => {
-    initLibrary();
+    // Эхний удаад номнуудыг харуулна
     renderBooks(books);
 });
