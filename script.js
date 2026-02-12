@@ -12,13 +12,12 @@ const firebaseConfig = {
     appId: "1:223189730146:web:e22672ce71d259d5f7a23b"
 };
 
-// --- 2. GROQ API KEY (Таны өгсөн түлхүүр) ---
+// --- 2. GROQ API KEY ---
 const GROQ_API_KEY = "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";
 
 let db;
 let seatsData = {};
 
-// Firebase холболт
 try {
     const app = initializeApp(firebaseConfig);
     db = getDatabase(app);
@@ -64,7 +63,7 @@ window.handleKeyPress = function(e) {
     if(e.key === 'Enter') sendMessage(); 
 }
 
-// --- 3. AI CHAT (GROQ LOGIC - ШИНЭЧЛЭГДСЭН) ---
+// --- 3. AI CHAT (GROQ - ЗАГВАРЫГ ШИНЭЧИЛСЭН) ---
 window.sendMessage = async function() {
     var input = document.getElementById("chatInput"); 
     var msg = input.value.trim(); 
@@ -81,15 +80,15 @@ window.sendMessage = async function() {
     hist.scrollTop = hist.scrollHeight;
     
     try {
-        // GROQ API руу хүсэлт илгээх
         const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST", 
             headers: { 
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + GROQ_API_KEY // Groq түлхүүр
+                "Authorization": "Bearer " + GROQ_API_KEY
             },
             body: JSON.stringify({ 
-                model: "llama3-8b-8192", // Llama 3 загвар (Маш хурдан)
+                // ЭНД ХУУЧИН ЗАГВАРЫГ ШИНЭЭР СОЛИВ
+                model: "llama-3.3-70b-versatile", 
                 messages: [
                     { role: "system", content: "Чи бол 'Эрдмийн Далай' сургуулийн хиймэл оюун ухаант туслах. Монголоор товч, ойлгомжтой, найрсаг хариул." },
                     { role: "user", content: msg }
@@ -104,7 +103,6 @@ window.sendMessage = async function() {
             console.error("Groq Error:", data.error);
             hist.innerHTML += `<div class="chat-message bot-msg" style="color:red;">Алдаа: ${data.error.message}</div>`;
         } else {
-            // Groq-ийн хариултыг авах
             const botReply = data.choices[0].message.content;
             hist.innerHTML += `<div class="chat-message bot-msg">${botReply}</div>`;
         }
@@ -147,16 +145,15 @@ window.searchBooks = function() {
     renderBooks(books.filter(b => b.title.toUpperCase().includes(val)));
 }
 
-// Бусад функцүүд
+// Бусад
 window.toggleLessonForm = function() { var f=document.getElementById('addLessonForm'); f.style.display = f.style.display==='none'?'block':'none'; }
 window.addTeleLesson = function() { alert("Нэмэгдлээ!"); document.getElementById('addLessonForm').style.display='none'; }
 window.addNewLesson = function() { if(document.getElementById('adminPass').value==='1234') alert("Хуваарь шинэчлэгдлээ!"); else alert("Нууц үг буруу"); }
 
-// --- 5. LIBRARY LOGIC (НОМЫН САН) ---
+// --- 5. LIBRARY LOGIC ---
 function initLibrary() {
     const center = document.getElementById('center-tables');
     
-    // Давхардахаас сэргийлэх
     if(center.querySelectorAll('.double-table').length === 0) {
         center.innerHTML = ""; 
         for(let i=1; i<=20; i++) {
@@ -189,7 +186,6 @@ function initLibrary() {
         if(e.target.classList.contains('seat')) {
             const seat = e.target;
             
-            // Эзэнтэй бол -> Мэдээлэл харах / Цуцлах
             if(seat.classList.contains('occupied')) {
                 const data = seatsData[seat.id];
                 if(data) {
@@ -208,8 +204,6 @@ function initLibrary() {
                 }
                 return;
             }
-            
-            // Сул бол -> Сонгох
             e.target.classList.toggle('selected');
         }
         
