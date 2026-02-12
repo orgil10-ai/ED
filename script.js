@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-// --- 1. FIREBASE CONFIG (Таны өмнөх тохиргоо) ---
+// --- 1. FIREBASE CONFIG ---
 const firebaseConfig = {
     apiKey: "AIzaSyDqEaWLW-Pl6WRhgw22ifp0pi-Zkrqfwq4",
     authDomain: "erdmiin-dalai-library.firebaseapp.com",
@@ -12,8 +12,8 @@ const firebaseConfig = {
     appId: "1:223189730146:web:e22672ce71d259d5f7a23b"
 };
 
-// --- 2. AI KEY (Таны шинэ түлхүүр - Google Gemini) ---
-const AI_KEY = "AIzaSyB8S87nVIXaF_YXuRI3Tbih5lJO2dE_9hM";
+// --- 2. GROQ API KEY (Таны өгсөн түлхүүр) ---
+const GROQ_API_KEY = "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";
 
 let db;
 let seatsData = {};
@@ -64,7 +64,7 @@ window.handleKeyPress = function(e) {
     if(e.key === 'Enter') sendMessage(); 
 }
 
-// --- 3. AI CHAT (GEMINI - БҮРЭН ЗАСАГДСАН) ---
+// --- 3. AI CHAT (GROQ LOGIC - ШИНЭЧЛЭГДСЭН) ---
 window.sendMessage = async function() {
     var input = document.getElementById("chatInput"); 
     var msg = input.value.trim(); 
@@ -81,14 +81,19 @@ window.sendMessage = async function() {
     hist.scrollTop = hist.scrollHeight;
     
     try {
-        // Gemini 1.5 Flash ашиглана (Хурдан бөгөөд Үнэгүй)
-        const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + AI_KEY, {
+        // GROQ API руу хүсэлт илгээх
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST", 
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + GROQ_API_KEY // Groq түлхүүр
+            },
             body: JSON.stringify({ 
-                contents: [{ 
-                    parts: [{ text: "Чи бол 'Эрдмийн Далай' сургуулийн ухаалаг туслах. Монголоор товч, ойлгомжтой хариул. Асуулт: " + msg }] 
-                }] 
+                model: "llama3-8b-8192", // Llama 3 загвар (Маш хурдан)
+                messages: [
+                    { role: "system", content: "Чи бол 'Эрдмийн Далай' сургуулийн хиймэл оюун ухаант туслах. Монголоор товч, ойлгомжтой, найрсаг хариул." },
+                    { role: "user", content: msg }
+                ]
             })
         });
 
@@ -96,11 +101,11 @@ window.sendMessage = async function() {
         hist.removeChild(loading);
 
         if (data.error) {
-            console.error("Gemini Error:", data.error);
+            console.error("Groq Error:", data.error);
             hist.innerHTML += `<div class="chat-message bot-msg" style="color:red;">Алдаа: ${data.error.message}</div>`;
         } else {
-            // Одууд (**) -ийг арилгаж цэвэрлэх
-            const botReply = data.candidates[0].content.parts[0].text.replace(/\*\*/g, "");
+            // Groq-ийн хариултыг авах
+            const botReply = data.choices[0].message.content;
             hist.innerHTML += `<div class="chat-message bot-msg">${botReply}</div>`;
         }
 
@@ -142,7 +147,7 @@ window.searchBooks = function() {
     renderBooks(books.filter(b => b.title.toUpperCase().includes(val)));
 }
 
-// Бусад
+// Бусад функцүүд
 window.toggleLessonForm = function() { var f=document.getElementById('addLessonForm'); f.style.display = f.style.display==='none'?'block':'none'; }
 window.addTeleLesson = function() { alert("Нэмэгдлээ!"); document.getElementById('addLessonForm').style.display='none'; }
 window.addNewLesson = function() { if(document.getElementById('adminPass').value==='1234') alert("Хуваарь шинэчлэгдлээ!"); else alert("Нууц үг буруу"); }
@@ -167,7 +172,6 @@ function initLibrary() {
             
             Object.keys(seatsData).forEach(key => {
                 const el = document.getElementById(key);
-                // Хугацаа дууссан бол автоматаар устгах
                 if(seatsData[key].endTime < Date.now()) {
                     remove(ref(db, 'seats/' + key)); 
                 } else if(el && seatsData[key].status === 'occupied') {
