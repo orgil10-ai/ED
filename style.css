@@ -1,49 +1,45 @@
-/* --- 1. ФОНТ ОРУУЛАХ (GOOGLE FONTS) --- */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap');
+/* --- 1. ФОНТ ОРУУЛАХ --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap');
 
 /* --- 2. ҮНДСЭН ТОХИРГОО --- */
 :root {
-    --primary-blue: #004aad;
-    --dark-blue: #002d6b;
-    --light-blue: #e3f2fd;
-    --text-dark: #2c3e50;
+    --primary-blue: #004aad;       /* Тод хөх */
+    --dark-blue: #002654;          /* Гүн хөх (Navy) */
+    --accent-blue: #e3f2fd;        /* Бүдэг цэнхэр */
+    --text-main: #2c3e50;
+    --text-light: #64748b;
     --white: #ffffff;
-    --gradient-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    --card-shadow: 0 10px 20px rgba(0,0,0,0.08), 0 6px 6px rgba(0,0,0,0.1);
+    --shadow-soft: 0 4px 20px rgba(0,0,0,0.05);
 }
 
 body {
     margin: 0;
     padding: 0;
-    /* Үндсэн фонтыг Nunito болгох */
     font-family: 'Nunito', sans-serif;
-    /* Арын фоныг гоё ууссан цэнхэр болгох */
-    background: linear-gradient(to bottom right, #e0f7fa, #e1bee7, #f3e5f5);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite; /* Амьд хөдөлгөөнтэй фон */
-    color: var(--text-dark);
-    min-height: 100vh;
+    /* Арын фон ЦЭВЭР ЦАГААН */
+    background-color: #f8f9fa; 
+    /* Жижиг цэгэн хээтэй (Tech style) */
+    background-image: radial-gradient(#e1e5ea 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+    color: var(--text-main);
     overflow-x: hidden;
 }
 
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* --- HEADER --- */
+/* --- HEADER (Дээд хэсэг) --- */
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 50px;
-    background: rgba(255, 255, 255, 0.95); /* Шилэн эффект */
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    background: var(--white);
+    /* Доогуураа нарийн зураастай */
+    border-bottom: 1px solid #eef2f6;
     position: sticky;
     top: 0;
     z-index: 1000;
+    /* Дээд талдаа хөх оруулгатай */
+    border-top: 5px solid var(--primary-blue);
+    box-shadow: 0 2px 15px rgba(0,0,0,0.03);
 }
 
 .logo-area {
@@ -51,213 +47,206 @@ body {
     align-items: center;
     gap: 15px;
     cursor: pointer;
-    transition: transform 0.3s;
 }
-.logo-area:hover { transform: scale(1.02); }
 
 .logo-area img {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    border: 3px solid var(--primary-blue);
-    box-shadow: 0 4px 10px rgba(0, 74, 173, 0.3);
+    /* Лого тойрсон хүрээ */
+    border: 2px solid var(--primary-blue); 
+    padding: 2px;
 }
 
 .logo-text h2 {
     margin: 0;
-    font-family: 'Montserrat', sans-serif; /* Гарчигны фонт */
-    font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
     font-weight: 800;
-    color: var(--primary-blue);
+    color: var(--dark-blue);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .logo-text p {
     margin: 0;
-    font-size: 13px;
-    color: #666;
+    font-size: 12px;
+    color: var(--text-light);
     font-weight: 600;
 }
 
+/* Цэсний товчнууд */
 .nav-links button {
     background: transparent;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 18px;
     font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
+    font-weight: 600;
     color: #555;
     cursor: pointer;
-    transition: all 0.3s;
-    border-radius: 20px;
+    transition: all 0.2s;
+    border-radius: 8px;
+    font-size: 14px;
 }
 
 .nav-links button:hover {
     color: var(--primary-blue);
-    background: rgba(0, 74, 173, 0.1);
-    transform: translateY(-2px);
+    background: var(--accent-blue);
 }
 
 /* --- LANDING PAGE --- */
 .landing-wrapper {
     display: flex;
-    min-height: calc(100vh - 90px);
+    min-height: calc(100vh - 85px);
     padding: 40px;
     gap: 40px;
-    max-width: 1400px;
+    max-width: 1300px;
     margin: 0 auto;
-    flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
 }
 
+/* Зүүн талын том самбар (ХӨХ) */
 .left-intro {
     flex: 1;
-    /* Зүүн талын цэнхэр хэсгийг илүү гоё болгох */
-    background: linear-gradient(135deg, #004aad 0%, #0078d7 100%);
-    border-radius: 40px;
-    padding: 50px;
+    /* Гүн хөхөөс цайвар руу ууссан */
+    background: linear-gradient(160deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+    border-radius: 20px;
+    padding: 40px;
     color: white;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     min-width: 320px;
-    box-shadow: 0 20px 50px rgba(0, 74, 173, 0.4);
+    box-shadow: var(--shadow-soft);
     position: relative;
     overflow: hidden;
+    height: 500px;
 }
 
-.left-intro::before {
+/* Гоёлын дугуй дүрс */
+.left-intro::after {
     content: '';
     position: absolute;
     top: -50px; right: -50px;
-    width: 250px; height: 250px;
+    width: 200px; height: 200px;
     background: rgba(255,255,255,0.1);
     border-radius: 50%;
-    filter: blur(40px);
 }
 
 .left-intro h1 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 42px;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.3;
     margin-bottom: 20px;
-    line-height: 1.2;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 .left-intro p {
-    font-size: 18px;
+    font-size: 16px;
     opacity: 0.9;
-    margin-bottom: 40px;
     line-height: 1.6;
+    margin-bottom: 30px;
 }
 
 .school-hero-img {
     width: 100%;
-    height: 300px;
+    height: 220px;
     object-fit: cover;
-    border-radius: 25px;
-    margin-top: auto;
-    border: 5px solid rgba(255,255,255,0.3);
+    border-radius: 15px;
+    border: 4px solid rgba(255,255,255,0.2);
     background: white;
-    transition: transform 0.3s;
 }
-.school-hero-img:hover { transform: scale(1.02); }
 
+/* Баруун талын цэснүүд */
 .right-menu {
     flex: 1.5;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 25px;
-    align-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    align-content: start;
 }
 
 .menu-card {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 25px;
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    background: var(--white);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
     align-items: center;
-    gap: 20px;
-    border: 1px solid rgba(255,255,255,0.5);
+    gap: 15px;
 }
 
 .menu-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 74, 173, 0.15);
-    background: white;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 74, 173, 0.1);
     border-color: var(--primary-blue);
 }
 
 .icon-box {
-    width: 65px;
-    height: 65px;
-    background: var(--light-blue);
-    border-radius: 20px;
+    width: 50px;
+    height: 50px;
+    background: var(--accent-blue);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
+    font-size: 24px;
     color: var(--primary-blue);
-    box-shadow: inset 0 0 20px rgba(0, 74, 173, 0.1);
 }
 
 .card-text h3 {
     font-family: 'Montserrat', sans-serif;
-    margin: 0 0 5px 0;
-    font-size: 18px;
-    color: var(--text-dark);
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    color: var(--dark-blue);
+    font-weight: 700;
 }
 
 .card-text p {
     margin: 0;
-    font-size: 14px;
-    color: #7f8c8d;
-    font-weight: 500;
+    font-size: 13px;
+    color: var(--text-light);
 }
 
-/* Өнгөт картууд */
-.menu-card.green .icon-box { background: #e8f5e9; color: #2ecc71; box-shadow: inset 0 0 20px rgba(46, 204, 113, 0.1); }
-.menu-card.purple .icon-box { background: #f3e5f5; color: #9b59b6; box-shadow: inset 0 0 20px rgba(155, 89, 182, 0.1); }
-.menu-card.orange .icon-box { background: #fff3e0; color: #f39c12; box-shadow: inset 0 0 20px rgba(243, 156, 18, 0.1); }
-.menu-card.red .icon-box { background: #ffebee; color: #e74c3c; box-shadow: inset 0 0 20px rgba(231, 76, 60, 0.1); }
+/* Өнгөт картууд (Soft colors) */
+.menu-card.green .icon-box { background: #e6fffa; color: #00b894; }
+.menu-card.purple .icon-box { background: #f3e5f5; color: #9b59b6; }
+.menu-card.orange .icon-box { background: #fff3e0; color: #f39c12; }
+.menu-card.red .icon-box { background: #ffebee; color: #e74c3c; }
 
 /* --- CONTENT SECTIONS --- */
 .content-section {
     display: none;
     max-width: 1200px;
-    margin: 40px auto;
+    margin: 30px auto;
     padding: 30px;
-    background: white;
-    border-radius: 30px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-    animation: slideUp 0.5s ease;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid #eee;
+    animation: fadeIn 0.3s ease;
 }
-
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
 .content-section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+/* Буцах товч */
 .back-btn {
-    background: #f1f3f5;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 15px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 8px 16px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
-    margin-bottom: 20px;
+    font-weight: 600;
     color: #555;
-    transition: 0.3s;
+    margin-bottom: 20px;
+    transition: 0.2s;
 }
-.back-btn:hover { background: #e9ecef; color: var(--primary-blue); }
+.back-btn:hover { background: #e9ecef; color: var(--primary-blue); border-color: #dee2e6; }
 
-/* --- LIBRARY LAYOUT (Сайжруулсан) --- */
+/* --- LIBRARY STYLE --- */
 .library-layout {
     display: flex;
     flex-direction: column;
@@ -268,175 +257,180 @@ body {
 .zone-title {
     width: 100%;
     text-align: center;
-    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    color: #555;
-    margin-bottom: 15px;
+    color: var(--text-light);
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
     padding-bottom: 10px;
-    border-bottom: 2px dashed #e0e0e0;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    font-size: 14px;
 }
 
 .computer-zone {
     display: flex;
     overflow-x: auto;
     justify-content: center;
-    gap: 15px;
-    background: linear-gradient(to right, #ffffff, #f0f8ff);
-    padding: 25px;
-    border-radius: 20px;
+    gap: 10px;
+    background: #f1f8ff;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px dashed #d0e1f5;
     width: 100%;
-    max-width: 850px;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.03);
-    border: 1px solid #e1e4e8;
+    max-width: 800px;
 }
 
+/* Ширээ сандал (Clean look) */
 .seat {
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     color: white;
-    font-size: 13px;
-    font-weight: 800;
-    border-radius: 12px;
-    width: 45px;
-    height: 45px;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 8px;
+    width: 42px;
+    height: 42px;
+    transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-
-.seat:hover { transform: scale(1.1); }
-.seat.occupied { background-color: #ff6b6b !important; cursor: not-allowed; opacity: 0.7; box-shadow: none; }
-.seat.selected { background-color: #fca311 !important; color: white; transform: scale(1.15); box-shadow: 0 0 15px rgba(252, 163, 17, 0.5); }
-.seat.computer { background-color: #4dabf7; flex-direction: column; }
-.seat.table { background-color: #be4bdb; flex-direction: column; }
+.seat:active { transform: scale(0.95); }
+.seat.occupied { background-color: #ff5252 !important; cursor: not-allowed; opacity: 0.8; }
+.seat.selected { background-color: #ffca28 !important; color: #333; border: 2px solid #ffb300; }
+.seat.computer { background-color: #3498db; flex-direction: column; }
+.seat.table { background-color: #9b59b6; flex-direction: column; }
 
 .main-hall {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    max-width: 1100px;
-    gap: 30px;
+    max-width: 1000px;
+    gap: 20px;
 }
 
 .side-wing {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    background: #fff5f5;
-    padding: 20px;
-    border-radius: 20px;
+    gap: 12px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
     align-items: center;
-    border: 1px solid #ffe3e3;
+    border: 1px solid #eee;
 }
 
 .double-table {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #f3f0ff;
-    padding: 8px;
-    border-radius: 15px;
-    min-width: 90px;
-    border: 1px solid #e5dbff;
+    background: #f8f9fa;
+    padding: 6px;
+    border-radius: 10px;
+    min-width: 85px;
+    border: 1px solid #e9ecef;
 }
 
+/* Хаалга */
 .door {
-    width: 100%;
-    height: 45px;
-    background: linear-gradient(45deg, #868e96, #adb5bd);
+    width: 100%; height: 40px;
+    background: #bdc3c7;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
-    border-radius: 10px;
+    font-weight: bold;
+    border-radius: 6px;
     font-size: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* --- CHAT BOT --- */
+/* --- CHAT BOT STYLE --- */
 .chat-container {
-    height: 550px;
+    height: 500px;
     display: flex;
     flex-direction: column;
-    border: none;
-    border-radius: 25px;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
-    background: #f8f9fa;
+    background: #fff;
 }
 
 .chat-history {
     flex: 1;
-    padding: 25px;
+    padding: 20px;
     overflow-y: auto;
+    background: #f9f9f9;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
 }
 
 .chat-message {
     max-width: 80%;
-    padding: 15px 20px;
-    border-radius: 20px;
+    padding: 12px 16px;
+    border-radius: 12px;
     font-size: 15px;
-    line-height: 1.6;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    line-height: 1.5;
 }
 
 .bot-msg {
     align-self: flex-start;
-    background: white;
+    background: #fff;
     color: #333;
-    border-bottom-left-radius: 5px;
+    border: 1px solid #eee;
+    border-bottom-left-radius: 2px;
 }
 
 .user-msg {
     align-self: flex-end;
     background: var(--primary-blue);
     color: white;
-    border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0, 74, 173, 0.2);
 }
 
 .chat-input-area {
-    padding: 20px;
+    padding: 15px;
     background: white;
-    display: flex;
-    gap: 15px;
     border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
 }
 
 #chatInput {
-    border: 2px solid #f1f3f5;
-    border-radius: 15px;
-    padding: 15px;
-    font-size: 16px;
-    transition: 0.3s;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 10px 20px;
+    outline: none;
+    transition: 0.2s;
 }
-#chatInput:focus { border-color: var(--primary-blue); outline: none; }
+#chatInput:focus { border-color: var(--primary-blue); }
 
 .chat-send-btn {
     background: var(--primary-blue);
     color: white;
     border: none;
-    padding: 0 30px;
-    border-radius: 15px;
+    width: 40px; height: 40px;
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 20px;
-    transition: 0.2s;
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
 }
-.chat-send-btn:hover { background: var(--dark-blue); transform: scale(1.05); }
 
-/* --- RESPONSIVE --- */
+/* --- ХҮСНЭГТ (Table) --- */
+table { width: 100%; border-collapse: collapse; min-width: 600px; }
+th { background-color: var(--primary-blue); color: white; padding: 12px; text-align: left; font-size: 14px; }
+td { border-bottom: 1px solid #eee; padding: 12px; font-size: 14px; color: #444; }
+tr:nth-child(even) { background-color: #f8f9fa; }
+tr:hover { background-color: #f1f8ff; }
+
+/* Responsive */
 @media (max-width: 768px) {
-    .header-top { padding: 15px 20px; }
+    .header-top { padding: 15px; flex-direction: row; }
     .landing-wrapper { padding: 20px; flex-direction: column; }
     .nav-links { display: none; }
+    .left-intro { height: auto; min-height: 400px; }
     .main-hall { flex-direction: column; }
     .side-wing { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-    .center-grid { grid-template-columns: repeat(3, 1fr); }
+    .center-grid { grid-template-columns: repeat(4, 1fr); }
     .vertical-pc-group { flex-direction: row; }
 }
