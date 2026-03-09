@@ -27,7 +27,6 @@ try {
 }
 
 // --- GLOBAL FUNCTIONS ---
-
 window.showLanding = function() {
     document.getElementById('landing').style.display = 'flex';
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
@@ -63,7 +62,7 @@ window.handleKeyPress = function(e) {
     if(e.key === 'Enter') sendMessage(); 
 }
 
-// --- 3. AI CHAT (GROQ - ЗАГВАРЫГ ШИНЭЧИЛСЭН) ---
+// --- 3. AI CHAT ---
 window.sendMessage = async function() {
     var input = document.getElementById("chatInput"); 
     var msg = input.value.trim(); 
@@ -87,7 +86,6 @@ window.sendMessage = async function() {
                 "Authorization": "Bearer " + GROQ_API_KEY
             },
             body: JSON.stringify({ 
-                // ЭНД ХУУЧИН ЗАГВАРЫГ ШИНЭЭР СОЛИВ
                 model: "llama-3.3-70b-versatile", 
                 messages: [
                     { role: "system", content: "Чи бол 'Эрдмийн Далай' сургуулийн хиймэл оюун ухаант туслах. Монголоор товч, ойлгомжтой, найрсаг хариул." },
@@ -145,7 +143,6 @@ window.searchBooks = function() {
     renderBooks(books.filter(b => b.title.toUpperCase().includes(val)));
 }
 
-// Бусад
 window.toggleLessonForm = function() { var f=document.getElementById('addLessonForm'); f.style.display = f.style.display==='none'?'block':'none'; }
 window.addTeleLesson = function() { alert("Нэмэгдлээ!"); document.getElementById('addLessonForm').style.display='none'; }
 window.addNewLesson = function() { if(document.getElementById('adminPass').value==='1234') alert("Хуваарь шинэчлэгдлээ!"); else alert("Нууц үг буруу"); }
@@ -191,9 +188,12 @@ function initLibrary() {
                 if(data) {
                     const endDate = new Date(data.endTime);
                     const timeStr = endDate.getHours() + ":" + String(endDate.getMinutes()).padStart(2, '0');
+                    
+                    // ШИНЭЭР НЭМСЭН: Нэр болон Ангийг харуулах хэсэг
+                    const userName = data.userName ? `НЭР: ${data.userName}\n` : '';
                     const className = data.className ? `АНГИ: ${data.className}\n` : '';
                     
-                    const pinInput = prompt(`${className}Энэ суудал ${timeStr}-д дуусна.\n\nЦуцлахын тулд ПИН кодоо хийнэ үү:`);
+                    const pinInput = prompt(`${userName}${className}Энэ суудал ${timeStr}-д дуусна.\n\nЦуцлахын тулд ПИН кодоо хийнэ үү:`);
                     
                     if(String(pinInput) === String(data.pin)) {
                         remove(ref(db, 'seats/' + seat.id));
@@ -214,12 +214,14 @@ function initLibrary() {
 
 function handleBooking() {
     const selected = document.querySelectorAll('.seat.selected');
+    const userName = document.getElementById('userName').value.trim(); // ШИНЭЭР НЭМСЭН: Нэр авах
+    const userClass = document.getElementById('userClass').value.trim();
     const pin = document.getElementById('bookingPin').value;
-    const userClass = document.getElementById('userClass').value;
     const hours = parseInt(document.getElementById('bookingHours').value) || 0;
     const minutes = parseInt(document.getElementById('bookingMinutes').value) || 0;
 
     if(selected.length === 0) { alert("Суудал сонгоно уу!"); return; }
+    if(!userName) { alert("Нэрээ оруулна уу!"); return; } // ШИНЭЭР НЭМСЭН: Нэр шалгах
     if(!userClass) { alert("Ангийн нэрээ оруулна уу!"); return; }
     if(pin.length !== 4) { alert("4 оронтой ПИН хийнэ үү!"); return; }
     if(hours === 0 && minutes === 0) { alert("Хугацаагаа сонгоно уу!"); return; }
@@ -232,6 +234,7 @@ function handleBooking() {
             set(ref(db, 'seats/' + s.id), {
                 status: 'occupied',
                 pin: pin,
+                userName: userName, // ШИНЭЭР НЭМСЭН: Database-д нэрийг хадгалах
                 className: userClass,
                 endTime: endTime
             });
