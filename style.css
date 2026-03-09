@@ -3,9 +3,9 @@
 
 /* --- 2. ҮНДСЭН ТОХИРГОО --- */
 :root {
-    --primary-blue: #004aad;       /* Тод хөх */
-    --dark-blue: #002654;          /* Гүн хөх (Navy) */
-    --accent-blue: #e3f2fd;        /* Бүдэг цэнхэр */
+    --primary-blue: #004aad;       
+    --dark-blue: #002654;          
+    --accent-blue: #e3f2fd;        
     --text-main: #2c3e50;
     --text-light: #64748b;
     --white: #ffffff;
@@ -16,414 +16,110 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Nunito', sans-serif;
-    /* Арын фон ЦЭВЭР ЦАГААН */
     background-color: #f8f9fa; 
-    /* Жижиг цэгэн хээтэй (Tech style) */
     background-image: radial-gradient(#e1e5ea 1.5px, transparent 1.5px);
     background-size: 24px 24px;
     color: var(--text-main);
     overflow-x: hidden;
 }
 
-/* --- HEADER (Дээд хэсэг) --- */
+/* --- HEADER --- */
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 50px;
     background: var(--white);
-    /* Доогуураа нарийн зураастай */
     border-bottom: 1px solid #eef2f6;
     position: sticky;
     top: 0;
     z-index: 1000;
-    /* Дээд талдаа хөх оруулгатай */
     border-top: 5px solid var(--primary-blue);
     box-shadow: 0 2px 15px rgba(0,0,0,0.03);
 }
 
-.logo-area {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    cursor: pointer;
-}
+.logo-area { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+.logo-area img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--primary-blue); padding: 2px; }
+.logo-text h2 { margin: 0; font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800; color: var(--dark-blue); text-transform: uppercase; letter-spacing: 0.5px; }
+.logo-text p { margin: 0; font-size: 12px; color: var(--text-light); font-weight: 600; }
 
-.logo-area img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    /* Лого тойрсон хүрээ */
-    border: 2px solid var(--primary-blue); 
-    padding: 2px;
-}
-
-.logo-text h2 {
-    margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--dark-blue);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.logo-text p {
-    margin: 0;
-    font-size: 12px;
-    color: var(--text-light);
-    font-weight: 600;
-}
-
-/* Цэсний товчнууд */
 .nav-links button {
-    background: transparent;
-    border: none;
-    padding: 10px 18px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    color: #555;
-    cursor: pointer;
-    transition: all 0.2s;
-    border-radius: 8px;
-    font-size: 14px;
+    background: transparent; border: none; padding: 10px 18px; font-family: 'Montserrat', sans-serif; font-weight: 600; color: #555; cursor: pointer; transition: all 0.2s; border-radius: 8px; font-size: 14px;
 }
-
-.nav-links button:hover {
-    color: var(--primary-blue);
-    background: var(--accent-blue);
-}
+.nav-links button:hover { color: var(--primary-blue); background: var(--accent-blue); }
 
 /* --- LANDING PAGE --- */
-.landing-wrapper {
-    display: flex;
-    min-height: calc(100vh - 85px);
-    padding: 40px;
-    gap: 40px;
-    max-width: 1300px;
-    margin: 0 auto;
-    align-items: flex-start;
-}
-
-/* Зүүн талын том самбар (ХӨХ) */
+.landing-wrapper { display: flex; min-height: calc(100vh - 85px); padding: 40px; gap: 40px; max-width: 1300px; margin: 0 auto; align-items: flex-start; }
 .left-intro {
-    flex: 1;
-    /* Гүн хөхөөс цайвар руу ууссан */
-    background: linear-gradient(160deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
-    border-radius: 20px;
-    padding: 40px;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-width: 320px;
-    box-shadow: var(--shadow-soft);
-    position: relative;
-    overflow: hidden;
-    height: 500px;
+    flex: 1; background: linear-gradient(160deg, var(--primary-blue) 0%, var(--dark-blue) 100%); border-radius: 20px; padding: 40px; color: white; display: flex; flex-direction: column; justify-content: space-between; min-width: 320px; box-shadow: var(--shadow-soft); position: relative; overflow: hidden; height: 500px;
 }
+.left-intro::after { content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%; }
+.left-intro h1 { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 700; line-height: 1.3; margin-bottom: 20px; }
+.left-intro p { font-size: 16px; opacity: 0.9; line-height: 1.6; margin-bottom: 30px; }
+.school-hero-img { width: 100%; height: 220px; object-fit: cover; border-radius: 15px; border: 4px solid rgba(255,255,255,0.2); background: white; }
 
-/* Гоёлын дугуй дүрс */
-.left-intro::after {
-    content: '';
-    position: absolute;
-    top: -50px; right: -50px;
-    width: 200px; height: 200px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 50%;
-}
-
-.left-intro h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 36px;
-    font-weight: 700;
-    line-height: 1.3;
-    margin-bottom: 20px;
-}
-
-.left-intro p {
-    font-size: 16px;
-    opacity: 0.9;
-    line-height: 1.6;
-    margin-bottom: 30px;
-}
-
-.school-hero-img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 15px;
-    border: 4px solid rgba(255,255,255,0.2);
-    background: white;
-}
-
-/* Баруун талын цэснүүд */
-.right-menu {
-    flex: 1.5;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-    align-content: start;
-}
-
-.menu-card {
-    background: var(--white);
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    border: 1px solid #f0f0f0;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.menu-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 74, 173, 0.1);
-    border-color: var(--primary-blue);
-}
-
-.icon-box {
-    width: 50px;
-    height: 50px;
-    background: var(--accent-blue);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: var(--primary-blue);
-}
-
-.card-text h3 {
-    font-family: 'Montserrat', sans-serif;
-    margin: 0 0 4px 0;
-    font-size: 16px;
-    color: var(--dark-blue);
-    font-weight: 700;
-}
-
-.card-text p {
-    margin: 0;
-    font-size: 13px;
-    color: var(--text-light);
-}
-
-/* Өнгөт картууд (Soft colors) */
+.right-menu { flex: 1.5; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; align-content: start; }
+.menu-card { background: var(--white); padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; align-items: center; gap: 15px; }
+.menu-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0, 74, 173, 0.1); border-color: var(--primary-blue); }
+.icon-box { width: 50px; height: 50px; background: var(--accent-blue); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--primary-blue); }
+.card-text h3 { font-family: 'Montserrat', sans-serif; margin: 0 0 4px 0; font-size: 16px; color: var(--dark-blue); font-weight: 700; }
+.card-text p { margin: 0; font-size: 13px; color: var(--text-light); }
 .menu-card.green .icon-box { background: #e6fffa; color: #00b894; }
 .menu-card.purple .icon-box { background: #f3e5f5; color: #9b59b6; }
 .menu-card.orange .icon-box { background: #fff3e0; color: #f39c12; }
 .menu-card.red .icon-box { background: #ffebee; color: #e74c3c; }
 
 /* --- CONTENT SECTIONS --- */
-.content-section {
-    display: none;
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 30px;
-    background: var(--white);
-    border-radius: 20px;
-    box-shadow: var(--shadow-soft);
-    border: 1px solid #eee;
-    animation: fadeIn 0.3s ease;
-}
+.content-section { display: none; max-width: 1200px; margin: 30px auto; padding: 30px; background: var(--white); border-radius: 20px; box-shadow: var(--shadow-soft); border: 1px solid #eee; animation: fadeIn 0.3s ease; }
 .content-section.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-/* Буцах товч */
-.back-btn {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 20px;
-    transition: 0.2s;
-}
+.back-btn { background: #f8f9fa; border: 1px solid #e9ecef; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; color: #555; margin-bottom: 20px; transition: 0.2s; }
 .back-btn:hover { background: #e9ecef; color: var(--primary-blue); border-color: #dee2e6; }
 
 /* --- LIBRARY STYLE --- */
-.library-layout {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-}
+.library-layout { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+.zone-title { width: 100%; text-align: center; font-weight: 700; color: var(--text-light); margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; text-transform: uppercase; font-size: 14px; }
+.computer-zone { display: flex; overflow-x: auto; justify-content: center; gap: 10px; background: #f1f8ff; padding: 20px; border-radius: 12px; border: 1px dashed #d0e1f5; width: 100%; max-width: 800px; }
 
-.zone-title {
-    width: 100%;
-    text-align: center;
-    font-weight: 700;
-    color: var(--text-light);
-    margin-bottom: 10px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    text-transform: uppercase;
-    font-size: 14px;
-}
-
-.computer-zone {
-    display: flex;
-    overflow-x: auto;
+/* ГОЛ ТАНХИМЫГ 2 ЭГНЭЭ БОЛГОХ ШИНЭЧЛЭГДСЭН КОД */
+.center-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Яг 2 эгнээ (багана) болгох */
+    gap: 20px 50px; /* Босоо зай 20px, Хөндлөн зай 50px */
     justify-content: center;
-    gap: 10px;
-    background: #f1f8ff;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px dashed #d0e1f5;
-    width: 100%;
-    max-width: 800px;
+    align-items: center;
+    margin-top: 15px;
 }
 
-/* Ширээ сандал (Clean look) */
-.seat {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: white;
-    font-size: 12px;
-    font-weight: 700;
-    border-radius: 8px;
-    width: 42px;
-    height: 42px;
-    transition: 0.2s;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
+.seat { display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 12px; font-weight: 700; border-radius: 8px; width: 42px; height: 42px; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 .seat:active { transform: scale(0.95); }
 .seat.occupied { background-color: #ff5252 !important; cursor: not-allowed; opacity: 0.8; }
 .seat.selected { background-color: #ffca28 !important; color: #333; border: 2px solid #ffb300; }
 .seat.computer { background-color: #3498db; flex-direction: column; }
 .seat.table { background-color: #9b59b6; flex-direction: column; }
 
-.main-hall {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 1000px;
-    gap: 20px;
-}
-
-.side-wing {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    background: #fff;
-    padding: 15px;
-    border-radius: 12px;
-    align-items: center;
-    border: 1px solid #eee;
-}
-
-.double-table {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f8f9fa;
-    padding: 6px;
-    border-radius: 10px;
-    min-width: 85px;
-    border: 1px solid #e9ecef;
-}
-
-/* Хаалга */
-.door {
-    width: 100%; height: 40px;
-    background: #bdc3c7;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    border-radius: 6px;
-    font-size: 12px;
-}
+.main-hall { display: flex; justify-content: space-between; width: 100%; max-width: 1000px; gap: 20px; }
+.side-wing { display: flex; flex-direction: column; gap: 12px; background: #fff; padding: 15px; border-radius: 12px; align-items: center; border: 1px solid #eee; }
+.double-table { display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; padding: 6px; border-radius: 10px; min-width: 85px; border: 1px solid #e9ecef; }
+.door { width: 100%; height: 40px; background: #bdc3c7; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 6px; font-size: 12px; }
 
 /* --- CHAT BOT STYLE --- */
-.chat-container {
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #e0e0e0;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #fff;
-}
-
-.chat-history {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background: #f9f9f9;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.chat-message {
-    max-width: 80%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 15px;
-    line-height: 1.5;
-}
-
-.bot-msg {
-    align-self: flex-start;
-    background: #fff;
-    color: #333;
-    border: 1px solid #eee;
-    border-bottom-left-radius: 2px;
-}
-
-.user-msg {
-    align-self: flex-end;
-    background: var(--primary-blue);
-    color: white;
-    border-bottom-right-radius: 2px;
-    box-shadow: 0 2px 5px rgba(0, 74, 173, 0.2);
-}
-
-.chat-input-area {
-    padding: 15px;
-    background: white;
-    border-top: 1px solid #eee;
-    display: flex;
-    gap: 10px;
-}
-
-#chatInput {
-    border: 1px solid #ddd;
-    border-radius: 25px;
-    padding: 10px 20px;
-    outline: none;
-    transition: 0.2s;
-}
+.chat-container { height: 500px; display: flex; flex-direction: column; border: 1px solid #e0e0e0; border-radius: 16px; overflow: hidden; background: #fff; }
+.chat-history { flex: 1; padding: 20px; overflow-y: auto; background: #f9f9f9; display: flex; flex-direction: column; gap: 12px; }
+.chat-message { max-width: 80%; padding: 12px 16px; border-radius: 12px; font-size: 15px; line-height: 1.5; }
+.bot-msg { align-self: flex-start; background: #fff; color: #333; border: 1px solid #eee; border-bottom-left-radius: 2px; }
+.user-msg { align-self: flex-end; background: var(--primary-blue); color: white; border-bottom-right-radius: 2px; box-shadow: 0 2px 5px rgba(0, 74, 173, 0.2); }
+.chat-input-area { padding: 15px; background: white; border-top: 1px solid #eee; display: flex; gap: 10px; }
+#chatInput { border: 1px solid #ddd; border-radius: 25px; padding: 10px 20px; outline: none; transition: 0.2s; flex:1;}
 #chatInput:focus { border-color: var(--primary-blue); }
+.chat-send-btn { background: var(--primary-blue); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; }
 
-.chat-send-btn {
-    background: var(--primary-blue);
-    color: white;
-    border: none;
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-}
-
-/* --- ХҮСНЭГТ (Table) --- */
 table { width: 100%; border-collapse: collapse; min-width: 600px; }
 th { background-color: var(--primary-blue); color: white; padding: 12px; text-align: left; font-size: 14px; }
 td { border-bottom: 1px solid #eee; padding: 12px; font-size: 14px; color: #444; }
 tr:nth-child(even) { background-color: #f8f9fa; }
 tr:hover { background-color: #f1f8ff; }
 
-/* Responsive */
 @media (max-width: 768px) {
     .header-top { padding: 15px; flex-direction: row; }
     .landing-wrapper { padding: 20px; flex-direction: column; }
@@ -431,6 +127,6 @@ tr:hover { background-color: #f1f8ff; }
     .left-intro { height: auto; min-height: 400px; }
     .main-hall { flex-direction: column; }
     .side-wing { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-    .center-grid { grid-template-columns: repeat(4, 1fr); }
+    .center-grid { grid-template-columns: repeat(2, 1fr); gap: 15px;} /* Гар утсан дээр ч 2 эгнээгээрээ байна */
     .vertical-pc-group { flex-direction: row; }
 }
