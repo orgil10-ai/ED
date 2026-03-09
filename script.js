@@ -46,14 +46,30 @@ window.switchTab = function(id) {
 window.filterSchedule = function() {
     var input = document.getElementById("searchTeacher").value.toUpperCase();
     var day = document.getElementById("dayFilter").value.toUpperCase();
+    var cls = document.getElementById("classFilter").value.toUpperCase(); // Ангиар шүүх хувьсагч нэмсэн
+
     var tr = document.getElementById("teacherTable").getElementsByTagName("tr");
+    
     for (var i = 1; i < tr.length; i++) {
-        var tdName = tr[i].getElementsByTagName("td")[0];
-        var tdDay = tr[i].getElementsByTagName("td")[3];
-        if (tdName && tdDay) {
-            var txt = tdName.textContent || tdName.innerText;
-            var dTxt = tdDay.textContent || tdDay.innerText;
-            if (txt.toUpperCase().indexOf(input) > -1 && (day === "" || dTxt.toUpperCase().indexOf(day) > -1)) { tr[i].style.display = ""; } else { tr[i].style.display = "none"; }
+        var tdName = tr[i].getElementsByTagName("td")[0];  // Багшийн нэр
+        var tdDay = tr[i].getElementsByTagName("td")[3];   // Өдөр
+        var tdClass = tr[i].getElementsByTagName("td")[5]; // Кабинет буюу Анги
+
+        if (tdName && tdDay && tdClass) {
+            var txtName = tdName.textContent || tdName.innerText;
+            var txtDay = tdDay.textContent || tdDay.innerText;
+            var txtClass = tdClass.textContent || tdClass.innerText;
+
+            // Гурвуулангаар нь давхар шалгах
+            var matchName = txtName.toUpperCase().indexOf(input) > -1;
+            var matchDay = day === "" || txtDay.toUpperCase().indexOf(day) > -1;
+            var matchClass = cls === "" || txtClass.toUpperCase().indexOf(cls) > -1;
+
+            if (matchName && matchDay && matchClass) { 
+                tr[i].style.display = ""; 
+            } else { 
+                tr[i].style.display = "none"; 
+            }
         }
     }
 }
