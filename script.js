@@ -160,7 +160,52 @@ window.searchBooks = function() {
 }
 
 window.toggleLessonForm = function() { var f=document.getElementById('addLessonForm'); f.style.display = f.style.display==='none'?'block':'none'; }
-window.addTeleLesson = function() { alert("Нэмэгдлээ!"); document.getElementById('addLessonForm').style.display='none'; }
+window.addTeleLesson = function() { 
+    // 1. Формоос мэдээллүүдийг уншиж авах
+    var subject = document.getElementById('elSubject').value.trim();
+    var topic = document.getElementById('elTopic').value.trim();
+    var teacher = document.getElementById('elTeacher').value.trim();
+    var image = document.getElementById('elImage').value.trim();
+    var link = document.getElementById('elLink').value.trim();
+
+    // 2. Дутуу мэдээлэлтэй эсэхийг шалгах
+    if(!subject || !topic || !link) {
+        alert("Хичээлийн нэр, Сэдэв, Линк гурвыг заавал оруулна уу!");
+        return;
+    }
+
+    // 3. Хэрвээ зурагны линк хийгээгүй бол автоматаар гоё дэвсгэр зураг тавих
+    if(!image) {
+        image = "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=400&auto=format&fit=crop"; 
+    }
+
+    // 4. Шинэ карт үүсгэж дэлгэцэнд (lessonGrid) нэмэх
+    var grid = document.getElementById('lessonGrid');
+    var newLessonHTML = `
+        <div class="lesson-card" style="border:1px solid #eee; border-radius:15px; overflow:hidden; background:white; box-shadow:0 4px 10px rgba(0,0,0,0.05); animation: fadeIn 0.5s;">
+            <div class="lesson-thumb" style="height:150px; background-image: url('${image}'); background-size:cover; background-position:center;"></div>
+            <div class="lesson-content" style="padding:15px; display:flex; flex-direction:column; gap:5px;">
+                <div class="lesson-subject" style="font-size:12px; color:#e67e22; font-weight:bold;">${subject}</div>
+                <div class="lesson-title" style="font-size:16px; font-weight:bold; color:#004aad;">${topic}</div>
+                <div class="lesson-teacher" style="font-size:13px; color:#777; margin-bottom:10px;">Багш: ${teacher}</div>
+                <a href="${link}" target="_blank" class="lesson-btn" style="background:#004aad; color:white; text-align:center; padding:8px; border-radius:8px; text-decoration:none; font-weight:bold;">ҮЗЭХ</a>
+            </div>
+        </div>
+    `;
+    
+    // Хамгийн эхэнд шинэ хичээлийг нэмэх
+    grid.insertAdjacentHTML('afterbegin', newLessonHTML);
+
+    // 5. Оруулсны дараа формыг хоослоод, буцааж хаах
+    document.getElementById('elSubject').value = "";
+    document.getElementById('elTopic').value = "";
+    document.getElementById('elTeacher').value = "";
+    document.getElementById('elImage').value = "";
+    document.getElementById('elLink').value = "";
+    
+    document.getElementById('addLessonForm').style.display = 'none'; 
+    alert("Хичээл амжилттай нийтлэгдлээ!"); 
+}
 window.addNewLesson = function() { if(document.getElementById('adminPass').value==='1234') alert("Хуваарь шинэчлэгдлээ!"); else alert("Нууц үг буруу"); }
 
 // --- 5. LIBRARY LOGIC ---
