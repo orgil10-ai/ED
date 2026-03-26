@@ -24,6 +24,7 @@ try {
     console.error("Firebase Config Error:", e);
 }
 
+// --- GLOBAL FUNCTIONS ---
 window.showLanding = function() {
     document.getElementById('landing').style.display = 'flex';
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
@@ -65,6 +66,7 @@ window.filterSchedule = function() {
 
 window.handleKeyPress = function(e) { if(e.key === 'Enter') sendMessage(); }
 
+// --- AI CHAT ---
 window.sendMessage = async function() {
     var input = document.getElementById("chatInput"); 
     var msg = input.value.trim(); 
@@ -107,6 +109,7 @@ window.sendMessage = async function() {
     hist.scrollTop = hist.scrollHeight;
 }
 
+// --- НОМ ЗАХИАЛГА ---
 const books = [
     { title: "Монголын Нууц Товчоо", author: "Ц.Дамдинсүрэн" },
     { title: "Гарри Поттер", author: "Ж.К.Роулинг" },
@@ -130,6 +133,7 @@ window.searchBooks = function() {
     renderBooks(books.filter(b => b.title.toUpperCase().includes(val)));
 }
 
+// --- ЦАХИМ ХИЧЭЭЛ ---
 window.toggleLessonForm = function() { var f=document.getElementById('addLessonForm'); f.style.display = f.style.display==='none'?'block':'none'; }
 window.addNewLesson = function() { if(document.getElementById('adminPass').value==='1234') alert("Хуваарь шинэчлэгдлээ!"); else alert("Нууц үг буруу"); }
 
@@ -161,6 +165,7 @@ window.addTeleLesson = function() {
     alert("Хичээл амжилттай нийтлэгдлээ!"); 
 }
 
+// --- 5. LIBRARY LOGIC (СУУДАЛ ЗАХИАЛГА) ---
 function initLibrary() {
     const center = document.getElementById('center-tables');
     if(center.querySelectorAll('.double-table').length === 0) {
@@ -178,7 +183,7 @@ function initLibrary() {
             
             Object.keys(seatsData).forEach(key => {
                 const el = document.getElementById(key);
-                if(seatsData[key].endTimestamp && seatsData[key].endTimestamp < Date.now()) {
+                if(seatsData[key].endTimestamp && seatsData[key].endTimestamp <= Date.now()) {
                     remove(ref(db, 'seats/' + key)); 
                 } else if(el && seatsData[key].status === 'occupied') {
                     el.classList.add('occupied');
@@ -238,20 +243,34 @@ function handleBooking() {
     if(pin.length !== 4) { alert("4 оронтой ПИН хийнэ үү!"); return; }
     if(!bDate || !sTime || !eTime) { alert("Өдөр болон эхлэх, дуусах цагаа бүрэн сонгоно уу!"); return; }
 
-    const sTimeVal = sTime === "24:00" ? "23:59:59" : sTime;
-    const eTimeVal = eTime === "24:00" ? "23:59:59" : eTime;
+    // Цагийг хэзээ ч алдаа заахгүйгээр аюулгүй салгаж авах нь:
+    const [year, month, day] = bDate.split('-').map(Number);
+    let sHour = parseInt(sTime.split(':')[0]);
+    let sMin = parseInt(sTime.split(':')[1]);
+    let eHour = parseInt(eTime.split(':')[0]);
+    let eMin = parseInt(eTime.split(':')[1]);
 
-    const startTimestamp = new Date(`${bDate}T${sTimeVal}`).getTime();
-    const endTimestamp = new Date(`${bDate}T${eTimeVal}`).getTime();
+    if(sTime === "24:00") { sHour = 23; sMin = 59; }
+    if(eTime === "24:00") { eHour = 23; eMin = 59; }
+
+    const startTimestamp = new Date(year, month - 1, day, sHour, sMin).getTime();
+    const endTimestamp = new Date(year, month - 1, day, eHour, eMin).getTime();
 
     if (endTimestamp <= startTimestamp) {
         alert("Дуусах цаг эхлэх цагаас хойш байх ёстой!");
         return;
     }
 
-    selected.forEach(s => {
-        if(db) {
-            set(ref(db, 'seats/' + s.id), {
+    if (endTimestamp <= Date.now()) {
+        alert("Өнгөрсөн цагт захиалга хийх боломжгүй! Ирээдүйн цаг эсвэл өөр өдөр сонгоно уу.");
+        return;
+    }
+
+    if(db) {
+        const updates = [];
+        selected.forEach(s => {
+            // Firebase-рүү илгээхийг баталгаажуулах хувьсагч (Promise)
+            const request = set(ref(db, 'seats/' + s.id), {
                 status: 'occupied',
                 pin: pin,
                 userName: userName, 
@@ -261,10 +280,20 @@ function handleBooking() {
                 endTime: eTime,
                 endTimestamp: endTimestamp
             });
-        }
-    });
-    document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
-    alert("Амжилттай захиалагдлаа!");
+            updates.push(request);
+        });
+
+        // БҮХ мэдээлэл Firebase-д амжилттай орсны ДАРАА л амжилттай гэж хэлнэ
+        Promise.all(updates)
+        .then(() => {
+            document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
+            alert("Амжилттай захиалагдлаа!");
+        })
+        .catch((error) => {
+            // Хэрвээ Firebase хүлээж авахгүй бол энд алдаа заана!
+            alert("Алдаа гарлаа: Firebase-тай холбогдож чадсангүй. " + error.message);
+        });
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
