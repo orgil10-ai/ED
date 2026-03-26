@@ -131,7 +131,6 @@ tr:hover { background-color: #f1f8ff; }
     .nav-links { display: none; }
     .left-intro { height: auto; min-height: 350px; width: 100%; box-sizing: border-box; }
     
-    /* Агуулгын хэсгийг дэлгэцнээс халихгүй, яг таардаг болгох */
     .content-section { 
         padding: 15px; 
         margin: 15px; 
@@ -139,17 +138,35 @@ tr:hover { background-color: #f1f8ff; }
         box-sizing: border-box; 
     }
     
-    /* Хүснэгтийг утсан дээр хөндлөн гүйлгэдэг болгох */
     .table-responsive {
         width: 100%;
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch; /* Утсан дээр зөөлөн гүйх */
+        -webkit-overflow-scrolling: touch;
         border: 1px solid #eee;
         border-radius: 8px;
     }
 
-    .main-hall { flex-direction: column; }
-    .side-wing { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-    .center-grid { grid-template-columns: repeat(2, 1fr); gap: 15px;} 
-    .vertical-pc-group { flex-direction: row; }
+    /* НОМЫН САНГИЙН УТАСНЫ ЗАГВАРЫГ ЗАССАН ХЭСЭГ */
+    .main-hall { 
+        flex-direction: column; /* Гол танхим болон жигүүрүүдийг дээр дээрээс нь давхарлаж харуулах */
+        align-items: center;
+        gap: 30px;
+    }
+    
+    .side-wing { 
+        flex-direction: column; /* Хажуугийн жигүүр доторх ширээнүүдийг босоогоор нь цэвэрхэн цувуулах */
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .center-grid { 
+        grid-template-columns: repeat(2, 1fr); /* Голын ширээг гар утсан дээр ч 2 эгнээгээр байлгах */
+        gap: 15px;
+        width: 100%;
+        max-width: 350px;
+    } 
+    
+    .vertical-pc-group { 
+        flex-direction: column; /* PC-нүүдийг босоогоор нь байлгах */
+    }
 }
