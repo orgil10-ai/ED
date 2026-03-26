@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-// --- 1. FIREBASE CONFIG ---
 const firebaseConfig = {
     apiKey: "AIzaSyDqEaWLW-Pl6WRhgw22ifp0pi-Zkrqfwq4",
     authDomain: "erdmiin-dalai-library.firebaseapp.com",
@@ -25,7 +24,6 @@ try {
     console.error("Firebase Config Error:", e);
 }
 
-// --- GLOBAL FUNCTIONS ---
 window.showLanding = function() {
     document.getElementById('landing').style.display = 'flex';
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
@@ -67,7 +65,6 @@ window.filterSchedule = function() {
 
 window.handleKeyPress = function(e) { if(e.key === 'Enter') sendMessage(); }
 
-// --- AI CHAT ---
 window.sendMessage = async function() {
     var input = document.getElementById("chatInput"); 
     var msg = input.value.trim(); 
@@ -110,7 +107,6 @@ window.sendMessage = async function() {
     hist.scrollTop = hist.scrollHeight;
 }
 
-// --- НОМ ЗАХИАЛГА ---
 const books = [
     { title: "Монголын Нууц Товчоо", author: "Ц.Дамдинсүрэн" },
     { title: "Гарри Поттер", author: "Ж.К.Роулинг" },
@@ -134,7 +130,6 @@ window.searchBooks = function() {
     renderBooks(books.filter(b => b.title.toUpperCase().includes(val)));
 }
 
-// --- ЦАХИМ ХИЧЭЭЛ ---
 window.toggleLessonForm = function() { var f=document.getElementById('addLessonForm'); f.style.display = f.style.display==='none'?'block':'none'; }
 window.addNewLesson = function() { if(document.getElementById('adminPass').value==='1234') alert("Хуваарь шинэчлэгдлээ!"); else alert("Нууц үг буруу"); }
 
@@ -166,7 +161,6 @@ window.addTeleLesson = function() {
     alert("Хичээл амжилттай нийтлэгдлээ!"); 
 }
 
-// --- 5. LIBRARY LOGIC (САЙЖРУУЛСАН) ---
 function initLibrary() {
     const center = document.getElementById('center-tables');
     if(center.querySelectorAll('.double-table').length === 0) {
@@ -184,7 +178,6 @@ function initLibrary() {
             
             Object.keys(seatsData).forEach(key => {
                 const el = document.getElementById(key);
-                // Хугацаа дууссан эсэхийг яг дуусах цагийн timestamp-аар шалгах
                 if(seatsData[key].endTimestamp && seatsData[key].endTimestamp < Date.now()) {
                     remove(ref(db, 'seats/' + key)); 
                 } else if(el && seatsData[key].status === 'occupied') {
@@ -205,7 +198,6 @@ function initLibrary() {
             if(seat.classList.contains('occupied')) {
                 const data = seatsData[seat.id];
                 if(data) {
-                    // Харуулах мэдээллүүд
                     const uName = data.userName ? data.userName : "Тодорхойгүй";
                     const uClass = data.className ? data.className : "";
                     const bDate = data.bookingDate ? data.bookingDate : "Өнөөдөр";
@@ -246,9 +238,11 @@ function handleBooking() {
     if(pin.length !== 4) { alert("4 оронтой ПИН хийнэ үү!"); return; }
     if(!bDate || !sTime || !eTime) { alert("Өдөр болон эхлэх, дуусах цагаа бүрэн сонгоно уу!"); return; }
 
-    // Цагийг хооронд нь жиших (Timestamp үүсгэх)
-    const startTimestamp = new Date(`${bDate}T${sTime}`).getTime();
-    const endTimestamp = new Date(`${bDate}T${eTime}`).getTime();
+    const sTimeVal = sTime === "24:00" ? "23:59:59" : sTime;
+    const eTimeVal = eTime === "24:00" ? "23:59:59" : eTime;
+
+    const startTimestamp = new Date(`${bDate}T${sTimeVal}`).getTime();
+    const endTimestamp = new Date(`${bDate}T${eTimeVal}`).getTime();
 
     if (endTimestamp <= startTimestamp) {
         alert("Дуусах цаг эхлэх цагаас хойш байх ёстой!");
