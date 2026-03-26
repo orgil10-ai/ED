@@ -172,6 +172,15 @@ function initLibrary() {
     // 1. Хэрвээ өмнө нь ачаалласан бол дахин давхарлаж ачааллахгүй
     if(libraryInitialized) return; 
 
+    // ЭНЭ ХЭСЭГ ӨМНӨ НЬ ХАЯГДСАН БАЙСАН: Голын 20 ширээг зурах
+    const center = document.getElementById('center-tables');
+    if(center && center.querySelectorAll('.double-table').length === 0) {
+        center.innerHTML = ""; 
+        for(let i=1; i<=20; i++) {
+            center.innerHTML += `<div class="double-table"><div class="seat table" id="C${i}A">${i}A</div><div class="table-divider"></div><div class="seat table" id="C${i}B">${i}B</div></div>`;
+        }
+    }
+
     // 2. Firebase холболтыг тогтоох ба бодит хугацаанд чагнах
     if(db) {
         const seatsRef = ref(db, 'seats');
@@ -236,65 +245,3 @@ function initLibrary() {
     // Амжилттай ачаалласан гэдгийг тэмдэглэх
     libraryInitialized = true; 
 }
-
-window.handleBooking = function() {
-    const selected = document.querySelectorAll('.seat.selected');
-    const userName = document.getElementById('userName').value.trim(); 
-    const userClass = document.getElementById('userClass').value.trim();
-    const pin = document.getElementById('bookingPin').value;
-    const bDate = document.getElementById('bookingDate').value;
-    const sTime = document.getElementById('startTime').value;
-    const eTime = document.getElementById('endTime').value;
-
-    if(selected.length === 0) { alert("Суудал сонгоно уу!"); return; }
-    if(!userName || !userClass) { alert("Нэр, ангиа оруулна уу!"); return; } 
-    if(pin.length !== 4) { alert("4 оронтой ПИН хийнэ үү!"); return; }
-    if(!bDate || !sTime || !eTime) { alert("Өдөр болон эхлэх, дуусах цагаа бүрэн сонгоно уу!"); return; }
-
-    const sTimeVal = sTime === "24:00" ? "23:59:59" : sTime;
-    const eTimeVal = eTime === "24:00" ? "23:59:59" : eTime;
-
-    const startTimestamp = new Date(`${bDate}T${sTimeVal}`).getTime();
-    const endTimestamp = new Date(`${bDate}T${eTimeVal}`).getTime();
-
-    if (endTimestamp <= startTimestamp) {
-        alert("Дуусах цаг эхлэх цагаас хойш байх ёстой!");
-        return;
-    }
-
-    if (endTimestamp <= Date.now()) {
-        alert("Өнгөрсөн цагт захиалга хийх боломжгүй! Ирээдүйн цаг эсвэл өөр өдөр сонгоно уу.");
-        return;
-    }
-
-    if(db) {
-        const updates = [];
-        selected.forEach(s => {
-            const request = set(ref(db, 'seats/' + s.id), {
-                status: 'occupied',
-                pin: pin,
-                userName: userName, 
-                className: userClass,
-                bookingDate: bDate,
-                startTime: sTime,
-                endTime: eTime,
-                endTimestamp: endTimestamp
-            });
-            updates.push(request);
-        });
-
-        // Мэдээлэл Firebase-д бүрэн хадгалагдаж дууссаны дараа л хэрэглэгчид мэдэгдэх
-        Promise.all(updates)
-        .then(() => {
-            document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
-            alert("Амжилттай захиалагдлаа!");
-        })
-        .catch((error) => {
-            alert("Өгөгдлийн сантай холбогдоход алдаа гарлаа: " + error.message);
-        });
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    renderBooks(books);
-});
