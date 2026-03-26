@@ -244,14 +244,39 @@
     <div id="library" class="content-section">
         <button class="back-btn" onclick="showLanding()">⬅ Буцах</button>
         <h2 style="text-align:center;">🪑 Суудал захиалга (Real-time)</h2>
-       <div style="background:#f1f8ff; padding:15px; border-radius:12px; margin-bottom:20px; text-align:center; display:flex; flex-wrap:wrap; justify-content:center; gap:15px; align-items:center; border: 1px dashed #d0e1f5;">
+      <div style="background:#f1f8ff; padding:15px; border-radius:12px; margin-bottom:20px; text-align:center; display:flex; flex-wrap:wrap; justify-content:center; gap:15px; align-items:center; border: 1px dashed #d0e1f5;">
     <div><label style="font-weight:bold; font-size:13px;">Төрөл:</label> <select id="userType" style="padding:6px; border-radius:6px; border:1px solid #ccc;"><option>Энгийн</option><option>Олимпиад</option></select></div>
     <div><label style="font-weight:bold; font-size:13px;">Нэр:</label> <input type="text" id="userName" placeholder="Болд" style="width:80px; padding:6px; border-radius:6px; border:1px solid #ccc; text-align:center;"></div>
     <div><label style="font-weight:bold; font-size:13px;">Анги:</label> <input type="text" id="userClass" placeholder="10A" style="width:50px; padding:6px; border-radius:6px; border:1px solid #ccc; text-align:center;"></div>
     
     <div><label style="font-weight:bold; font-size:13px;">Өдөр:</label> <input type="date" id="bookingDate" style="padding:6px; border-radius:6px; border:1px solid #ccc; text-align:center;"></div>
-    <div><label style="font-weight:bold; font-size:13px;">Эхлэх:</label> <input type="time" id="startTime" style="padding:6px; border-radius:6px; border:1px solid #ccc; text-align:center;"></div>
-    <div><label style="font-weight:bold; font-size:13px;">Дуусах:</label> <input type="time" id="endTime" style="padding:6px; border-radius:6px; border:1px solid #ccc; text-align:center;"></div>
+    
+    <div>
+        <label style="font-weight:bold; font-size:13px;">Эхлэх:</label> 
+        <select id="startTime" style="padding:6px; border-radius:6px; border:1px solid #ccc; text-align:center;">
+            <option value="01:00">01:00</option><option value="02:00">02:00</option><option value="03:00">03:00</option>
+            <option value="04:00">04:00</option><option value="05:00">05:00</option><option value="06:00">06:00</option>
+            <option value="07:00">07:00</option><option value="08:00" selected>08:00</option><option value="09:00">09:00</option>
+            <option value="10:00">10:00</option><option value="11:00">11:00</option><option value="12:00">12:00</option>
+            <option value="13:00">13:00</option><option value="14:00">14:00</option><option value="15:00">15:00</option>
+            <option value="16:00">16:00</option><option value="17:00">17:00</option><option value="18:00">18:00</option>
+            <option value="19:00">19:00</option><option value="20:00">20:00</option><option value="21:00">21:00</option>
+            <option value="22:00">22:00</option><option value="23:00">23:00</option><option value="24:00">24:00</option>
+        </select>
+    </div>
+    <div>
+        <label style="font-weight:bold; font-size:13px;">Дуусах:</label> 
+        <select id="endTime" style="padding:6px; border-radius:6px; border:1px solid #ccc; text-align:center;">
+            <option value="01:00">01:00</option><option value="02:00">02:00</option><option value="03:00">03:00</option>
+            <option value="04:00">04:00</option><option value="05:00">05:00</option><option value="06:00">06:00</option>
+            <option value="07:00">07:00</option><option value="08:00">08:00</option><option value="09:00" selected>09:00</option>
+            <option value="10:00">10:00</option><option value="11:00">11:00</option><option value="12:00">12:00</option>
+            <option value="13:00">13:00</option><option value="14:00">14:00</option><option value="15:00">15:00</option>
+            <option value="16:00">16:00</option><option value="17:00">17:00</option><option value="18:00">18:00</option>
+            <option value="19:00">19:00</option><option value="20:00">20:00</option><option value="21:00">21:00</option>
+            <option value="22:00">22:00</option><option value="23:00">23:00</option><option value="24:00">24:00</option>
+        </select>
+    </div>
     
     <div><label style="font-weight:bold; font-size:13px;">ПИН:</label> <input type="tel" id="bookingPin" maxlength="4" placeholder="****" style="width:50px; padding:6px; border-radius:6px; border:1px solid #ccc; text-align:center;"></div>
 </div>
