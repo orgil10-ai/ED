@@ -12,7 +12,6 @@ const firebaseConfig = {
     appId: "1:223189730146:web:e22672ce71d259d5f7a23b"
 };
 
-// --- 2. GROQ API KEY ---
 const GROQ_API_KEY = "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";
 
 let db;
@@ -37,48 +36,38 @@ window.switchTab = function(id) {
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
     const activeSection = document.getElementById(id);
     if(activeSection) activeSection.classList.add('active');
-    
-    if(id === 'library') {
-        initLibrary(); 
-    }
+    if(id === 'library') initLibrary(); 
 }
 
 window.filterSchedule = function() {
     var input = document.getElementById("searchTeacher").value.toUpperCase();
     var day = document.getElementById("dayFilter").value.toUpperCase();
-    var cls = document.getElementById("classFilter").value.toUpperCase(); // Ангиар шүүх хувьсагч нэмсэн
+    var cls = document.getElementById("classFilter").value.toUpperCase(); 
 
     var tr = document.getElementById("teacherTable").getElementsByTagName("tr");
-    
     for (var i = 1; i < tr.length; i++) {
-        var tdName = tr[i].getElementsByTagName("td")[0];  // Багшийн нэр
-        var tdDay = tr[i].getElementsByTagName("td")[3];   // Өдөр
-        var tdClass = tr[i].getElementsByTagName("td")[5]; // Кабинет буюу Анги
+        var tdName = tr[i].getElementsByTagName("td")[0];  
+        var tdDay = tr[i].getElementsByTagName("td")[3];   
+        var tdClass = tr[i].getElementsByTagName("td")[5]; 
 
         if (tdName && tdDay && tdClass) {
             var txtName = tdName.textContent || tdName.innerText;
             var txtDay = tdDay.textContent || tdDay.innerText;
             var txtClass = tdClass.textContent || tdClass.innerText;
 
-            // Гурвуулангаар нь давхар шалгах
             var matchName = txtName.toUpperCase().indexOf(input) > -1;
             var matchDay = day === "" || txtDay.toUpperCase().indexOf(day) > -1;
             var matchClass = cls === "" || txtClass.toUpperCase().indexOf(cls) > -1;
 
-            if (matchName && matchDay && matchClass) { 
-                tr[i].style.display = ""; 
-            } else { 
-                tr[i].style.display = "none"; 
-            }
+            if (matchName && matchDay && matchClass) { tr[i].style.display = ""; } 
+            else { tr[i].style.display = "none"; }
         }
     }
 }
 
-window.handleKeyPress = function(e) { 
-    if(e.key === 'Enter') sendMessage(); 
-}
+window.handleKeyPress = function(e) { if(e.key === 'Enter') sendMessage(); }
 
-// --- 3. AI CHAT ---
+// --- AI CHAT ---
 window.sendMessage = async function() {
     var input = document.getElementById("chatInput"); 
     var msg = input.value.trim(); 
@@ -112,24 +101,16 @@ window.sendMessage = async function() {
 
         const data = await response.json();
         hist.removeChild(loading);
-
-        if (data.error) {
-            console.error("Groq Error:", data.error);
-            hist.innerHTML += `<div class="chat-message bot-msg" style="color:red;">Алдаа: ${data.error.message}</div>`;
-        } else {
-            const botReply = data.choices[0].message.content;
-            hist.innerHTML += `<div class="chat-message bot-msg">${botReply}</div>`;
-        }
-
+        if (data.error) { hist.innerHTML += `<div class="chat-message bot-msg" style="color:red;">Алдаа: ${data.error.message}</div>`; } 
+        else { hist.innerHTML += `<div class="chat-message bot-msg">${data.choices[0].message.content}</div>`; }
     } catch(e) { 
         hist.removeChild(loading); 
-        console.error("Network Error:", e);
         hist.innerHTML += `<div class="chat-message bot-msg" style="color:red;">Сүлжээний алдаа.</div>`; 
     }
     hist.scrollTop = hist.scrollHeight;
 }
 
-// --- 4. НОМ ЗАХИАЛГА ---
+// --- НОМ ЗАХИАЛГА ---
 const books = [
     { title: "Монголын Нууц Товчоо", author: "Ц.Дамдинсүрэн" },
     { title: "Гарри Поттер", author: "Ж.К.Роулинг" },
@@ -143,43 +124,30 @@ function renderBooks(list) {
     container.innerHTML = "";
     list.forEach(b => {
         container.innerHTML += `
-        <div class="book-card">
-            <div class="book-cover">📖</div>
-            <div class="book-info">
-                <div class="book-title">${b.title}</div>
-                <div class="book-author">${b.author}</div>
-                <button class="order-btn" onclick="alert('Захиалга бүртгэгдлээ!')">Захиалах</button>
-            </div>
-        </div>`;
+        <div class="book-card"><div class="book-cover">📖</div><div class="book-info">
+        <div class="book-title">${b.title}</div><div class="book-author">${b.author}</div>
+        <button class="order-btn" onclick="alert('Захиалга бүртгэгдлээ!')">Захиалах</button></div></div>`;
     });
 }
-
 window.searchBooks = function() {
     const val = document.getElementById('searchBookInput').value.toUpperCase();
     renderBooks(books.filter(b => b.title.toUpperCase().includes(val)));
 }
 
+// --- ЦАХИМ ХИЧЭЭЛ ---
 window.toggleLessonForm = function() { var f=document.getElementById('addLessonForm'); f.style.display = f.style.display==='none'?'block':'none'; }
+window.addNewLesson = function() { if(document.getElementById('adminPass').value==='1234') alert("Хуваарь шинэчлэгдлээ!"); else alert("Нууц үг буруу"); }
+
 window.addTeleLesson = function() { 
-    // 1. Формоос мэдээллүүдийг уншиж авах
     var subject = document.getElementById('elSubject').value.trim();
     var topic = document.getElementById('elTopic').value.trim();
     var teacher = document.getElementById('elTeacher').value.trim();
     var image = document.getElementById('elImage').value.trim();
     var link = document.getElementById('elLink').value.trim();
 
-    // 2. Дутуу мэдээлэлтэй эсэхийг шалгах
-    if(!subject || !topic || !link) {
-        alert("Хичээлийн нэр, Сэдэв, Линк гурвыг заавал оруулна уу!");
-        return;
-    }
+    if(!subject || !topic || !link) { alert("Хичээлийн нэр, Сэдэв, Линк гурвыг заавал оруулна уу!"); return; }
+    if(!image) { image = "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=400&auto=format&fit=crop"; }
 
-    // 3. Хэрвээ зурагны линк хийгээгүй бол автоматаар гоё дэвсгэр зураг тавих
-    if(!image) {
-        image = "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=400&auto=format&fit=crop"; 
-    }
-
-    // 4. Шинэ карт үүсгэж дэлгэцэнд (lessonGrid) нэмэх
     var grid = document.getElementById('lessonGrid');
     var newLessonHTML = `
         <div class="lesson-card" style="border:1px solid #eee; border-radius:15px; overflow:hidden; background:white; box-shadow:0 4px 10px rgba(0,0,0,0.05); animation: fadeIn 0.5s;">
@@ -190,28 +158,17 @@ window.addTeleLesson = function() {
                 <div class="lesson-teacher" style="font-size:13px; color:#777; margin-bottom:10px;">Багш: ${teacher}</div>
                 <a href="${link}" target="_blank" class="lesson-btn" style="background:#004aad; color:white; text-align:center; padding:8px; border-radius:8px; text-decoration:none; font-weight:bold;">ҮЗЭХ</a>
             </div>
-        </div>
-    `;
-    
-    // Хамгийн эхэнд шинэ хичээлийг нэмэх
+        </div>`;
     grid.insertAdjacentHTML('afterbegin', newLessonHTML);
-
-    // 5. Оруулсны дараа формыг хоослоод, буцааж хаах
-    document.getElementById('elSubject').value = "";
-    document.getElementById('elTopic').value = "";
-    document.getElementById('elTeacher').value = "";
-    document.getElementById('elImage').value = "";
-    document.getElementById('elLink').value = "";
     
+    ['elSubject','elTopic','elTeacher','elImage','elLink'].forEach(id => document.getElementById(id).value = "");
     document.getElementById('addLessonForm').style.display = 'none'; 
     alert("Хичээл амжилттай нийтлэгдлээ!"); 
 }
-window.addNewLesson = function() { if(document.getElementById('adminPass').value==='1234') alert("Хуваарь шинэчлэгдлээ!"); else alert("Нууц үг буруу"); }
 
-// --- 5. LIBRARY LOGIC ---
+// --- 5. LIBRARY LOGIC (САЙЖРУУЛСАН) ---
 function initLibrary() {
     const center = document.getElementById('center-tables');
-    
     if(center.querySelectorAll('.double-table').length === 0) {
         center.innerHTML = ""; 
         for(let i=1; i<=20; i++) {
@@ -227,7 +184,8 @@ function initLibrary() {
             
             Object.keys(seatsData).forEach(key => {
                 const el = document.getElementById(key);
-                if(seatsData[key].endTime < Date.now()) {
+                // Хугацаа дууссан эсэхийг яг дуусах цагийн timestamp-аар шалгах
+                if(seatsData[key].endTimestamp && seatsData[key].endTimestamp < Date.now()) {
                     remove(ref(db, 'seats/' + key)); 
                 } else if(el && seatsData[key].status === 'occupied') {
                     el.classList.add('occupied');
@@ -247,14 +205,15 @@ function initLibrary() {
             if(seat.classList.contains('occupied')) {
                 const data = seatsData[seat.id];
                 if(data) {
-                    const endDate = new Date(data.endTime);
-                    const timeStr = endDate.getHours() + ":" + String(endDate.getMinutes()).padStart(2, '0');
+                    // Харуулах мэдээллүүд
+                    const uName = data.userName ? data.userName : "Тодорхойгүй";
+                    const uClass = data.className ? data.className : "";
+                    const bDate = data.bookingDate ? data.bookingDate : "Өнөөдөр";
+                    const sTime = data.startTime ? data.startTime : "??:??";
+                    const eTime = data.endTime ? data.endTime : "??:??";
                     
-                    // ШИНЭЭР НЭМСЭН: Нэр болон Ангийг харуулах хэсэг
-                    const userName = data.userName ? `НЭР: ${data.userName}\n` : '';
-                    const className = data.className ? `АНГИ: ${data.className}\n` : '';
-                    
-                    const pinInput = prompt(`${userName}${className}Энэ суудал ${timeStr}-д дуусна.\n\nЦуцлахын тулд ПИН кодоо хийнэ үү:`);
+                    const msg = `👤 НЭР: ${uName} (${uClass})\n📅 ӨДӨР: ${bDate}\n⏰ ЦАГ: ${sTime} - ${eTime}\n\nЦуцлахын тулд ПИН кодоо хийнэ үү:`;
+                    const pinInput = prompt(msg);
                     
                     if(String(pinInput) === String(data.pin)) {
                         remove(ref(db, 'seats/' + seat.id));
@@ -275,29 +234,38 @@ function initLibrary() {
 
 function handleBooking() {
     const selected = document.querySelectorAll('.seat.selected');
-    const userName = document.getElementById('userName').value.trim(); // ШИНЭЭР НЭМСЭН: Нэр авах
+    const userName = document.getElementById('userName').value.trim(); 
     const userClass = document.getElementById('userClass').value.trim();
     const pin = document.getElementById('bookingPin').value;
-    const hours = parseInt(document.getElementById('bookingHours').value) || 0;
-    const minutes = parseInt(document.getElementById('bookingMinutes').value) || 0;
+    const bDate = document.getElementById('bookingDate').value;
+    const sTime = document.getElementById('startTime').value;
+    const eTime = document.getElementById('endTime').value;
 
     if(selected.length === 0) { alert("Суудал сонгоно уу!"); return; }
-    if(!userName) { alert("Нэрээ оруулна уу!"); return; } // ШИНЭЭР НЭМСЭН: Нэр шалгах
-    if(!userClass) { alert("Ангийн нэрээ оруулна уу!"); return; }
+    if(!userName || !userClass) { alert("Нэр, ангиа оруулна уу!"); return; } 
     if(pin.length !== 4) { alert("4 оронтой ПИН хийнэ үү!"); return; }
-    if(hours === 0 && minutes === 0) { alert("Хугацаагаа сонгоно уу!"); return; }
+    if(!bDate || !sTime || !eTime) { alert("Өдөр болон эхлэх, дуусах цагаа бүрэн сонгоно уу!"); return; }
 
-    const durationMs = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000);
-    const endTime = Date.now() + durationMs;
+    // Цагийг хооронд нь жиших (Timestamp үүсгэх)
+    const startTimestamp = new Date(`${bDate}T${sTime}`).getTime();
+    const endTimestamp = new Date(`${bDate}T${eTime}`).getTime();
+
+    if (endTimestamp <= startTimestamp) {
+        alert("Дуусах цаг эхлэх цагаас хойш байх ёстой!");
+        return;
+    }
 
     selected.forEach(s => {
         if(db) {
             set(ref(db, 'seats/' + s.id), {
                 status: 'occupied',
                 pin: pin,
-                userName: userName, // ШИНЭЭР НЭМСЭН: Database-д нэрийг хадгалах
+                userName: userName, 
                 className: userClass,
-                endTime: endTime
+                bookingDate: bDate,
+                startTime: sTime,
+                endTime: eTime,
+                endTimestamp: endTimestamp
             });
         }
     });
