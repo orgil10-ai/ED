@@ -13,7 +13,7 @@ const firebaseConfig = {
 };
 
 // --- 2. GROQ API ТҮЛХҮҮР (ШИНЭЭР ОРУУЛСАН) ---
-const GROQ_API_KEY = "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";
+const GROQ_API_KEY = "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";
 
 let db;
 let seatsData = {};
