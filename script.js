@@ -1,8 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
+// --- 1. FIREBASE МЭДЭЭЛЛИЙН САНГИЙН ТҮЛХҮҮР ---
 const firebaseConfig = {
-    apiKey: "AIzaSyASnIz-uF60nQCejMuyM0xZ1JaGT_KuENw", 
+    apiKey: "AIzaSyDqEaWLW-Pl6WRhgw22ifp0pi-Zkrqfwq4", 
     authDomain: "erdmiin-dalai-library.firebaseapp.com",
     databaseURL: "https://erdmiin-dalai-library-default-rtdb.firebaseio.com",
     projectId: "erdmiin-dalai-library",
@@ -11,21 +12,24 @@ const firebaseConfig = {
     appId: "1:223189730146:web:e22672ce71d259d5f7a23b"
 };
 
-const GROQ_API_KEY = "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";
+// --- 2. GROQ API ТҮЛХҮҮР (ШИНЭЭР ОРУУЛСАН) ---
+const GROQ_API_KEY = "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";
 
 let db;
 let seatsData = {};
 let libraryInitialized = false; 
 let isAdmin = false;
 
+// Мэдээллийн санг эхлүүлэх
 try {
     const app = initializeApp(firebaseConfig);
     db = getDatabase(app);
-    console.log("Firebase холболт хэвийн");
+    console.log("Firebase холболт амжилттай");
 } catch(e) { 
-    console.error("Firebase Config Error:", e); 
+    console.error("Firebase холболтын алдаа:", e); 
 }
 
+// --- ҮНДСЭН ЦЭСНИЙ УДИРДЛАГА ---
 window.showLanding = function() {
     document.getElementById('landing').style.display = 'flex';
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
@@ -39,6 +43,7 @@ window.switchTab = function(id) {
     if(id === 'library') initLibrary(); 
 }
 
+// --- АДМИН НЭВТРЭХ ---
 window.adminLogin = function() {
     const pass = prompt("Админы нууц үгээ оруулна уу:");
     if(pass === "admin123") {
@@ -49,6 +54,7 @@ window.adminLogin = function() {
     }
 }
 
+// --- БАГШ НАРЫН ХУВААРЬ ХАЙХ ---
 window.filterSchedule = function() {
     var input = document.getElementById("searchTeacher").value.toUpperCase();
     var day = document.getElementById("dayFilter").value.toUpperCase();
@@ -75,7 +81,7 @@ window.filterSchedule = function() {
     }
 }
 
-// --- AI CHAT ЛОГИК (БҮРЭН ЭХЭЭР) ---
+// --- AI УХААЛАГ ТУСЛАХ (GROQ API - LLAMA ЗАГВАР) ---
 window.handleKeyPress = function(e) { 
     if(e.key === 'Enter') window.sendMessage(); 
 }
@@ -83,7 +89,7 @@ window.handleKeyPress = function(e) {
 window.sendMessage = async function() {
     var input = document.getElementById("chatInput"); 
     var msg = input.value.trim(); 
-    if(msg==="") return;
+    if(msg === "") return;
     
     var hist = document.getElementById("chatHistory");
     hist.innerHTML += `<div class="chat-message user-msg">${msg}</div>`; 
@@ -96,6 +102,7 @@ window.sendMessage = async function() {
     hist.scrollTop = hist.scrollHeight;
     
     try {
+        // Groq API руу холбогдох хэсэг
         const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST", 
             headers: { 
@@ -113,19 +120,23 @@ window.sendMessage = async function() {
 
         const data = await response.json();
         hist.removeChild(loading);
+
         if (data.error) { 
             hist.innerHTML += `<div class="chat-message bot-msg" style="color:red;">Алдаа: ${data.error.message}</div>`; 
-        } else { 
+        } else if (data.choices && data.choices[0].message) { 
             hist.innerHTML += `<div class="chat-message bot-msg">${data.choices[0].message.content}</div>`; 
+        } else {
+            hist.innerHTML += `<div class="chat-message bot-msg" style="color:red;">Хариу ирсэнгүй.</div>`; 
         }
     } catch(e) { 
         if(hist.contains(loading)) hist.removeChild(loading); 
-        hist.innerHTML += `<div class="chat-message bot-msg" style="color:red;">Сүлжээний алдаа гарлаа.</div>`; 
+        hist.innerHTML += `<div class="chat-message bot-msg" style="color:red;">Сүлжээний алдаа гарлаа. Интернэт холболтоо шалгана уу.</div>`; 
+        console.error(e);
     }
     hist.scrollTop = hist.scrollHeight;
 }
 
-// --- НОМ БОЛОН ЦАХИМ ХИЧЭЭЛИЙН ЛОГИК ---
+// --- НОМЫН ЖАГСААЛТ ---
 const books = [
     { title: "Монголын Нууц Товчоо", author: "Ц.Дамдинсүрэн" },
     { title: "Гарри Поттер", author: "Ж.К.Роулинг" },
@@ -151,13 +162,14 @@ window.searchBooks = function() {
     renderBooks(books.filter(b => b.title.toUpperCase().includes(val)));
 }
 
+// --- ЦАХИМ ХИЧЭЭЛ ---
 window.toggleLessonForm = function() { 
     var f=document.getElementById('addLessonForm'); 
-    if(f) f.style.display = f.style.display==='none'?'block':'none'; 
+    if(f) f.style.display = f.style.display === 'none' ? 'block' : 'none'; 
 }
 
 window.addNewLesson = function() { 
-    if(document.getElementById('adminPass').value==='admin123') {
+    if(document.getElementById('adminPass').value === 'admin123') {
         alert("Хуваарь шинэчлэгдлээ!"); 
     } else {
         alert("Нууц үг буруу"); 
@@ -194,10 +206,11 @@ window.addTeleLesson = function() {
     alert("Хичээл амжилттай нийтлэгдлээ!"); 
 }
 
-// --- СУУДАЛ ЗАХИАЛГЫН ЛОГИК ---
+// --- СУУДАЛ ЗАХИАЛГА БА БОДИТ ХУГАЦААНЫ ХОЛБОЛТ ---
 function initLibrary() {
     if(libraryInitialized) return; 
 
+    // Голын 20 ширээг зурах
     const center = document.getElementById('center-tables');
     if(center && center.querySelectorAll('.double-table').length === 0) {
         center.innerHTML = ""; 
@@ -206,6 +219,7 @@ function initLibrary() {
         }
     }
 
+    // Firebase-тэй холбогдох
     if(db) {
         const seatsRef = ref(db, 'seats');
         onValue(seatsRef, (snapshot) => {
@@ -215,6 +229,7 @@ function initLibrary() {
             Object.keys(seatsData).forEach(key => {
                 const el = document.getElementById(key);
                 if(el) {
+                    // Хугацаа дууссан бол устгах
                     if(seatsData[key].endTimestamp && seatsData[key].endTimestamp <= Date.now()) {
                         remove(ref(db, 'seats/' + key)); 
                     } else if(seatsData[key].status === 'occupied') {
@@ -240,6 +255,7 @@ function initLibrary() {
                         const sTime = data.startTime ? data.startTime : "??:??";
                         const eTime = data.endTime ? data.endTime : "??:??";
                         
+                        // Админ эрхтэй бол ПИН шаардахгүй
                         if(isAdmin) {
                             if(confirm(`[АДМИН ЭРХ] Сурагч ${uName} (${uClass})-ийн захиалгыг шууд цуцлах уу?`)) {
                                 remove(ref(db, 'seats/' + seat.id));
@@ -337,6 +353,7 @@ window.handleBooking = function() {
     }
 }
 
+// Хуудас ачааллаж дуусахад номын жагсаалтыг гаргах
 document.addEventListener('DOMContentLoaded', () => {
     renderBooks(books);
 });
